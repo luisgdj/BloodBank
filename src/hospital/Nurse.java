@@ -3,15 +3,20 @@ package hospital;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Nurse implements Serializable{
+public class Nurse implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private int id;
 	private String name;
 	private String surname;
 	private Contract contract_id;
-	
+
 	public Nurse() {
-		
+		super();
 	}
 
 	public Nurse(int id, String name, String surname, Contract contract_id) {
@@ -70,7 +75,5 @@ public class Nurse implements Serializable{
 		Nurse other = (Nurse) obj;
 		return id == other.id;
 	}
-	
-	
-	
+
 }

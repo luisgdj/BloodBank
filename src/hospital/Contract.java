@@ -3,7 +3,7 @@ package hospital;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Contract implements Serializable{
+public class Contract implements Serializable {
 
 	/**
 	 * 
@@ -13,7 +13,7 @@ public class Contract implements Serializable{
 	private int id;
 	private String duration;
 	private int salary;
-	
+
 	public Contract() {
 		super();
 	}

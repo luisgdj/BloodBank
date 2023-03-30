@@ -76,4 +76,11 @@ public class Nurse implements Serializable {
 		return id == other.id;
 	}
 
+	@Override
+	public String toString() {
+		return "Nurse [id=" + id + ", name=" + name + ", surname=" + surname + ", contract_id=" + contract_id + "]";
+	}
+	
+	
+
 }

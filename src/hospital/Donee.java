@@ -6,7 +6,7 @@ import java.util.Objects;
 public class Donee implements Serializable {
 
 	/**
-	 * 
+	 *  
 	 */
 	private static final long serialVersionUID = 1L;
 	

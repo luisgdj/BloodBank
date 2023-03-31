@@ -1,6 +1,7 @@
-package hospital;
+package bloodbank.pojos;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class Blood implements Serializable{
@@ -10,13 +11,18 @@ public class Blood implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
 	private int id;
 	private int amount;
-	private int fecha; //ya haremos localdate
+	private LocalDate fecha;
 	private int donorId;
 	private int doneeId;
 	
-	public Blood(int id, int amount, int fecha, int donorId, int doneeId) {
+	public Blood() {
+		super();
+	}
+
+	public Blood(int id, int amount, LocalDate fecha, int donorId, int doneeId) {
 		super();
 		this.id = id;
 		this.amount = amount;

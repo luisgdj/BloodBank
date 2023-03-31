@@ -1,4 +1,4 @@
-package hospital;
+package bloodbank.pojos;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -16,7 +16,7 @@ public class Donee implements Serializable {
 	private String bloodType;
 	private int bloodNeeded;
 	private int age;
-	private double ssn;
+	private long ssn;
 	
 	public Donee() {
 		super();

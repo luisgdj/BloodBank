@@ -1,4 +1,4 @@
-package hospital;
+package bloodbank.pojos;
 
 import java.io.Serializable;
 import java.util.Objects;

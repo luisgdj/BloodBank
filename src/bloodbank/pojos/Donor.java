@@ -1,4 +1,4 @@
-package hospital;
+package bloodbank.pojos;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -9,17 +9,19 @@ public class Donor implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
 	private int id;
 	private String name;
 	private String surname;
 	private String bloodType;
 	private int age;
-	private double ssn;
+	private long ssn;
 	
-	
-	
+	public Donor() {
+		super();
+	}
+
 	public Donor(int id, String name, String surname, String bloodType, int age, double ssn) {
-		
 		super();
 		this.id = id;
 		this.name = name;

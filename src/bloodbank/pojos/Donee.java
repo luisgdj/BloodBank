@@ -22,7 +22,7 @@ public class Donee implements Serializable {
 		super();
 	}
 
-	public Donee(int id, String name, String surname, String bloodType, int bloodNeeded, int age, double ssn) {
+	public Donee(int id, String name, String surname, String bloodType, int bloodNeeded, int age, long ssn) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -81,11 +81,11 @@ public class Donee implements Serializable {
 		this.age = age;
 	}
 
-	public double getSsn() {
+	public long getSsn() {
 		return ssn;
 	}
 
-	public void setSsn(double ssn) {
+	public void setSsn(long ssn) {
 		this.ssn = ssn;
 	}
 

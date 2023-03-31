@@ -47,11 +47,11 @@ public class Blood implements Serializable{
 		this.amount = amount;
 	}
 
-	public int getFecha() {
+	public LocalDate getFecha() {
 		return fecha;
 	}
 
-	public void setFecha(int fecha) {
+	public void setFecha(LocalDate fecha) {
 		this.fecha = fecha;
 	}
 

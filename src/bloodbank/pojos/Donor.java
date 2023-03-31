@@ -21,7 +21,7 @@ public class Donor implements Serializable{
 		super();
 	}
 
-	public Donor(int id, String name, String surname, String bloodType, int age, double ssn) {
+	public Donor(int id, String name, String surname, String bloodType, int age, long ssn) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -71,11 +71,11 @@ public class Donor implements Serializable{
 		this.age = age;
 	}
 	
-	public double getSsn() {
+	public long getSsn() {
 		return ssn;
 	}
 	
-	public void setSsn(double ssn) {
+	public void setSsn(long ssn) {
 		this.ssn = ssn;
 	}
 

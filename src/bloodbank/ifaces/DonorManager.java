@@ -1,5 +1,8 @@
 package bloodbank.ifaces;
 
-public interface DonorManager {
+import bloodbank.pojos.Donor;
 
+public interface DonorManager {
+	
+	public void insertDonor(Donor d);
 }

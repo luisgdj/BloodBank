@@ -10,5 +10,4 @@ public class JDBCNurseManager implements NurseManager {
 		// TODO Auto-generated method stub
 		
 	}
-	
 }

@@ -13,13 +13,13 @@ public class Nurse implements Serializable {
 	private int id;
 	private String name;
 	private String surname;
-	private Contract contract_id;
+	private int contract_id; //no sabemos si deberia ser de timpo int o contract
 
 	public Nurse() {
 		super();
 	}
 
-	public Nurse(int id, String name, String surname, Contract contract_id) {
+	public Nurse(int id, String name, String surname, int contract_id) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -51,11 +51,11 @@ public class Nurse implements Serializable {
 		this.surname = surname;
 	}
 
-	public Contract getContract_id() {
+	public int getContract_id() {
 		return contract_id;
 	}
 
-	public void setContract_id(Contract contract_id) {
+	public void setContract_id(int contract_id) {
 		this.contract_id = contract_id;
 	}
 

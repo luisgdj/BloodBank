@@ -1,8 +1,9 @@
 package bloodbank.ifaces;
 
-import bloodbank.pojos.Blood;
+import bloodbank.pojos.*;
 
 public interface BloodManager {
 
 	public void insertDonor(Blood b);
+
 }

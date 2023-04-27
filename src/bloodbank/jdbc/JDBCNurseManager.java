@@ -118,4 +118,30 @@ public class JDBCNurseManager implements NurseManager {
 		}
 		return list;
 	}
+	
+	public void selectNurse(int id) { //show personal information  (check nurse info)
+		
+		try {
+			String sql = "SELECT * FROM nurse WHERE id = ?";
+			PreparedStatement p = c.prepareStatement(sql);
+			p.setString(1, "" + id); //ponemos 1 porque el primer atributo en la clase nurse es name que es por lo que lo queremos buscar
+			ResultSet rs = p.executeQuery();
+			
+			String name = rs.getString("name");
+			String surname= rs.getString("surname");
+			Integer contract= rs.getInt("contract_id");
+			Nurse nurse =new Nurse(id, name, surname, contract);
+			System.out.println(nurse.toString());
+
+		}catch(SQLException e) {
+			System.out.println("Databases error");
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void assignContractToNurse(int contractId, int nurseId) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -9,9 +9,7 @@ import bloodbank.ifaces.DoneeManager;
 import bloodbank.ifaces.DonorManager;
 import bloodbank.ifaces.NurseManager;
 import bloodbank.jdbc.JDBCNurseManager;
-import bloodbank.pojos.Donee;
-import bloodbank.pojos.Donor;
-import bloodbank.pojos.Nurse;
+import bloodbank.pojos.*;
 
 public abstract class NurseMenu {
 
@@ -99,9 +97,7 @@ public abstract class NurseMenu {
 		
 	}
 	
-	
-	
-	public static void nurseMenu(Integer id) {
+	public static void retreiveBlood () {
 		//TODO
 		
 	}

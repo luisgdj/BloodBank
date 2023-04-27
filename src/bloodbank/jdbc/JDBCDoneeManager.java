@@ -11,4 +11,16 @@ public class JDBCDoneeManager implements DoneeManager{
 		
 	}
 
+	@Override
+	public void selectDonee(int id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void assignDoneeToNurse(int doneeId, int nurseId) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

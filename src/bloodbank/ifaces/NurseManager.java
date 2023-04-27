@@ -9,5 +9,6 @@ public interface NurseManager {
 
 	public void insertNurse(Nurse nurse);
 	public List<Nurse> searchNurseByName(String name);
-	
+	public void selectNurse(int id);
+	public void assignContractToNurse(int contractId, int nurseId);
 }

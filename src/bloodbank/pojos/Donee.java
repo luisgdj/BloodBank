@@ -1,6 +1,7 @@
 package bloodbank.pojos;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class Donee implements Serializable {
@@ -15,21 +16,21 @@ public class Donee implements Serializable {
 	private String surname;
 	private String bloodType;
 	private int bloodNeeded;
-	private int age;
+	private LocalDate dob;
 	private long ssn;
 	
 	public Donee() {
 		super();
 	}
 
-	public Donee(int id, String name, String surname, String bloodType, int bloodNeeded, int age, long ssn) {
+	public Donee(int id, String name, String surname, String bloodType, int bloodNeeded, LocalDate dob, long ssn) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.surname = surname;
 		this.bloodType = bloodType;
 		this.bloodNeeded = bloodNeeded;
-		this.age = age;
+		this.dob = dob;
 		this.ssn = ssn;
 	}
 
@@ -73,12 +74,12 @@ public class Donee implements Serializable {
 		this.bloodNeeded = bloodNeeded;
 	}
 
-	public int getAge() {
-		return age;
+	public LocalDate getDob() {
+		return dob;
 	}
-
-	public void setAge(int age) {
-		this.age = age;
+	
+	public void setDob(LocalDate dob) {
+		this.dob = dob;
 	}
 
 	public long getSsn() {
@@ -109,6 +110,6 @@ public class Donee implements Serializable {
 	@Override
 	public String toString() {
 		return "Donee [id=" + id + ", name=" + name + ", surname=" + surname + ", bloodType=" + bloodType
-				+ ", bloodNeeded=" + bloodNeeded + ", age=" + age + ", ssn=" + ssn + "]";
+				+ ", bloodNeeded=" + bloodNeeded + ", age=" + dob + ", ssn=" + ssn + "]";
 	}
 }

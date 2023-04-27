@@ -1,6 +1,7 @@
 package bloodbank.pojos;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class Donor implements Serializable{
@@ -14,20 +15,20 @@ public class Donor implements Serializable{
 	private String name;
 	private String surname;
 	private String bloodType;
-	private int age;
+	private LocalDate dob;
 	private long ssn;
 	
 	public Donor() {
 		super();
 	}
 
-	public Donor(int id, String name, String surname, String bloodType, int age, long ssn) {
+	public Donor(int id, String name, String surname, String bloodType, LocalDate dob, long ssn) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.surname = surname;
 		this.bloodType = bloodType;
-		this.age = age;
+		this.dob = dob;
 		this.ssn = ssn;
 	}
 
@@ -63,12 +64,12 @@ public class Donor implements Serializable{
 		this.bloodType = bloodType;
 	}
 	
-	public int getAge() {
-		return age;
+	public LocalDate getDob() {
+		return dob;
 	}
 	
-	public void setAge(int age) {
-		this.age = age;
+	public void setDob(LocalDate dob) {
+		this.dob = dob;
 	}
 	
 	public long getSsn() {
@@ -99,7 +100,7 @@ public class Donor implements Serializable{
 	@Override
 	public String toString() {
 		return "Donor [id=" + id + ", name=" + name + ", surname=" + surname + ", bloodType=" + bloodType + ", age="
-				+ age + ", ssn=" + ssn + "]";
+				+ dob + ", ssn=" + ssn + "]";
 	}
 	
 }

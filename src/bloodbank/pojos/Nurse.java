@@ -13,18 +13,18 @@ public class Nurse implements Serializable {
 	private int id;
 	private String name;
 	private String surname;
-	private int contract_id; //no sabemos si deberia ser de timpo int o contract
+	private Contract contract;
 
 	public Nurse() {
 		super();
 	}
 
-	public Nurse(int id, String name, String surname, int contract_id) {
+	public Nurse(int id, String name, String surname, Contract contract) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.surname = surname;
-		this.contract_id = contract_id;
+		this.contract = contract;
 	}
 
 	public int getId() {
@@ -51,12 +51,12 @@ public class Nurse implements Serializable {
 		this.surname = surname;
 	}
 
-	public int getContract_id() {
-		return contract_id;
+	public Contract getContract() {
+		return contract;
 	}
 
-	public void setContract_id(int contract_id) {
-		this.contract_id = contract_id;
+	public void setContract(Contract contract) {
+		this.contract = contract;
 	}
 
 	@Override
@@ -78,7 +78,7 @@ public class Nurse implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Nurse [id=" + id + ", name=" + name + ", surname=" + surname + ", contract_id=" + contract_id + "]";
+		return "Nurse [id=" + id + ", name=" + name + ", surname=" + surname + ", contract=" + contract.toString() + "]";
 	}
 	
 	

@@ -2,6 +2,7 @@ package bloodbank.pojos;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 public class Donee implements Serializable {
@@ -18,6 +19,7 @@ public class Donee implements Serializable {
 	private int bloodNeeded;
 	private LocalDate dob;
 	private long ssn;
+	private List<Blood> transfusions;
 	
 	public Donee() {
 		super();

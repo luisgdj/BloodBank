@@ -13,16 +13,18 @@ public class Contract implements Serializable {
 	private int id;
 	private String duration;
 	private int salary;
+	private Nurse nurse;
 
 	public Contract() {
 		super();
 	}
 
-	public Contract(int id, String duration, int salary) {
+	public Contract(int id, String duration, int salary, Nurse nurse) {
 		super();
 		this.id = id;
 		this.duration = duration;
 		this.salary = salary;
+		this.nurse = nurse;
 	}
 
 	public int getId() {

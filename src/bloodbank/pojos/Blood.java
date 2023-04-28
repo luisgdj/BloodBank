@@ -15,20 +15,20 @@ public class Blood implements Serializable{
 	private int id;
 	private int amount;
 	private LocalDate fecha;
-	private int donorId;
-	private int doneeId;
+	private Donor donor;
+	private Donee donee;
 	
 	public Blood() {
 		super();
 	}
 
-	public Blood(int id, int amount, LocalDate fecha, int donorId, int doneeId) {
+	public Blood(int id, int amount, LocalDate fecha, Donor donorId) {
 		super();
 		this.id = id;
 		this.amount = amount;
 		this.fecha = fecha;
-		this.donorId = donorId;
-		this.doneeId = doneeId;
+		this.donor = donor;
+		this.donee = null;
 	}
 
 	public int getId() {
@@ -54,21 +54,21 @@ public class Blood implements Serializable{
 	public void setFecha(LocalDate fecha) {
 		this.fecha = fecha;
 	}
-
-	public int getDonorId() {
-		return donorId;
+	
+	public Donor getDonor() {
+		return donor;
 	}
 
-	public void setDonorId(int donorId) {
-		this.donorId = donorId;
+	public void setDonor(Donor donor) {
+		this.donor = donor;
 	}
 
-	public int getDoneeId() {
-		return doneeId;
+	public Donee getDonee() {
+		return donee;
 	}
 
-	public void setDoneeId(int doneeId) {
-		this.doneeId = doneeId;
+	public void setDonee(Donee donee) {
+		this.donee = donee;
 	}
 
 	@Override
@@ -90,8 +90,8 @@ public class Blood implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Blood [id=" + id + ", amount=" + amount + ", fecha=" + fecha + ", donorId=" + donorId + ", doneeId="
-				+ doneeId + "]";
+		return "Blood [id=" + id + ", amount=" + amount + ", fecha=" + fecha + ", donor=" + donor.toString() + ", donee="
+				+ donee.toString() + "]";
 	}
 	
 	

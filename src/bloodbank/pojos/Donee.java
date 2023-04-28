@@ -12,11 +12,11 @@ public class Donee implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private int id;
+	private Integer id;
 	private String name;
 	private String surname;
 	private String bloodType;
-	private int bloodNeeded;
+	private Integer bloodNeeded;
 	private LocalDate dob;
 	private long ssn;
 	private List<Blood> transfusions;
@@ -91,6 +91,15 @@ public class Donee implements Serializable {
 	public void setSsn(long ssn) {
 		this.ssn = ssn;
 	}
+
+	public List<Blood> getTransfusions() {
+		return transfusions;
+	}
+
+	public void setTransfusions(List<Blood> transfusions) {
+		this.transfusions = transfusions;
+	}
+
 
 	@Override
 	public int hashCode() {

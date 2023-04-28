@@ -26,7 +26,7 @@ public class JDBCNurseManager implements NurseManager {
 		try {
 			Statement s = c.createStatement();
 			String sql = "INSERT INTO nurse (name, surname, contract) VALUES ('" + nurse.getName() + "','"
-					+ nurse.getSurname() + "'," + nurse.getContract_id() + ")";
+					+ nurse.getSurname() + "'," + nurse.getContract() + ")";
 			s.execute(sql);
 			s.close();
 		} catch (SQLException e) {
@@ -72,13 +72,35 @@ public class JDBCNurseManager implements NurseManager {
 			
 			String name = rs.getString("name");
 			String surname= rs.getString("surname");
-			Integer contract= rs.getInt("contract_id");
-			Nurse nurse =new Nurse(id, name, surname, contract);
+			Integer contract_id = rs.getInt("contract_id");
+			Contract contract = getContract(contract_id);
+			
+			Nurse nurse = new Nurse(id, name, surname, contract);
+			contract.setNurse(nurse);
 			System.out.println(nurse.toString());
 
 		}catch(SQLException e) {
 			System.out.println("Databases error");
 			e.printStackTrace();
+		}
+	}
+
+	private Contract getContract(int contract_id) {
+		
+		try {
+			String sql = "SELECT * FROM nurse WHERE id = ?";
+			PreparedStatement p = c.prepareStatement(sql);
+			p.setString(1, "" + contract_id); 
+			ResultSet rs = p.executeQuery();
+			
+			String duration = rs.getString("duration");
+			Integer salary = rs.getInt("salary");
+			return new Contract(contract_id, duration, salary);
+
+		}catch(SQLException e) {
+			System.out.println("Databases error");
+			e.printStackTrace();
+			return null;
 		}
 	}
 

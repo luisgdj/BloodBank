@@ -10,21 +10,20 @@ public class Contract implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private int id;
+	private Integer id;
 	private String duration;
-	private int salary;
+	private Integer salary;
 	private Nurse nurse;
 
 	public Contract() {
 		super();
 	}
 
-	public Contract(int id, String duration, int salary, Nurse nurse) {
+	public Contract(int id, String duration, int salary) {
 		super();
 		this.id = id;
 		this.duration = duration;
 		this.salary = salary;
-		this.nurse = nurse;
 	} 
 
 	public int getId() {
@@ -51,11 +50,20 @@ public class Contract implements Serializable {
 		this.salary = salary;
 	}
 
+	public Nurse getNurse() {
+		return nurse;
+	}
+
+	public void setNurse(Nurse nurse) {
+		this.nurse = nurse;
+	}
+	
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
 	}
-
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

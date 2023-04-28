@@ -12,8 +12,8 @@ public class Blood implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private int id;
-	private int amount;
+	private Integer id;
+	private Integer amount;
 	private LocalDate fecha;
 	private Donor donor;
 	private Donee donee;
@@ -22,13 +22,12 @@ public class Blood implements Serializable{
 		super();
 	}
  
-	public Blood(int id, int amount, LocalDate fecha, Donor donorId) {
+	public Blood(int id, int amount, LocalDate fecha, Donor donor) {
 		super();
 		this.id = id;
 		this.amount = amount;
 		this.fecha = fecha;
 		this.donor = donor;
-		this.donee = null;
 	}
 
 	public int getId() {
@@ -70,6 +69,7 @@ public class Blood implements Serializable{
 	public void setDonee(Donee donee) {
 		this.donee = donee;
 	}
+	
 
 	@Override
 	public int hashCode() {

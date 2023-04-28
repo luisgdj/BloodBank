@@ -12,7 +12,7 @@ public class Donor implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private int id;
+	private Integer id;
 	private String name;
 	private String surname;
 	private String bloodType;
@@ -81,6 +81,15 @@ public class Donor implements Serializable{
 	public void setSsn(long ssn) {
 		this.ssn = ssn;
 	}
+
+	public List<Blood> getDonations() {
+		return donations;
+	}
+
+	public void setDonations(List<Blood> donations) {
+		this.donations = donations;
+	}
+
 
 	@Override
 	public int hashCode() {

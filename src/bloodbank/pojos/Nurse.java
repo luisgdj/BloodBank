@@ -10,7 +10,7 @@ public class Nurse implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private int id;
+	private Integer id;
 	private String name;
 	private String surname;
 	private Contract contract;
@@ -58,6 +58,7 @@ public class Nurse implements Serializable {
 	public void setContract(Contract contract) {
 		this.contract = contract;
 	}
+	
 
 	@Override
 	public int hashCode() {

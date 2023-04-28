@@ -25,7 +25,7 @@ public class Contract implements Serializable {
 		this.duration = duration;
 		this.salary = salary;
 		this.nurse = nurse;
-	}
+	} 
 
 	public int getId() {
 		return id;

@@ -80,7 +80,4 @@ public class Nurse implements Serializable {
 	public String toString() {
 		return "Nurse [id=" + id + ", name=" + name + ", surname=" + surname + ", contract=" + contract.toString() + "]";
 	}
-	
-	
-
 }

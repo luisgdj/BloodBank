@@ -19,7 +19,7 @@ public class Donor implements Serializable{
 	private LocalDate dob;
 	private long ssn;
 	private List<Blood> donations;
-	
+	 
 	public Donor() {
 		super();
 	}

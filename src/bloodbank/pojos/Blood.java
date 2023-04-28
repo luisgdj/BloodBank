@@ -21,7 +21,7 @@ public class Blood implements Serializable{
 	public Blood() {
 		super();
 	}
-
+ 
 	public Blood(int id, int amount, LocalDate fecha, Donor donorId) {
 		super();
 		this.id = id;

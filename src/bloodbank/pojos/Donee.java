@@ -24,7 +24,7 @@ public class Donee implements Serializable {
 	public Donee() {
 		super();
 	}
-
+ 
 	public Donee(int id, String name, String surname, String bloodType, int bloodNeeded, LocalDate dob, long ssn) {
 		super();
 		this.id = id;

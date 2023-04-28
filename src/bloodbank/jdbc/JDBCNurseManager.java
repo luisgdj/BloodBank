@@ -50,7 +50,9 @@ public class JDBCNurseManager implements NurseManager {
 				Integer id= rs.getInt("id");
 				String n= rs.getString("name");
 				String surname= rs.getString("surname");
-				Integer contract= rs.getInt("contract_id");
+				Integer contract_id = rs.getInt("contract_id");
+				Contract contract = getContract(contract_id);
+				
 				Nurse nurse = new Nurse(id, n, surname, contract);
 				list.add(nurse);
 				

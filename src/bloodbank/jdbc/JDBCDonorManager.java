@@ -1,5 +1,6 @@
 package bloodbank.jdbc;
 
+import java.sql.Connection;
 import java.util.List;
 
 import bloodbank.ifaces.DonorManager;
@@ -7,6 +8,12 @@ import bloodbank.pojos.Donor;
 
 public class JDBCDonorManager implements DonorManager{
 
+	private Connection c;
+	
+	public JDBCDonorManager(Connection c) {
+		this.c = c;
+	}
+	
 	@Override
 	public void insertDonor(Donor d) {
 		// TODO Auto-generated method stub

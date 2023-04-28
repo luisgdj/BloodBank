@@ -7,8 +7,8 @@ import bloodbank.pojos.Nurse;
 
 public interface NurseManager {
 
-	public void insertNurse(Nurse nurse);
-	public List<Nurse> searchNurseByName(String name);
-	public void selectNurse(int id);
-	public void assignContractToNurse(int contractId, int nurseId);
+	public void insertNurse(Nurse nurse); //Register nurse (manager menu)
+	public List<Nurse> searchNurseByName(String name);	//Select nurse (manager menu)
+	public void selectNurse(int id);	//Check nurse info (select nurse) 
+	public void assignContractToNurse(int contractId, int nurseId); //change contract (check nurse info)
 }

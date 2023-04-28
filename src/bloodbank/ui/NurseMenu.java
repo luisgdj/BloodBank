@@ -44,7 +44,7 @@ public abstract class NurseMenu {
 					break;
 				}
 				case 3: {
-	
+					selectDonor ();
 					break;
 				}
 				case 0: {
@@ -88,10 +88,66 @@ public abstract class NurseMenu {
 	}
 
 	public static void selectDonor() {
-		//TODO
 		
+		System.out.println("Search donor by name: ");
+		String name= Utilities.readString(" -Name: ");
+		List<Donor> listDon = donorMan.searchDonorByName(name);
+		System.out.println(listDon);
+		System.out.println("Please choose a Donor.");
+		Integer id = Utilities.readInteger(" -Id: ");
+		checkDonorInfo(id);
 	}
 	
+	public static void checkDonorInfo(int id) {
+		while (true) {
+
+			System.out.println("Blood bank storage unit:"
+					+ "\n 1. Register donation" 
+					+ "\n 2. View donotations"
+					+ "\n 3. Show personal information" 
+					+ "\n 4. Eliminate donor"
+					+ "\n 0. Return to nurse menu");
+			int option = Utilities.readInteger("Choose an option: ");
+
+			switch (option) {
+				case 1: {
+					registerDonation(id);
+					break;
+				}
+				case 2: {
+					bloodMan.showDonations(id);
+					break;
+				}
+				case 3: {
+					donorMan.selectDonor(id);
+					break;
+				}
+				case 4: {
+					donorMan.removeDonor(id);
+					break;
+				}
+				case 0: {
+					return;
+				}
+				default: {
+					System.out.println("ERROR: Invalid option");
+				}
+			}
+		}
+	}
+
+	private static void registerDonation(int donor_id) {
+		
+		System.out.println("Imput blood donation data: ");
+		Integer bllod_id = Utilities.readInteger(" -ID: ");
+		Integer amount = Utilities.readInteger(" -Amount: ");
+		LocalDate donationDate = Utilities.askDate(" -Donation date: ");
+
+		Blood b = new Blood(blood_id, amount, donationDate, donor_id);
+		bloodMan.insertBloodDonation(b);
+		
+	}
+
 	public static void showAvaliableBlood() {
 		//TODO
 		

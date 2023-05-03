@@ -51,13 +51,12 @@ public class ConnectionManager {
 			s.executeUpdate(table);
 			
 			table = "CREATE TABLE nurse_donee(" + "nurse_id INTEGER REFERENCES nurse(id),"
-					+ "donee_id INTEGER REFERENCES donee(id)" + "PRIMARY KEY(nurse_id, donee_id));";
+					+ "donee_id INTEGER REFERENCES donee(id)," + "PRIMARY KEY(nurse_id, donee_id));";
 			s.executeUpdate(table);
 			
 			table = "CREATE TABLE nurse_donor(" + "nurse_id INTEGER REFERENCES nurse(id),"
-					+ "donor_id INTEGER REFERENCES donor(id)" + "PRIMARY KEY(nurse_id, donor_id));";
+					+ "donor_id INTEGER REFERENCES donor(id)," + "PRIMARY KEY(nurse_id, donor_id));";
 			s.executeUpdate(table);
-			
 			
 			s.close();
 			

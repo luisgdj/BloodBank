@@ -44,6 +44,7 @@ public abstract class ManagerMenu {
 				}
 				case 3: {
 					System.out.println("Check blood storage:");
+					selectBlood();
 					//segun orden (cantidad, tipo)
 					break;
 				}
@@ -74,8 +75,10 @@ public abstract class ManagerMenu {
 		Integer id = Utilities.readInteger(" -ID: ");
 		String name = Utilities.readString(" -Name: ");
 		String surname = Utilities.readString(" -Surname: ");
+		System.out.println(" -Default contract stablished");
+		Contract contract = new Contract();
 		
-		Nurse n = new Nurse(id, name, surname);
+		Nurse n = new Nurse(id, name, surname, contract);
 		nurseMan.insertNurse(n);
 	}
 	
@@ -84,10 +87,37 @@ public abstract class ManagerMenu {
 		System.out.println("Imput contract data: ");
 		int id = Utilities.readInteger(" -ID: ");
 		int duration = Utilities.readInteger("-Duration (months): ");
-		int salary = Utilities.readInteger(" -Salary: ");
+		float salary = Utilities.readInteger(" -Salary: ");
 		
 		Contract c = new Contract(id, duration, salary);
 		contractMan.insertContract(c);
+	}
+	
+	private static void selectBlood() {
+		
+		while (true) {
+			System.out.println("Show blood by:" 
+					+ "\n 1. Blood type" 
+					+ "\n 2. Total amount"
+					+ "\n 0. Return to menu");
+			int option = Utilities.readInteger("Option: ");
+
+			switch (option) {
+				case 1: {
+					System.out.println("");
+					bloodMan.showBloodByBloodType();
+					break;
+				}
+				case 2: {
+					bloodMan.showBloodTotalAmount();
+					break;
+				}
+				case 0: {
+					return;
+				}
+				default: {
+					System.out.println("ERROR: Invalid option");
+				}
 	}
 
 	private static void selectNurse() {
@@ -126,7 +156,6 @@ public abstract class ManagerMenu {
 					break;
 				}
 				case 0: {
-					System.out.println("Program terminated");
 					return;
 				}
 				default: {
@@ -137,10 +166,6 @@ public abstract class ManagerMenu {
 		
 	}
 	
-	private static void stablishContract() {
-		//TODO
-	}
-
 	private static void viewBloodStorage() {
 		
 	}

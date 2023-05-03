@@ -1,6 +1,7 @@
 package bloodbank.pojos;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 public class Contract implements Serializable {
@@ -12,14 +13,18 @@ public class Contract implements Serializable {
 
 	private Integer id;
 	private Integer duration;
-	private Integer salary;
-	private Nurse nurse;
+	private float salary;
+	private List<Nurse> nurses;
 
 	public Contract() {
+		//establecemos un contrato por defecto que tendran todas las nurses inicialmente
 		super();
+		this.id = 0;
+		this.duration = 12;
+		this.salary = 2500;
 	}
 
-	public Contract(int id, int duration, int salary) {
+	public Contract(int id, int duration, float salary) {
 		super();
 		this.id = id;
 		this.duration = duration;
@@ -42,11 +47,11 @@ public class Contract implements Serializable {
 		this.duration = duration;
 	}
 
-	public int getSalary() {
+	public float getSalary() {
 		return salary;
 	}
 
-	public void setSalary(int salary) {
+	public void setSalary(float salary) {
 		this.salary = salary;
 	}
 

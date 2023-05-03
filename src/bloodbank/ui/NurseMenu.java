@@ -8,6 +8,7 @@ import bloodbank.ifaces.ContractManager;
 import bloodbank.ifaces.DoneeManager;
 import bloodbank.ifaces.DonorManager;
 import bloodbank.ifaces.NurseManager;
+import bloodbank.jdbc.ConnectionManager;
 import bloodbank.jdbc.JDBCNurseManager;
 import bloodbank.pojos.*;
 
@@ -21,7 +22,8 @@ public abstract class NurseMenu {
 
 	public static void menu() {
 
-		nurseMan = new JDBCNurseManager(); // nurseMan= nurseManager
+		ConnectionManager conMan = new ConnectionManager();
+		nurseMan = new JDBCNurseManager(conMan.getConnection()); // nurseMan= nurseManager
 		while (true) {
 
 			System.out.println("Blood bank storage unit:"
@@ -44,7 +46,7 @@ public abstract class NurseMenu {
 					break;
 				}
 				case 3: {
-					selectDonor ();
+					selectDonor();
 					break;
 				}
 				case 0: {
@@ -101,7 +103,6 @@ public abstract class NurseMenu {
 	private static void checkDonorInfo(int id) {
 		
 		while (true) {
-
 			System.out.println("Blood bank storage unit:"
 					+ "\n 1. Register donation" 
 					+ "\n 2. View donotations"
@@ -140,7 +141,7 @@ public abstract class NurseMenu {
 	private static void registerDonation(int donor_id) {
 		
 		System.out.println("Imput blood donation data: ");
-		Integer bllod_id = Utilities.readInteger(" -ID: ");
+		Integer blood_id = Utilities.readInteger(" -ID: ");
 		Integer amount = Utilities.readInteger(" -Amount: ");
 		LocalDate donationDate = Utilities.askDate(" -Donation date: ");
 
@@ -148,7 +149,7 @@ public abstract class NurseMenu {
 		bloodMan.insertBloodDonation(b);
 		
 	}
-
+	
 	private static void showAvaliableBlood() {
 		//TODO
 		

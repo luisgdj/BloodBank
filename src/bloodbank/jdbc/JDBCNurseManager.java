@@ -95,7 +95,7 @@ public class JDBCNurseManager implements NurseManager {
 			p.setString(1, "" + contract_id); 
 			ResultSet rs = p.executeQuery();
 			
-			String duration = rs.getString("duration");
+			Integer duration = rs.getInt("duration");
 			Integer salary = rs.getInt("salary");
 			return new Contract(contract_id, duration, salary);
 

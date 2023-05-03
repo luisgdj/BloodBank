@@ -14,7 +14,7 @@ public abstract class ManagerMenu {
 	private static DoneeManager doneeMan;
 	private static BloodManager bloodMan;
 
-	public static void ManagerMenu() {
+	public static void menu() {
 		
 		ConnectionManager conMan = new ConnectionManager();
 		nurseMan = new JDBCNurseManager(conMan.getConnection());

@@ -15,6 +15,8 @@ public abstract class LogInMenu {
 		String username = Utilities.readString("Username: ");
 		String password = Utilities.readString("Password: ");
 
-		//Tendremos que implementar JPA	
+		//Tendremos que implementar JPA. Accerdera a una de dos:
+		NurseMenu.menu();
+		ManagerMenu.menu();
 	}
 }

@@ -19,7 +19,7 @@ public abstract class NurseMenu {
 	private static DoneeManager doneeMan;
 	private static BloodManager bloodMan;
 
-	public static void NurseMenu() {
+	public static void menu() {
 
 		nurseMan = new JDBCNurseManager(); // nurseMan= nurseManager
 		while (true) {

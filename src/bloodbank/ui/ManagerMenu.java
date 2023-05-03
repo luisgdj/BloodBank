@@ -2,13 +2,9 @@ package bloodbank.ui;
 
 import java.util.List;
 
-import bloodbank.ifaces.BloodManager;
-import bloodbank.ifaces.ContractManager;
-import bloodbank.ifaces.DoneeManager;
-import bloodbank.ifaces.DonorManager;
-import bloodbank.ifaces.NurseManager;
-import bloodbank.jdbc.JDBCNurseManager;
-import bloodbank.pojos.Nurse;
+import bloodbank.ifaces.*;
+import bloodbank.pojos.*;
+import bloodbank.jdbc.*;
 
 public abstract class ManagerMenu {
 
@@ -18,9 +14,15 @@ public abstract class ManagerMenu {
 	private static DoneeManager doneeMan;
 	private static BloodManager bloodMan;
 
-	public static void main(String[] args) {
+	public static void ManagerMenu() {
+		
+		ConnectionManager conMan = new ConnectionManager();
+		nurseMan = new JDBCNurseManager(conMan.getConnection());
+		contractMan = new JDBCContractManager(conMan.getConnection());
+		donorMan = new JDBCDonorManager(conMan.getConnection());
+		doneeMan = new JDBCDoneeManager(conMan.getConnection());
+		bloodMan = new JDBCBloodManager(conMan.getConnection());
 
-		nurseMan = new JDBCNurseManager(); // nurseMan= nurseManager
 		while (true) {
 
 			System.out.println("Blood bank storage unit:" + "\n 1. Register staff" + "\n 2. Register patients"

@@ -58,7 +58,7 @@ public abstract class NurseMenu {
 		}
 	}
 
-	public static void registerDonor() {
+	private static void registerDonor() {
 
 		System.out.println("Imput donor data: ");
 		Integer id = Utilities.readInteger(" -ID: ");
@@ -72,7 +72,7 @@ public abstract class NurseMenu {
 		donorMan.insertDonor(d);
 	}
 	
-	public static void registerDonee() {
+	private static void registerDonee() {
 
 		System.out.println("Imput donor data: ");
 		Integer id = Utilities.readInteger(" -ID: ");
@@ -87,7 +87,7 @@ public abstract class NurseMenu {
 		doneeMan.insertDonee(d);
 	}
 
-	public static void selectDonor() {
+	private static void selectDonor() {
 		
 		System.out.println("Search donor by name: ");
 		String name= Utilities.readString(" -Name: ");
@@ -98,7 +98,8 @@ public abstract class NurseMenu {
 		checkDonorInfo(id);
 	}
 	
-	public static void checkDonorInfo(int id) {
+	private static void checkDonorInfo(int id) {
+		
 		while (true) {
 
 			System.out.println("Blood bank storage unit:"
@@ -119,7 +120,7 @@ public abstract class NurseMenu {
 					break;
 				}
 				case 3: {
-					donorMan.selectDonor(id);
+					donorMan.showDonor(id);
 					break;
 				}
 				case 4: {
@@ -148,12 +149,12 @@ public abstract class NurseMenu {
 		
 	}
 
-	public static void showAvaliableBlood() {
+	private static void showAvaliableBlood() {
 		//TODO
 		
 	}
 	
-	public static void retreiveBlood () {
+	private static void retreiveBlood () {
 		//TODO
 		
 	}

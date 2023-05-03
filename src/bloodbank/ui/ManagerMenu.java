@@ -19,27 +19,42 @@ public abstract class ManagerMenu {
 		ConnectionManager conMan = new ConnectionManager();
 		nurseMan = new JDBCNurseManager(conMan.getConnection());
 		contractMan = new JDBCContractManager(conMan.getConnection());
-		donorMan = new JDBCDonorManager(conMan.getConnection());
-		doneeMan = new JDBCDoneeManager(conMan.getConnection());
 		bloodMan = new JDBCBloodManager(conMan.getConnection());
 
 		while (true) {
-
-			System.out.println("Blood bank storage unit:" + "\n 1. Register staff" + "\n 2. Register patients"
-					+ "\n 3. Access staff information" + "\n 4. Access patient information" + "\n 0. Exit");
+			System.out.println("Blood bank storage unit (manager menu):" 
+					+ "\n 1. Register nurse" 
+					+ "\n 2. Establish contract"
+					+ "\n 3. View blood storage" 
+					+ "\n 4. Access nurse information" 
+					+ "\n 5. Change blood retreival limit" 
+					+ "\n 0. Log out");
 			int option = Utilities.readInteger("Choose an option: ");
 
 			switch (option) {
 				case 1: {
-	
+					System.out.println("Registration of a nurse: ");
+					registerNurse();
 					break;
 				}
 				case 2: {
-	
+					System.out.println("Sablish contract:");
+					registerContract();
 					break;
 				}
 				case 3: {
-	
+					System.out.println("Check blood storage:");
+					//segun orden (cantidad, tipo)
+					break;
+				}
+				case 4: {
+					System.out.println("Access nurse information:");
+					selectNurse();
+					break;
+				}
+				case 5: {
+					System.out.println("Change blood retreival limit: ");
+					//funcion que no permita sacar mas sangre de x
 					break;
 				}
 				case 0: {
@@ -53,20 +68,29 @@ public abstract class ManagerMenu {
 		}
 	}
 
-	public static void registerNurse() {
+	private static void registerNurse() {
 
 		System.out.println("Imput nurse data: ");
 		Integer id = Utilities.readInteger(" -ID: ");
 		String name = Utilities.readString(" -Name: ");
 		String surname = Utilities.readString(" -Surname: ");
-		// Finish contract
-		Integer contract = Utilities.readInteger(" -Contract Id: ");
-
-		Nurse n = new Nurse(id, name, surname, contract);
+		
+		Nurse n = new Nurse(id, name, surname);
 		nurseMan.insertNurse(n);
 	}
+	
+	private static void registerContract() {
 
-	public static void selectNurse() {
+		System.out.println("Imput contract data: ");
+		int id = Utilities.readInteger(" -ID: ");
+		int duration = Utilities.readInteger("-Duration (months): ");
+		int salary = Utilities.readInteger(" -Salary: ");
+		
+		Contract c = new Contract(id, duration, salary);
+		contractMan.insertContract(c);
+	}
+
+	private static void selectNurse() {
 
 		System.out.println("Search nurse by name: ");
 		String name= Utilities.readString(" -Name: ");
@@ -74,14 +98,13 @@ public abstract class ManagerMenu {
 		System.out.println(listNur);
 		System.out.println("Please choose a Nurse.");
 		Integer id = Utilities.readInteger(" -Id: ");
+		
 		checkNurseInfo(id);
 	}
 	
-	public static void checkNurseInfo(Integer id) {
-		
+	private static void checkNurseInfo(Integer id) {
 		
 		while (true) {
-
 			System.out.println("Check nurse info:" 
 					+ "\n 1. Show personal information" 
 					+ "\n 2. Show patients"
@@ -91,8 +114,7 @@ public abstract class ManagerMenu {
 
 			switch (option) {
 				case 1: {
-					
-	
+					nurseMan.showNurse(id);
 					break;
 				}
 				case 2: {
@@ -115,15 +137,15 @@ public abstract class ManagerMenu {
 		
 	}
 	
-	public static void stablishContract() {
+	private static void stablishContract() {
 		//TODO
 	}
 
-	public static void viewBloodStorage() {
+	private static void viewBloodStorage() {
 		
 	}
 	
-	public static void setBloodRetivalLimit() {
+	private static void setBloodRetivalLimit() {
 		
 	}
 }

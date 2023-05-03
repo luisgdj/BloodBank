@@ -1,4 +1,4 @@
-package bloodbank.JPA;
+package bloodbank.jpa;
 
 import bloodbank.ifaces.UserManager;
 

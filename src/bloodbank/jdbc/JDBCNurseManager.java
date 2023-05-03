@@ -64,7 +64,7 @@ public class JDBCNurseManager implements NurseManager {
 		return list;
 	}
 	
-	public void selectNurse(int id) { //show personal information  (check nurse info)
+	public void showNurse(int id) { //show personal information  (check nurse info)
 		
 		try {
 			String sql = "SELECT * FROM nurse WHERE id = ?";

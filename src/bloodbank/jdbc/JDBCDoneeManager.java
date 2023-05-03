@@ -20,7 +20,7 @@ public class JDBCDoneeManager implements DoneeManager{
 	}
 
 	@Override
-	public void selectDonee(int id) {
+	public void showDonee(int id) {
 		// TODO Auto-generated method stub
 		
 	}

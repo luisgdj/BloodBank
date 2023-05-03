@@ -11,7 +11,7 @@ public class Contract implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Integer id;
-	private String duration;
+	private Integer duration;
 	private Integer salary;
 	private Nurse nurse;
 
@@ -19,7 +19,7 @@ public class Contract implements Serializable {
 		super();
 	}
 
-	public Contract(int id, String duration, int salary) {
+	public Contract(int id, int duration, int salary) {
 		super();
 		this.id = id;
 		this.duration = duration;
@@ -34,11 +34,11 @@ public class Contract implements Serializable {
 		this.id = id;
 	}
 
-	public String getDuration() {
+	public Integer getDuration() {
 		return duration;
 	}
 
-	public void setDuration(String duration) {
+	public void setDuration(int duration) {
 		this.duration = duration;
 	}
 

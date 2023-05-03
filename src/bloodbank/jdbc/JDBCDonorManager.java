@@ -21,7 +21,7 @@ public class JDBCDonorManager implements DonorManager{
 	}
 
 	@Override
-	public void selectDonor(int id) {
+	public void showDonor(int id) {
 		// TODO Auto-generated method stub
 		
 	}

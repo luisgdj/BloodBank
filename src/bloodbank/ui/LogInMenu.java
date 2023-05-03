@@ -1,7 +1,7 @@
 package bloodbank.ui;
 
-import bloodbank.JPA.JPAUserManager;
 import bloodbank.ifaces.UserManager;
+import bloodbank.jpa.JPAUserManager;
 
 public abstract class LogInMenu {
 	

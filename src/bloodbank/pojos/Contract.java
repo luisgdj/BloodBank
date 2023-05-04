@@ -23,6 +23,12 @@ public class Contract implements Serializable {
 		this.duration = 12;
 		this.salary = 2500;
 	}
+	
+	public Contract( int duration, float salary) {
+		super();
+		this.duration = duration;
+		this.salary = salary;
+	} 
 
 	public Contract(int id, int duration, float salary) {
 		super();

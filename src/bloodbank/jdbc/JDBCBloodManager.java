@@ -12,10 +12,10 @@ import bloodbank.pojos.Nurse;
 
 public class JDBCBloodManager implements BloodManager{
 
-	private Connection conection;
+	private Connection connection;
 	
-	public JDBCBloodManager(Connection conection) {
-		this.conection = conection;
+	public JDBCBloodManager(Connection connection) {
+		this.connection = connection;
 	}
 	
 	@Override
@@ -31,12 +31,14 @@ public class JDBCBloodManager implements BloodManager{
 			String sql = "SELECT donor.name, donor.blood_type, donee.name FROM donor JOIN blood ON blood.donor_id = donor.id"
 					  +  "JOIN donee ON blood.donee_id= donee.id"
 					  +	  "WHERE donee.blood_type= donor.blood_type";
-			PreparedStatement p = conection.prepareStatement(sql);
+			PreparedStatement p = connection.prepareStatement(sql);
 			ResultSet rs = p.executeQuery();
-			String donorName = rs.getString("donor_Name");
-			String bloodType = rs.getString("blood_type");
-			String doneeName = rs.getString("donee_Name");
+			String donorName = rs.getString(1);
+			String bloodType = rs.getString(2);
+			String doneeName = rs.getString(3);
 			
+			System.out.println(b.toString());
+			connection.close();
 		}
 		
 		catch (SQLException e) {
@@ -52,7 +54,7 @@ public class JDBCBloodManager implements BloodManager{
 			String sql = "SELECT d.blood_type, b.SUM(amount) "
 					+ "FROM donor AS d JOIN blood AS b ON d.blood_id = b.id "
 					+ "GROUP BY d.blood_type ";
-			PreparedStatement p = conection.prepareStatement(sql);
+			PreparedStatement p = connection.prepareStatement(sql);
 			ResultSet rs = p.executeQuery();
 			
 			String blood_type = rs.getString("blood_type");
@@ -72,7 +74,7 @@ public class JDBCBloodManager implements BloodManager{
 			String sql = "SELECT d.blood_type, b.SUM(amount) "
 					+ "FROM donor AS d JOIN blood AS b ON d.blood_id = b.id "
 					+ "GROUP BY d.blood_type ";
-			PreparedStatement p = conection.prepareStatement(sql);
+			PreparedStatement p = connection.prepareStatement(sql);
 			//p.setString(1, "" + option); //ponemos 1 porque el primer atributo en la clase nurse es name que es por lo que lo queremos buscar
 			ResultSet rs = p.executeQuery();
 

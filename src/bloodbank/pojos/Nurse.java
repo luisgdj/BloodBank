@@ -19,6 +19,13 @@ public class Nurse implements Serializable {
 		super();
 	}
 
+	public Nurse(String name, String surname, Contract contract) {
+		super();
+		this.name = name;
+		this.surname = surname;
+		this.contract = contract;
+	}
+
 	public Nurse(int id, String name, String surname, Contract contract) {
 		super();
 		this.id = id;

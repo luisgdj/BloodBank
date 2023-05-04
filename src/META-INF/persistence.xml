@@ -10,11 +10,8 @@
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 
 		<!-- Entity Class -->
-		<class>bloodbank.pojos.Blood</class>
-		<class>bloodbank.pojos.Contract</class>
-		<class>bloodbank.pojos.Donee</class>
-		<class>bloodbank.pojos.Donor</class>
-		<class>bloodbank.pojos.Nurse</class>
+		<class>bloodbank.pojos.User</class>
+		<class>bloodbank.pojos.Role</class>
 
 		<properties>	
 			<!-- Connection properties -->

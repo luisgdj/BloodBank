@@ -20,7 +20,7 @@ public abstract class NurseMenu {
 	private static DoneeManager doneeMan;
 	private static BloodManager bloodMan;
 
-	public static void menu() {
+	public static void menu(int nurse_id) {
 
 		ConnectionManager conMan = new ConnectionManager();
 		nurseMan = new JDBCNurseManager(conMan.getConnection()); // nurseMan= nurseManager

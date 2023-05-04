@@ -15,7 +15,7 @@
 		<class>BloodBank.pojos.Donee</class>
 		<class>BloodBank.pojos.Donor</class>
 		<class>BloodBank.pojos.Nurse</class>
- 
+
 		<properties>	
 			<!-- Connection properties -->
 			<property name="javax.persistence.jdbc.driver" value="org.sqlite.JDBC" />

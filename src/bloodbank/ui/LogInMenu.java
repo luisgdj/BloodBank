@@ -1,12 +1,8 @@
 package bloodbank.ui;
 
-import bloodbank.ifaces.BloodManager;
 import bloodbank.ifaces.UserManager;
-import bloodbank.jdbc.ConnectionManager;
-import bloodbank.jdbc.JDBCBloodManager;
-import bloodbank.jdbc.JDBCContractManager;
-import bloodbank.jdbc.JDBCNurseManager;
 import bloodbank.jpa.JPAUserManager;
+import bloodbank.pojos.User;
 
 public abstract class LogInMenu {
 	
@@ -14,20 +10,26 @@ public abstract class LogInMenu {
 
 	public static void main(String[] Args) {
 		
-		BloodManager bloodMan;
-		ConnectionManager conMan = new ConnectionManager();
-		bloodMan = new JDBCBloodManager(conMan.getConnection());
-		
-		bloodMan.showBloodByBloodType();
-		/*
 		userMan = new JPAUserManager();
+		System.out.println("Welcome to the blood bank!");
 		
-		System.out.println("Blood bank storage unit log in:");
-		String username = Utilities.readString("Username: ");
-		String password = Utilities.readString("Password: ");
-
-		//Tendremos que implementar JPA. Accerdera a una de dos:
-		NurseMenu.menu();
-		ManagerMenu.menu();*/
+		while (true) {
+			// Ask for the username and password
+			String username = Utilities.readString(" -Username: ");
+			String password = Utilities.readString(" -Password: ");
+			// If they match, go to the owner screen
+			User user = userMan.logIn(username, password);
+			
+			if (user != null) {
+				if (user.getRole().getName().equals("manager")) {
+					ManagerMenu.menu(userMan);
+				}
+				if (user.getRole().getName().equals("nurse")) {
+					NurseMenu.menu(user.getId());
+				}
+			}else{
+				System.out.println("Error: Wrong username or password.");
+			}
+		}
 	}
 }

@@ -19,7 +19,6 @@ private static final long serialVersionUID = 1852408272326099491L;
 	@Column(unique = true)
 	private String username;
 	private String password;
-	private String email;
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "roleId")
 	private Role role;
@@ -28,11 +27,10 @@ private static final long serialVersionUID = 1852408272326099491L;
 		super();
 	}
 
-	public User(String username, String password, String email) {
+	public User(String username, String password) {
 		super();
 		this.username = username;
 		this.password = password;
-		this.email = email;
 	}
 
 	public Integer getId() {
@@ -57,14 +55,6 @@ private static final long serialVersionUID = 1852408272326099491L;
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
 	}
 
 	public Role getRole() {
@@ -94,7 +84,7 @@ private static final long serialVersionUID = 1852408272326099491L;
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", password=" + password + ", email=" + email + ", role="
+		return "User [id=" + id + ", username=" + username + ", password=" + password + ", role="
 				+ role + "]";
 	}
 }

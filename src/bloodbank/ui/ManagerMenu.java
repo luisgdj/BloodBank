@@ -1,26 +1,29 @@
- 
- package bloodbank.ui;
+package bloodbank.ui;
 
 import java.util.List;
 
 import bloodbank.ifaces.*;
 import bloodbank.pojos.*;
+import dogclinic.pojos.Owner;
+import dogclinic.pojos.Role;
+import dogclinic.pojos.User;
 import bloodbank.jdbc.*;
+import bloodbank.jpa.JPAUserManager;
 
 public abstract class ManagerMenu {
 
 	private static NurseManager nurseMan;
 	private static ContractManager contractMan;
-	private static DonorManager donorMan;
-	private static DoneeManager doneeMan;
 	private static BloodManager bloodMan;
+	private static UserManager userMan;
 
-	public static void menu() {
+	public static void menu(UserManager man) {
 		
 		ConnectionManager conMan = new ConnectionManager(); //creamos la conexion con el jdbc
 		nurseMan = new JDBCNurseManager(conMan.getConnection());
 		contractMan = new JDBCContractManager(conMan.getConnection());
 		bloodMan = new JDBCBloodManager(conMan.getConnection());
+		userMan = man;
 
 		while (true) {
 			System.out.println("Blood bank storage unit (manager menu):" 
@@ -81,7 +84,16 @@ public abstract class ManagerMenu {
 		Contract contract = new Contract();
 		
 		Nurse n = new Nurse(id, name, surname, contract);
-		nurseMan.insertNurse(n); //meter la nurse en la base de datos mediante la javadatabaseconection(jdbc)
+		nurseMan.insertNurse(n); 
+		//meter la nurse en la base de datos mediante la javadatabaseconection(jdbc)
+		
+		String username = Utilities.readString(" -Username: ");
+		String password = Utilities.readString(" -Password: ");
+		
+		User user = new User(username, password);
+		userMan.register(user);
+		Role role = userMan.getRole("nurse");
+		userMan.assignRole(user, role);
 	}
 	
 	private static void registerContract() {
@@ -121,13 +133,8 @@ public abstract class ManagerMenu {
 					System.out.println("ERROR: Invalid option");
 				}
 			}
-		}
-					
+		}				
 	}
-				
-				
-			
-		
 
 	private static void selectNurse() {
 

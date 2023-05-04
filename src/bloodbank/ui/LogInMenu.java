@@ -22,7 +22,7 @@ public abstract class LogInMenu {
 			
 			if (user != null) {
 				if (user.getRole().getName().equals("manager")) {
-					ManagerMenu.menu();
+					ManagerMenu.menu(userMan);
 				}
 				if (user.getRole().getName().equals("nurse")) {
 					NurseMenu.menu(user.getId());

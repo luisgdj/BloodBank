@@ -10,11 +10,11 @@
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 
 		<!-- Entity Class -->
-		<class>BloodBank.pojos.Blood</class>
-		<class>BloodBank.pojos.Contract</class>
-		<class>BloodBank.pojos.Donee</class>
-		<class>BloodBank.pojos.Donor</class>
-		<class>BloodBank.pojos.Nurse</class>
+		<class>bloodbank.pojos.Blood</class>
+		<class>bloodbank.pojos.Contract</class>
+		<class>bloodbank.pojos.Donee</class>
+		<class>bloodbank.pojos.Donor</class>
+		<class>bloodbank.pojos.Nurse</class>
 
 		<properties>	
 			<!-- Connection properties -->

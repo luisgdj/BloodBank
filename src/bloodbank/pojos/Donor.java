@@ -2,6 +2,7 @@ package bloodbank.pojos;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -16,7 +17,7 @@ public class Donor implements Serializable{
 	private String name;
 	private String surname;
 	private String bloodType;
-	private LocalDate dob;
+	private Date dob;
 	private long ssn;
 	private List<Blood> donations;
 	 
@@ -25,7 +26,7 @@ public class Donor implements Serializable{
 	}
 	
 
-	public Donor(String name, String surname, String bloodType, LocalDate dob, long ssn) {
+	public Donor(String name, String surname, String bloodType, Date dob, long ssn) {
 		super();
 		this.name = name;
 		this.surname = surname;
@@ -35,7 +36,7 @@ public class Donor implements Serializable{
 	}
 
 
-	public Donor(int id, String name, String surname, String bloodType, LocalDate dob, long ssn) {
+	public Donor(int id, String name, String surname, String bloodType, Date dob, long ssn) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -77,11 +78,11 @@ public class Donor implements Serializable{
 		this.bloodType = bloodType;
 	}
 	
-	public LocalDate getDob() {
+	public Date getDob() {
 		return dob;
 	}
 	
-	public void setDob(LocalDate dob) {
+	public void setDob(Date dob) {
 		this.dob = dob;
 	}
 	

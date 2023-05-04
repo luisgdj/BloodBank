@@ -56,7 +56,7 @@ public abstract class ManagerMenu {
 				}
 				case 5: {
 					System.out.println("Change blood retreival limit: ");
-					setBloodRetivalLimit();
+					
 					//funcion que no permita sacar mas sangre de x
 					break;
 				}
@@ -184,7 +184,7 @@ public abstract class ManagerMenu {
 	
 	private static void setBloodRetivalLimit() {
 		
-		bloodMan.retreiveBlood();
+		bloodMan.retreiveBlood(0);
 		
 		
 	}

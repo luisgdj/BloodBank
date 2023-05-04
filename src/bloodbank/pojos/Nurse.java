@@ -1,6 +1,7 @@
  package bloodbank.pojos;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 public class Nurse implements Serializable {
@@ -14,6 +15,8 @@ public class Nurse implements Serializable {
 	private String name;
 	private String surname;
 	private Contract contract;
+	private List<Donor> donors;
+	private List<Donee> donees;
 
 	public Nurse() {
 		super();

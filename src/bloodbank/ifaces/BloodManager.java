@@ -10,5 +10,6 @@ public interface BloodManager {
 	public void showBloodTotalAmount();
 	public void retreiveBlood (int amount); //retreive blood (nurse menu)
 	
+	
 
 }

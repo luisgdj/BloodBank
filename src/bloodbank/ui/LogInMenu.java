@@ -50,7 +50,7 @@ public abstract class LogInMenu {
 		while (true) {
 			// Ask for the username and password
 			String username = Utilities.readString(" -Username: ");
-			String username = Utilities.readString(" -Password: ");
+			String password = Utilities.readString(" -Password: ");
 			// If they match, go to the owner screen
 			User user = userMan.logIn(username, password);
 			if (user != null) {

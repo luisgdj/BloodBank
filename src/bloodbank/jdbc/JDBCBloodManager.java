@@ -33,9 +33,11 @@ public class JDBCBloodManager implements BloodManager{
 					  +	  "WHERE donee.blood_type= donor.blood_type";
 			PreparedStatement p = connection.prepareStatement(sql);
 			ResultSet rs = p.executeQuery();
+			while (rs.next()) {
 			String donorName = rs.getString(1);
 			String bloodType = rs.getString(2);
 			String doneeName = rs.getString(3);
+			}
 			
 			System.out.println(b.toString());
 			connection.close();

@@ -103,7 +103,7 @@ public class JDBCNurseManager implements NurseManager {
 			Integer duration = rs.getInt("duration");
 			Integer salary = rs.getInt("salary");
 			return new Contract(contract_id, duration, salary);
-			conection.close();
+			connection.close();
 
 		}catch(SQLException e) {
 			System.out.println("Databases error");

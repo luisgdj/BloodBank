@@ -15,10 +15,10 @@ import bloodbank.pojos.Nurse;
 
 public class JDBCNurseManager implements NurseManager {
 
-	private Connection c;
+	private Connection conection;
 	
-	public JDBCNurseManager(Connection c) {
-		this.c = c;
+	public JDBCNurseManager(Connection conection) {
+		this.conection = conection;
 	}
 
 	@Override
@@ -56,6 +56,8 @@ public class JDBCNurseManager implements NurseManager {
 				Nurse nurse = new Nurse(id, n, surname, contract);
 				list.add(nurse);
 				
+			conection.close();
+				
 			}
 		}catch(SQLException e) {
 			System.out.println("Databases error");
@@ -80,6 +82,7 @@ public class JDBCNurseManager implements NurseManager {
 			Nurse nurse = new Nurse(id, name, surname, contract);
 			contract.setNurse(nurse);
 			System.out.println(nurse.toString());
+			conection.close();
 
 		}catch(SQLException e) {
 			System.out.println("Databases error");
@@ -98,6 +101,7 @@ public class JDBCNurseManager implements NurseManager {
 			Integer duration = rs.getInt("duration");
 			Integer salary = rs.getInt("salary");
 			return new Contract(contract_id, duration, salary);
+			conection.close();
 
 		}catch(SQLException e) {
 			System.out.println("Databases error");

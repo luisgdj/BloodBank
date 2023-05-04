@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+import java.sql.Statement;
 import bloodbank.ifaces.BloodManager;
 import bloodbank.pojos.Blood;
 import bloodbank.pojos.Contract;
@@ -12,10 +12,10 @@ import bloodbank.pojos.Nurse;
 
 public class JDBCBloodManager implements BloodManager{
 
-	private Connection c;
+	private Connection conection;
 	
-	public JDBCBloodManager(Connection c) {
-		this.c = c;
+	public JDBCBloodManager(Connection conection) {
+		this.conection = conection;
 	}
 	
 	@Override
@@ -26,8 +26,23 @@ public class JDBCBloodManager implements BloodManager{
 
 	@Override
 	public void showDonations(int donorId) {
-		// TODO Auto-generated method stub
 		
+		try {
+			String sql = "SELECT donor.name, donor.blood_type, donee.name FROM donor JOIN blood ON blood.donor_id = donor.id"
+					  +  "JOIN donee ON blood.donee_id= donee.id"
+					  +	  "WHERE donee.blood_type= donor.blood_type";
+			PreparedStatement p = conection.prepareStatement(sql);
+			ResultSet rs = p.executeQuery();
+			String donorName = rs.getString("donor_Name");
+			String bloodType = rs.getString("blood_type");
+			String doneeName = rs.getString("donee_Name");
+			
+		}
+		
+		catch (SQLException e) {
+			System.out.println("Databases error");
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -37,7 +52,7 @@ public class JDBCBloodManager implements BloodManager{
 			String sql = "SELECT d.blood_type, b.SUM(amount) "
 					+ "FROM donor AS d JOIN blood AS b ON d.blood_id = b.id "
 					+ "GROUP BY d.blood_type ";
-			PreparedStatement p = c.prepareStatement(sql);
+			PreparedStatement p = conection.prepareStatement(sql);
 			ResultSet rs = p.executeQuery();
 			
 			String blood_type = rs.getString("blood_type");
@@ -57,8 +72,8 @@ public class JDBCBloodManager implements BloodManager{
 			String sql = "SELECT d.blood_type, b.SUM(amount) "
 					+ "FROM donor AS d JOIN blood AS b ON d.blood_id = b.id "
 					+ "GROUP BY d.blood_type ";
-			PreparedStatement p = c.prepareStatement(sql);
-			p.setString(1, "" + option); //ponemos 1 porque el primer atributo en la clase nurse es name que es por lo que lo queremos buscar
+			PreparedStatement p = conection.prepareStatement(sql);
+			//p.setString(1, "" + option); //ponemos 1 porque el primer atributo en la clase nurse es name que es por lo que lo queremos buscar
 			ResultSet rs = p.executeQuery();
 
 		}catch(SQLException e) {

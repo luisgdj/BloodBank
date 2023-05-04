@@ -55,6 +55,7 @@ public abstract class ManagerMenu {
 				}
 				case 5: {
 					System.out.println("Change blood retreival limit: ");
+					setBloodRetivalLimit();
 					//funcion que no permita sacar mas sangre de x
 					break;
 				}
@@ -118,7 +119,14 @@ public abstract class ManagerMenu {
 				default: {
 					System.out.println("ERROR: Invalid option");
 				}
+			}
+		}
+					
 	}
+				
+				
+			
+		
 
 	private static void selectNurse() {
 
@@ -166,11 +174,14 @@ public abstract class ManagerMenu {
 		
 	}
 	
-	private static void viewBloodStorage() {
+	private static void viewBloodStorage() {		//es la misma funcion que select blood
 		
 	}
 	
 	private static void setBloodRetivalLimit() {
+		
+		bloodMan.retreiveBlood();
+		
 		
 	}
 }

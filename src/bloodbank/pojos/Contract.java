@@ -56,11 +56,11 @@ public class Contract implements Serializable {
 	}
 
 	public Nurse getNurse() {
-		return nurse;
+		return (Nurse) nurses;
 	}
 
 	public void setNurse(Nurse nurse) {
-		this.nurse = nurse;
+		this.nurses = (List<Nurse>) nurses;
 	}
 	
 
@@ -85,4 +85,5 @@ public class Contract implements Serializable {
 	public String toString() {
 		return "Contract [id=" + id + ", duration=" + duration + ", salary=" + salary + "]";
 	}
+
 }

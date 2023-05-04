@@ -1,4 +1,4 @@
-package bloodbank.pojos;
+ package bloodbank.pojos;
 
 import java.io.Serializable;
 import java.util.Objects;

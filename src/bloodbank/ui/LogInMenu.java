@@ -19,29 +19,24 @@ public abstract class LogInMenu {
 	public static void main(String[] Args) {
 		
 		userMan = new JPAUserManager();
+		System.out.println("Welcome to the blood bank!");
 		
 		while (true) {
-			System.out.println("Welcome to the blood bank!");
-			System.out.println("1. Login");
-			System.out.println("0. Exit");
-			int option = Utilities.readInteger("Choose option: ");
-
-			switch (option) {
-				case 1: {
-					try {
-						logIn();
-					}catch(IOException e){
-						System.out.println("Error");
-						e.printStackTrace();
-					}
-					break;
+			// Ask for the username and password
+			String username = Utilities.readString(" -Username: ");
+			String password = Utilities.readString(" -Password: ");
+			// If they match, go to the owner screen
+			User user = userMan.logIn(username, password);
+			
+			if (user != null) {
+				if (user.getRole().getName().equals("manager")) {
+					ManagerMenu.menu();
 				}
-				case 2: {
-					return;
+				if (user.getRole().getName().equals("nurse")) {
+					NurseMenu.menu(user.getId());
 				}
-				default:{
-					System.out.println("Error: Choose a valid option");
-				}
+			}else{
+				System.out.println("Wrong username/password combination.");
 			}
 		}
 	}
@@ -53,6 +48,7 @@ public abstract class LogInMenu {
 			String password = Utilities.readString(" -Password: ");
 			// If they match, go to the owner screen
 			User user = userMan.logIn(username, password);
+			
 			if (user != null) {
 				if (user.getRole().getName().equals("owner")) {
 					ownerMenu(user.getEmail());
@@ -62,9 +58,7 @@ public abstract class LogInMenu {
 					selectVet();
 					//ManagerMenu.menu();
 				}
-			}
-			// It not, ask again
-			else {
+			}else{
 				System.out.println("Wrong username/password combination.");
 			}
 		}

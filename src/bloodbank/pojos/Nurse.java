@@ -1,4 +1,4 @@
-package bloodbank.pojos;
+ package bloodbank.pojos;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -19,6 +19,13 @@ public class Nurse implements Serializable {
 		super();
 	}
 	
+	public Nurse(String name, String surname, Contract contract) {
+		super();
+		this.name = name;
+		this.surname = surname;
+		this.contract = contract;
+	}
+
 	public Nurse(String name, String surname, Contract contract) {
 		super();
 		this.name = name;

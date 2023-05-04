@@ -23,6 +23,17 @@ public class Donor implements Serializable{
 	public Donor() {
 		super();
 	}
+	
+
+	public Donor(String name, String surname, String bloodType, LocalDate dob, long ssn) {
+		super();
+		this.name = name;
+		this.surname = surname;
+		this.bloodType = bloodType;
+		this.dob = dob;
+		this.ssn = ssn;
+	}
+
 
 	public Donor(int id, String name, String surname, String bloodType, LocalDate dob, long ssn) {
 		super();

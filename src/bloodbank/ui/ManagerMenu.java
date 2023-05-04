@@ -1,4 +1,5 @@
-package bloodbank.ui;
+ 
+ package bloodbank.ui;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public abstract class ManagerMenu {
 
 	public static void menu() {
 		
-		ConnectionManager conMan = new ConnectionManager();
+		ConnectionManager conMan = new ConnectionManager(); //creamos la conexion con el jdbc
 		nurseMan = new JDBCNurseManager(conMan.getConnection());
 		contractMan = new JDBCContractManager(conMan.getConnection());
 		bloodMan = new JDBCBloodManager(conMan.getConnection());
@@ -72,7 +73,7 @@ public abstract class ManagerMenu {
 
 	private static void registerNurse() {
 
-		System.out.println("Imput nurse data: ");
+		System.out.println("Input nurse data: ");
 		Integer id = Utilities.readInteger(" -ID: ");
 		String name = Utilities.readString(" -Name: ");
 		String surname = Utilities.readString(" -Surname: ");
@@ -80,7 +81,7 @@ public abstract class ManagerMenu {
 		Contract contract = new Contract();
 		
 		Nurse n = new Nurse(id, name, surname, contract);
-		nurseMan.insertNurse(n);
+		nurseMan.insertNurse(n); //meter la nurse en la base de datos mediante la javadatabaseconection(jdbc)
 	}
 	
 	private static void registerContract() {
@@ -152,7 +153,7 @@ public abstract class ManagerMenu {
 
 			switch (option) {
 				case 1: {
-					nurseMan.showNurse(id);
+					
 					break;
 				}
 				case 2: {
@@ -174,8 +175,11 @@ public abstract class ManagerMenu {
 		
 	}
 	
-	private static void viewBloodStorage() {		//es la misma funcion que select blood
-		
+	private static void personalInfoNurse(Integer id) {
+			Nurse nurse= nurseMan.getNurse(id);
+			System.out.println(nurse.toString());
+	
+
 	}
 	
 	private static void setBloodRetivalLimit() {

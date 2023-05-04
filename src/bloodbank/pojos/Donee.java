@@ -25,6 +25,16 @@ public class Donee implements Serializable {
 		super();
 	}
  
+	public Donee(String name, String surname, String bloodType, int bloodNeeded, LocalDate dob, long ssn) {
+		super();
+		this.name = name;
+		this.surname = surname;
+		this.bloodType = bloodType;
+		this.bloodNeeded = bloodNeeded;
+		this.dob = dob;
+		this.ssn = ssn;
+	}
+	
 	public Donee(int id, String name, String surname, String bloodType, int bloodNeeded, LocalDate dob, long ssn) {
 		super();
 		this.id = id;

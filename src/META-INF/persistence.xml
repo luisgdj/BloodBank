@@ -6,18 +6,20 @@
 	<!-- Persistence Provider -->
 	<!-- RESOURCE-LOCAL: Application-managed transactions -->
 	<!-- JTA: Container-managed transactions -->
-	<persistence-unit name="company-provider" transaction-type="RESOURCE_LOCAL">
+	<persistence-unit name="bloodbank-provider" transaction-type="RESOURCE_LOCAL">
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
- 
+
 		<!-- Entity Class -->
-		<class>sample.db.pojos.Employee</class>
-		<class>sample.db.pojos.Department</class>
-		<class>sample.db.pojos.Report</class>
- 
+		<class>bloodbank.pojos.Blood</class>
+		<class>bloodbank.pojos.Contract</class>
+		<class>bloodbank.pojos.Donee</class>
+		<class>bloodbank.pojos.Donor</class>
+		<class>bloodbank.pojos.Nurse</class>
+
 		<properties>	
 			<!-- Connection properties -->
 			<property name="javax.persistence.jdbc.driver" value="org.sqlite.JDBC" />
-		    <property name="javax.persistence.jdbc.url"	value="jdbc:sqlite:./db/company.db" />
+		    <property name="javax.persistence.jdbc.url"	value="jdbc:sqlite:./db/BloodBank.db" />
 			<!-- Fill if we need user and password -->
 			<property name="javax.persistence.jdbc.user" value="" />
 			<property name="javax.persistence.jdbc.password" value="" />

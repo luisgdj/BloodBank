@@ -5,17 +5,25 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
 import bloodbank.ifaces.BloodManager;
-import bloodbank.pojos.Blood;
-import bloodbank.pojos.Contract;
-import bloodbank.pojos.Nurse;
+import bloodbank.ifaces.DoneeManager;
+import bloodbank.ifaces.DonorManager;
+import bloodbank.pojos.*;
 
 public class JDBCBloodManager implements BloodManager{
 
 	private Connection connection;
+	private static DonorManager donorMan;
+	private static DoneeManager doneeMan;
 	
-	public JDBCBloodManager(Connection connection) {
+	public  JDBCBloodManager(Connection connection, DonorManager donorMan, DoneeManager doneeMan) {
 		this.connection = connection;
+		this.donorMan = donorMan;
+		this.doneeMan = doneeMan;		
 	}
 	
 	@Override
@@ -25,71 +33,116 @@ public class JDBCBloodManager implements BloodManager{
 	}
 
 	@Override
-	public void showDonations(int donorId) {
+	public List<Blood> getDonations(int donorId) {
 		
+		List<Blood> list = new ArrayList<Blood>();
 		try {
-			String sql = "SELECT donor.name, donor.blood_type, donee.name FROM donor JOIN blood ON blood.donor_id = donor.id"
-					  +  "JOIN donee ON blood.donee_id= donee.id"
-					  +	  "WHERE donee.blood_type= donor.blood_type";
+			String sql = "SELECT * FROM blood WHERE donor_id = ?";
 			PreparedStatement p = connection.prepareStatement(sql);
+			p.setString(1, "" + donorId);
 			ResultSet rs = p.executeQuery();
-			while (rs.next()) {
-			String donorName = rs.getString(1);
-			String bloodType = rs.getString(2);
-			String doneeName = rs.getString(3);
-			}
 			
-			System.out.println(b.toString());
+			while (rs.next()) {
+				Integer id = rs.getInt("id");
+				Integer amount = rs.getInt("amount");
+				LocalDate date = (LocalDate) rs.getObject("collection_date")
+				Integer donor_id = rs.getInt("donor_id");
+				Donor donor = donorMan.getDonor(donor_id);
+				Integer donee_id = rs.getInt("donee_id");
+				Donee donee = doneeMan.getDonee(donee_id);
+				
+				Blood b = new Blood(id, amount, date, donor, donee);
+				// IMPORTANT: I don't have the dogs
+				// Add the Owner to the list
+				list.add(o);
+			}
 			connection.close();
+			return ;
 		}
 		
 		catch (SQLException e) {
 			System.out.println("Databases error");
 			e.printStackTrace();
+			return null;
 		}
 	}
 
 	@Override
-	public void showBloodByBloodType() {
+	public Float getAmountOfBlood(String bloodType) {
 
 		try {
-			String sql = "SELECT d.blood_type, b.SUM(amount) "
-					+ "FROM donor AS d JOIN blood AS b ON d.blood_id = b.id "
-					+ "GROUP BY d.blood_type ";
+			String sql = "SELECT SUM(amount) FROM blood WHERE id = (SELECT id FROM donor WHERE blood_type = ?)";
 			PreparedStatement p = connection.prepareStatement(sql);
-			ResultSet rs = p.executeQuery();
+			p.setString(1, bloodType);
 			
-			String blood_type = rs.getString("blood_type");
-			float amount = rs.getFloat("amount");
-			//imprimir datos???
-
-		}catch(SQLException e) {
-			System.out.println("Databases error");
-			e.printStackTrace();
-		}
-	}
-	
-	@Override
-	public void showBloodTotalAmount() {
-		
-		try {
-			String sql = "SELECT d.blood_type, b.SUM(amount) "
-					+ "FROM donor AS d JOIN blood AS b ON d.blood_id = b.id "
-					+ "GROUP BY d.blood_type ";
-			PreparedStatement p = connection.prepareStatement(sql);
-			//p.setString(1, "" + option); //ponemos 1 porque el primer atributo en la clase nurse es name que es por lo que lo queremos buscar
 			ResultSet rs = p.executeQuery();
+			float amount = rs.getFloat("amount");
+			
+			return amount;
 
 		}catch(SQLException e) {
 			System.out.println("Databases error");
 			e.printStackTrace();
+			return null;
 		}
 	}
 	
 	@Override
-	public void retreiveBlood(int amount) {
-		// TODO Auto-generated method stub
-		
-	}
+	public Integer getNumberOfDonations(String bloodType) {
 
+		try {
+			String sql = "SELECT COUNT(id) FROM blood WHERE id = (SELECT id FROM donor WHERE blood_type = ?)";
+			PreparedStatement p = connection.prepareStatement(sql);
+			p.setString(1, bloodType);
+			
+			ResultSet rs = p.executeQuery();
+			int totalDonations = rs.getInt("id");
+			
+			
+			return totalDonations;
+
+		}catch(SQLException e) {
+			System.out.println("Databases error");
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	@Override
+	public void retreiveBlood(float reteivalAmount, float limit, String bloodType) {
+		
+		float totalStorage = getAmountOfBlood(bloodType);
+		
+		if(totalStorage <= limit) {
+			for(int i = 0; i < getNumberOfDonations(bloodType); i++) {
+				//recorre todas las donaciones con el mismo tipo de sangre
+				//no sabemos como acceder a cada
+				
+			}
+			
+		}else {
+			System.out.println("Not allowed. Transfussion exceeds de blood limit.");	
+		}
+	}
+	
+	@Override
+	public void updateDonation(int id) {
+
+		try {
+			String sql = "SELECT COUNT(id) FROM blood WHERE id = (SELECT id FROM donor WHERE blood_type = ?)";
+			PreparedStatement p = connection.prepareStatement(sql);
+			p.setString(1, bloodType);
+			
+			ResultSet rs = p.executeQuery();
+			int totalDonations = rs.getInt("id");
+			
+			return totalDonations;
+
+		}catch(SQLException e) {
+			System.out.println("Databases error");
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 }

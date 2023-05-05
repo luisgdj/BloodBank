@@ -6,9 +6,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.List;
 
 import bloodbank.ifaces.DonorManager;
+import bloodbank.pojos.Blood;
+import bloodbank.pojos.Donee;
 import bloodbank.pojos.Donor;
 
 public class JDBCDonorManager implements DonorManager{
@@ -95,6 +98,33 @@ public class JDBCDonorManager implements DonorManager{
 		return null;
 	}
 	
-	
+public Donor getDonor(int id) {
+		
+		try {
+			String sql =  "SELECT * FROM donee where id = ?";
+			PreparedStatement p = conection.prepareStatement(sql);
+			p.setString(1, "" + id); //ponemos 1 porque el primer atributo en la clase nurse es name que es por lo que lo queremos buscar
+			ResultSet rs = p.executeQuery();
+			
+			String name = rs.getString("name");
+			String surname= rs.getString("surname");
+			String bloodType = rs.getString("blood_type");
+			LocalDate dob = (LocalDate) rs.getObject("dob");
+			long ssn = rs.getLong("ssn");
+			Donor d = new Donor(id, name, surname, bloodType, dob, ssn);
+			
+			//creo que no habria que poner que devolviese la lista de transfusiones
+			List <Blood> donations = (List<Blood>) rs.getArray("donations"); //tampoco se como hacerlo
+			d.setDonations(donations);
+			
+			conection.close();
+			return d;
+		
+		}catch(SQLException e) {
+			System.out.println("Databases error");
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 }

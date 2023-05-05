@@ -24,6 +24,7 @@ public abstract class NurseMenu {
 
 		ConnectionManager conMan = new ConnectionManager();
 		nurseMan = new JDBCNurseManager(conMan.getConnection()); // nurseMan= nurseManager
+		
 		while (true) {
 
 			System.out.println("Blood bank storage unit:"

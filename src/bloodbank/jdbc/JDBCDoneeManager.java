@@ -16,6 +16,8 @@ import bloodbank.pojos.Donee;
 public class JDBCDoneeManager implements DoneeManager{
 
 	private Connection conection;
+	private JDBCDonorManager donorMan;
+	private JDBCDonorManager doneeMan;
 	
 	public JDBCDoneeManager(Connection conection) {
 		this.conection = conection;
@@ -41,7 +43,6 @@ public class JDBCDoneeManager implements DoneeManager{
 		}
 	}
 
-	@Override
 	public Donee getDonee(int id) {
 		
 		try {
@@ -56,7 +57,6 @@ public class JDBCDoneeManager implements DoneeManager{
 			Integer bloodNeeded = rs.getInt("blood_needed");
 			LocalDate dob = (LocalDate) rs.getObject("dob");
 			long ssn = rs.getLong("ssn");
-			
 			Donee d = new Donee(id, name, surname, bloodType, bloodNeeded, dob, ssn);
 			
 			//creo que no habria que poner que devolviese la lista de transfusiones

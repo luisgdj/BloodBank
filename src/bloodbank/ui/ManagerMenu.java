@@ -16,14 +16,17 @@ public abstract class ManagerMenu {
 	private static ContractManager contractMan;
 	private static BloodManager bloodMan;
 	private static UserManager userMan;
+	private static DonorManager donorMan;
+	private static DoneeManager doneeMan;
 
 	public static void menu(UserManager man) {
 		
 		ConnectionManager conMan = new ConnectionManager(); //creamos la conexion con el jdbc
 		nurseMan = new JDBCNurseManager(conMan.getConnection());
 		contractMan = new JDBCContractManager(conMan.getConnection());
-		bloodMan = new JDBCBloodManager(conMan.getConnection());
-		userMan = man;
+		donorMan = new JDBCDonorManager(conMan.getConnection());
+		doneeMan = new JDBCDoneeManager(conMan.getConnection());
+		bloodMan = new JDBCBloodManager(conMan.getConnection(), donorMan, doneeMan);
 
 		while (true) {
 			System.out.println("Blood bank storage unit (manager menu):" 

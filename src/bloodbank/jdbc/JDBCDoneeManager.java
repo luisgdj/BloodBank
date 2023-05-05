@@ -10,7 +10,6 @@ import java.util.List;
 
 import bloodbank.ifaces.DoneeManager;
 import bloodbank.pojos.Blood;
-import bloodbank.pojos.Contract;
 import bloodbank.pojos.Donee;
 
 public class JDBCDoneeManager implements DoneeManager{

@@ -28,7 +28,16 @@ public class JDBCBloodManager implements BloodManager{
 	
 	@Override
 	public void insertBloodDonation(Blood b) {
-		// TODO Auto-generated method stub
+		try {
+			Statement s = connection.createStatement(); //cuando haya una insert se usa statement 
+			String sql = "INSERT INTO blood (amount, fecha, donor, donee) VALUES ('" + b.getAmount() + "','"
+					+ b.getFecha() + "'," + b.getDonor()  + "'," + b.getDonee() + ")";
+			s.execute(sql);
+			s.close(); //las conexiones se cierran asi
+		} catch (SQLException e) { //poner siempre esta excepcion cuando creemos una sql
+			System.out.println("Database exception");
+			e.printStackTrace();
+		}
 		
 	}
 
@@ -126,7 +135,7 @@ public class JDBCBloodManager implements BloodManager{
 	}
 	
 	@Override
-	public void updateDonation(int id) {
+	public void updateDonation(int id) { //terminar
 
 		try {
 			String sql = "SELECT COUNT(id) FROM blood WHERE id = (SELECT id FROM donor WHERE blood_type = ?)";

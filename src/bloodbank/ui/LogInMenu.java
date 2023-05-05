@@ -13,6 +13,15 @@ public abstract class LogInMenu {
 		userMan = new JPAUserManager();
 		System.out.println("Welcome to the blood bank!");
 		
+		/* Vamos a tener un manager registrado por defecto para el que tendremos que
+		 * iformar del usuario y contraseña en la decripcion de nuestro proyecto.
+		 * 
+		 * Tendremos una opcion en el menu del mannager para cambiar la contraseña
+		 * establecida por defecto (opcion 6)
+		 */
+		User manager = new User("bloodBankMan", "2012912");
+		userMan.register(manager);
+		
 		while (true) {
 			// Ask for the username and password
 			String username = Utilities.readString(" -Username: ");

@@ -114,7 +114,20 @@ public class JDBCNurseManager implements NurseManager {
 
 	@Override
 	public void assignContractToNurse(int contractId, int nurseId) {
-		// TODO Auto-generated method stub
+		try {
+			String sql = "INSERT INTO Nurse (contractId, nurseId) VALUES (?,?)";
+			PreparedStatement p = connection.prepareStatement(sql);
+			p.setInt(1,contractId); 
+			p.setInt(2, nurseId);
+			p.executeUpdate();
+			ResultSet rs = p.executeQuery();
+			p.close();
+
+		}catch(SQLException e) {
+			System.out.println("Databases error");
+			e.printStackTrace();
+			
+		}
 		
 	}
 }

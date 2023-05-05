@@ -70,7 +70,7 @@ public class JDBCDoneeManager implements DoneeManager{
 			e.printStackTrace();
 			return null;
 		}
-	}
+	} 
 
 	@Override
 	public void assignDoneeToNurse(int doneeId, int nurseId) {

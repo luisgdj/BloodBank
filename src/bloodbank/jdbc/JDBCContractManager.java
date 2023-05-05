@@ -13,7 +13,7 @@ private Connection conection;
 	
 	public JDBCContractManager(Connection conection) {
 		this.conection = conection;
-	}
+	} 
 
 	@Override
 	public void insertContract(Contract c) {

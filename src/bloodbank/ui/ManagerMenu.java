@@ -186,13 +186,11 @@ public abstract class ManagerMenu {
 			Nurse nurse= nurseMan.getNurse(id);
 			System.out.println(nurse.toString());
 	
-
 	}
 	
 	private static void setBloodRetivalLimit() {
 		
 		bloodMan.retreiveBlood();
-		
 		
 	}
 }

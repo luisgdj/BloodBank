@@ -24,10 +24,11 @@ public class Contract implements Serializable {
 		this.salary = 2500;
 	}
 	
-	public Contract( int duration, float salary) {
+	public Contract(int duration, float salary) {
 		super();
 		this.duration = duration;
 		this.salary = salary;
+		this.nurses = new ArrayList<Nurse>;
 	} 
 
 	public Contract(int id, int duration, float salary) {

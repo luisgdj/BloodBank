@@ -29,12 +29,13 @@ public class Blood implements Serializable{
 		this.donor = donor;
 	}
 
-	public Blood(int id, int amount, LocalDate fecha, Donor donor) {
+	public Blood(int id, int amount, LocalDate fecha, Donor donor, Donee donee) {
 		super();
 		this.id = id;
 		this.amount = amount;
 		this.fecha = fecha;
 		this.donor = donor;
+		this.donee = donee;
 	}
 
 	public int getId() {

@@ -10,6 +10,7 @@ public class ConnectionManager {
 	Connection c; // we define it outside because we use it in all the methods
 
 	public ConnectionManager() {
+		
 		try {
 			Class.forName("org.sqlite.JDBC"); // establish a connection with the database
 			c = DriverManager.getConnection("jdbc:sqlite:./db/BloodBank.db");
@@ -20,12 +21,11 @@ public class ConnectionManager {
 			System.out.println("Database access error.");
 			e.printStackTrace();
 		}
-
 	}
 
 	private void createTables() {
-		try {
 		
+		try {
 			Statement s = c.createStatement();
 
 			String table = "CREATE TABLE contract(" + "id INTEGER PRIMARY KEY AUTOINCREMENT,"

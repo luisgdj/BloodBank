@@ -11,4 +11,5 @@ public interface DonorManager {
 	public void removeDonor(int id);	//eliminate donor (check donor info)
 	public void assignDonorToNurse(int donorId, int nurseId);	
 	public List<Donor> searchDonorByName(String name); //select nurse (nurse menu)
+	public Donor getDonor(int id);
 }

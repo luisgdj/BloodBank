@@ -66,9 +66,13 @@ public class JDBCBloodManager implements BloodManager{
 					+ "GROUP BY d.blood_type ";
 			PreparedStatement p = connection.prepareStatement(sql);
 			ResultSet rs = p.executeQuery();
+	
+			String blood_type = rs.getString(1); //ponemos un 1 ya que cuando son joins no ponemos el nombre, se pone la posicion de la query en la que está el atriburto
+			float amount = rs.getFloat(2);
+			String result = "";
+			//como imprimir amount y result
 			
-			//String blood_type = rs.getString(1); //ponemos un 1 ya que cuando son joins no ponemos el nombre, se pone la posicion de la query en la que está el atriburto
-			//float amount = rs.getFloat(2);
+			
 			connection.close();
 
 		}catch(SQLException e) {
@@ -96,9 +100,16 @@ public class JDBCBloodManager implements BloodManager{
 	}
 	
 	@Override
-	public void retreiveBlood(int amount) {
+	public void retreiveBlood(int amount, String bloodType) {
 		// TODO Auto-generated method stub
-		
+		String sql = "SELECT SUM(amount) FROM blood WHERE donor_id = (SELECT id FROM donor WHERE blood_type = ?)";
+		try {
+			PreparedStatement p = connection.prepareStatement(sql);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	

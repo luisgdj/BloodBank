@@ -34,7 +34,8 @@ public abstract class ManagerMenu {
 					+ "\n 2. Establish contract"
 					+ "\n 3. View blood storage" 
 					+ "\n 4. Access nurse information" 
-					+ "\n 5. Change blood retreival limit" 
+					+ "\n 5. Change blood retreival limit"
+					+ "\n 6. Change password"
 					+ "\n 0. Log out");
 			int option = Utilities.readInteger("Choose an option: ");
 
@@ -64,6 +65,11 @@ public abstract class ManagerMenu {
 					System.out.println("Change blood retreival limit: ");
 					setBloodRetivalLimit();
 					//funcion que no permita sacar mas sangre de x
+					break;
+				}
+				case 6: {
+					System.out.println("Change password:");
+					//crear funcion para cambiar la contraseña establecida por defecto
 					break;
 				}
 				case 0: {

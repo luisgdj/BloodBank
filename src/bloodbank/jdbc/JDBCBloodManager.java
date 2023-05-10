@@ -134,7 +134,9 @@ public class JDBCBloodManager implements BloodManager{
 	
 	
 	@Override
-	public void deleteDonation(int id) { 
+	public void deleteDonation(int id) {
+		
+		
 
 		try {
 			String sql = "DELETE FROM blood WHERE id=? ";
@@ -151,7 +153,9 @@ public class JDBCBloodManager implements BloodManager{
 		}
 	}
 	
+	
 }
+
 
 
 

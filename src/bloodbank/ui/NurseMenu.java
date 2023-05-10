@@ -173,6 +173,8 @@ public abstract class NurseMenu {
 		
 	}
 	private static void deleteDonation () {
+		
+		List<Blood> donations; //printeamos la lista para que la nurse sepa el id blood q quiere deletear y entonces por update le pedimos el id y eliminamos
 		System.out.println("Select the donation that you want to eliminate ");
 		int blood_id= Utilities.readInteger("Write the id of the blood that you want to delete");
 		bloodMan.deleteDonation(blood_id);

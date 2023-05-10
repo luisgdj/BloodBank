@@ -5,6 +5,20 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import xml.utils.LocalDateAdapter;
+
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "Donor")
+@XmlType(propOrder = { "name", "surname", "bloodType","dob","ssn", "donations" })
 public class Donor implements Serializable{
 	
 	/**
@@ -12,12 +26,21 @@ public class Donor implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	@XmlTransient
 	private Integer id;
+	@XmlElement
 	private String name;
+	@XmlElement
 	private String surname;
+	@XmlElement
 	private String bloodType;
+	@XmlElement
+	@XmlJavaTypeAdapter(LocalDateAdapter.class)
 	private LocalDate dob;
+	@XmlElement
 	private long ssn;
+	@XmlElement(name = "Blood")
+    @XmlElementWrapper(name = "Donations")
 	private List<Blood> donations;
 	 
 	public Donor() {

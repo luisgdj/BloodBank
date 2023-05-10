@@ -96,14 +96,15 @@ public class JDBCNurseManager implements NurseManager {
 		
 		try {
 			String sql = "SELECT * FROM nurse WHERE id = ?";
-			PreparedStatement p = c.prepareStatement(sql);
+			PreparedStatement p = connection.prepareStatement(sql);
 			p.setString(1, "" + contract_id); 
 			ResultSet rs = p.executeQuery();
 			
 			Integer duration = rs.getInt("duration");
 			Integer salary = rs.getInt("salary");
+			rs.close();
 			return new Contract(contract_id, duration, salary);
-			connection.close();
+			
 
 		}catch(SQLException e) {
 			System.out.println("Databases error");
@@ -114,7 +115,20 @@ public class JDBCNurseManager implements NurseManager {
 
 	@Override
 	public void assignContractToNurse(int contractId, int nurseId) {
-		// TODO Auto-generated method stub
+		try {
+			String sql = "INSERT INTO Nurse (contractId, nurseId) VALUES (?,?)";
+			PreparedStatement p = connection.prepareStatement(sql);
+			p.setInt(1,contractId); 
+			p.setInt(2, nurseId);
+			p.executeUpdate();
+			ResultSet rs = p.executeQuery();
+			p.close();
+
+		}catch(SQLException e) {
+			System.out.println("Databases error");
+			e.printStackTrace();
+			
+		}
 		
 	}
 }

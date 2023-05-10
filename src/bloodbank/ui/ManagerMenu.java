@@ -46,13 +46,14 @@ public abstract class ManagerMenu {
 					break;
 				}
 				case 2: {
-					System.out.println("Sablish contract:");
+					System.out.println("Stablish contract:");
 					registerContract();
 					break;
 				}
 				case 3: {
 					System.out.println("Check blood storage:");
-					selectBlood();
+					String bloodType= Utilities.askBloodType();
+					bloodMan.getAmountOfBlood(bloodType);
 					//segun orden (cantidad, tipo)
 					break;
 				}
@@ -115,35 +116,8 @@ public abstract class ManagerMenu {
 		Contract c = new Contract(id, duration, salary);
 		contractMan.insertContract(c);
 	}
+						
 	
-	private static void selectBlood() {
-		
-		while (true) {
-			System.out.println("Show blood by:" 
-					+ "\n 1. Blood type" 
-					+ "\n 2. Total amount"
-					+ "\n 0. Return to menu");
-			int option = Utilities.readInteger("Option: ");
-
-			switch (option) {
-				case 1: {
-					System.out.println("");
-					bloodMan.showBloodByBloodType();
-					break;
-				}
-				case 2: {
-					bloodMan.showBloodTotalAmount();
-					break;
-				}
-				case 0: {
-					return;
-				}
-				default: {
-					System.out.println("ERROR: Invalid option");
-				}
-			}
-		}				
-	}
 
 	private static void selectNurse() {
 
@@ -199,7 +173,9 @@ public abstract class ManagerMenu {
 	
 	private static void setBloodRetivalLimit() {
 		
-		bloodMan.retreiveBlood();
+		bloodMan.retreiveBlood(0, 0, 0, 0); //CAMBIAR ESTO
 		
 	}
+	
+	
 }

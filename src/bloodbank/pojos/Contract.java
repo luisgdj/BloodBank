@@ -1,6 +1,7 @@
 package bloodbank.pojos;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -28,7 +29,7 @@ public class Contract implements Serializable {
 		super();
 		this.duration = duration;
 		this.salary = salary;
-		this.nurses = new List<Nurse>;
+		this.nurses = new ArrayList<Nurse>();
 	} 
 
 	public Contract(int id, int duration, float salary) {

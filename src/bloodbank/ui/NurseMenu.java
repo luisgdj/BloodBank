@@ -33,6 +33,7 @@ public abstract class NurseMenu {
 					+ "\n 3. Select donor" 
 					+ "\n 4. Show avaliable blood "
 					+ "\n 5. Retreive blood"
+					+ "\n 6. Delete donation"
 					+ "\n 0. Log out");
 			
 			int option = Utilities.readInteger("Choose an option: ");
@@ -48,6 +49,17 @@ public abstract class NurseMenu {
 				}
 				case 3: {
 					selectDonor();
+					break;
+				}
+				case 4: {
+					break;
+				}
+				case 5: {
+					
+					break;
+				}
+				case 6: {
+				
 					break;
 				}
 				case 0: {
@@ -158,6 +170,14 @@ public abstract class NurseMenu {
 	
 	private static void retreiveBlood () {
 		//TODO
+		
+	}
+	private static void deleteDonation () {
+		
+		List<Blood> donations; //printeamos la lista para que la nurse sepa el id blood q quiere deletear y entonces por update le pedimos el id y eliminamos
+		System.out.println("Select the donation that you want to eliminate ");
+		int blood_id= Utilities.readInteger("Write the id of the blood that you want to delete");
+		bloodMan.deleteDonation(blood_id);
 		
 	}
 }

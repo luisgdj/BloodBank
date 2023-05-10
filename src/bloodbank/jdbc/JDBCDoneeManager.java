@@ -14,19 +14,19 @@ import bloodbank.pojos.Donee;
 
 public class JDBCDoneeManager implements DoneeManager{
 
-	private Connection conection;
+	private Connection connection;
 	private JDBCDonorManager donorMan;
 	private JDBCDonorManager doneeMan;
 	
-	public JDBCDoneeManager(Connection conection) {
-		this.conection = conection;
+	public JDBCDoneeManager(Connection connection) {
+		this.connection = connection;
 	}
 	
 	@Override
 	public void insertDonee(Donee d) {
 	
 		try {
-			Statement s = conection.createStatement();
+			Statement s = connection.createStatement();
 			String sql = "INSERT INTO contract "
 					+ "(name, surname, blood_type,blood_needed,dob,ssn,transfussions) "
 					+ "VALUES ('" +  d.getName()+ "','"
@@ -46,7 +46,7 @@ public class JDBCDoneeManager implements DoneeManager{
 		
 		try {
 			String sql =  "SELECT * FROM donee where id = ?";
-			PreparedStatement p = conection.prepareStatement(sql);
+			PreparedStatement p = connection.prepareStatement(sql);
 			p.setString(1, "" + id); //ponemos 1 porque el primer atributo en la clase nurse es name que es por lo que lo queremos buscar
 			ResultSet rs = p.executeQuery();
 			
@@ -62,7 +62,7 @@ public class JDBCDoneeManager implements DoneeManager{
 			List <Blood> transfussions = (List<Blood>) rs.getArray("tranfussions"); //tampoco se como hacerlo
 			d.setTransfusions(transfussions);
 			
-			conection.close();
+			connection.close();
 			return d;
 		
 		}catch(SQLException e) {
@@ -74,7 +74,20 @@ public class JDBCDoneeManager implements DoneeManager{
 
 	@Override
 	public void assignDoneeToNurse(int doneeId, int nurseId) {
-		// TODO Auto-generated method stub
+		try {
+			String sql = "INSERT INTO nurse_donee (doneeId, nurseId) VALUES (?,?)";
+			PreparedStatement p = connection.prepareStatement(sql);
+			p.setInt(1,doneeId); 
+			p.setInt(2, nurseId);
+			p.executeUpdate();
+			ResultSet rs = p.executeQuery();
+			p.close();
+
+		}catch(SQLException e) {
+			System.out.println("Databases error");
+			e.printStackTrace();
+			
+		}
 		
 	}
 

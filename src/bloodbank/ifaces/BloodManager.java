@@ -10,6 +10,6 @@ public interface BloodManager {
 	public List<Blood> getDonations (int donorId); //view donations (donor menu)
 	public Float getAmountOfBlood(String bloodType); //show available blood (nurse menu)
 	public Integer getNumberOfDonations(String bloodType);
-	public void retreiveBlood(float amount, float limit, String blood_type); //retreive blood (nurse menu)
-
+	public void retreiveBlood(float retreivalAmount, float amount, int id_blood, float limit); //retreive blood (nurse menu)
+	public void deleteDonation (int id);
 }

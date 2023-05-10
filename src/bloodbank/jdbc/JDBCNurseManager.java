@@ -96,14 +96,15 @@ public class JDBCNurseManager implements NurseManager {
 		
 		try {
 			String sql = "SELECT * FROM nurse WHERE id = ?";
-			PreparedStatement p = c.prepareStatement(sql);
+			PreparedStatement p = connection.prepareStatement(sql);
 			p.setString(1, "" + contract_id); 
 			ResultSet rs = p.executeQuery();
 			
 			Integer duration = rs.getInt("duration");
 			Integer salary = rs.getInt("salary");
+			rs.close();
 			return new Contract(contract_id, duration, salary);
-			connection.close();
+			
 
 		}catch(SQLException e) {
 			System.out.println("Databases error");

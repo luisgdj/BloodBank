@@ -54,7 +54,7 @@ public class JDBCBloodManager implements BloodManager{
 			while (rs.next()) {
 				Integer id = rs.getInt("id");
 				Integer amount = rs.getInt("amount");
-				LocalDate date = (LocalDate) rs.getObject("collection_date")
+				LocalDate date = (LocalDate) rs.getObject("collection_date");
 				Integer donor_id = rs.getInt("donor_id");
 				Donor donor = donorMan.getDonor(donor_id);
 				Integer donee_id = rs.getInt("donee_id");
@@ -63,10 +63,10 @@ public class JDBCBloodManager implements BloodManager{
 				Blood b = new Blood(id, amount, date, donor, donee);
 				// IMPORTANT: I don't have the dogs
 				// Add the Owner to the list
-				list.add(o);
+				list.add(b);
 			}
 			connection.close();
-			return ;
+			return list;
 		}
 		
 		catch (SQLException e) {
@@ -77,15 +77,14 @@ public class JDBCBloodManager implements BloodManager{
 	}
 
 	@Override
-	public Float getAmountOfBlood(String bloodType) {
+	public Float getAmountOfBlood(String bloodType) { //TODO change
 
 		try {
-			String sql = "SELECT SUM(amount) FROM blood WHERE id = (SELECT id FROM donor WHERE blood_type = ?)";
+			String sql = "SELECT SUM(amount) FROM blood ";
 			PreparedStatement p = connection.prepareStatement(sql);
-			p.setString(1, bloodType);
 			
 			ResultSet rs = p.executeQuery();
-			float amount = rs.getFloat("amount");
+			float amount = rs.getFloat(1);//1 refers to the first column
 			
 			return amount;
 
@@ -118,40 +117,51 @@ public class JDBCBloodManager implements BloodManager{
 	}
 	
 	@Override
-	public void retreiveBlood(float reteivalAmount, float limit, String bloodType) {
+	public void retreiveBlood(float reteivalAmount, float amount, int id_blood, float limit) { //TODO LUIS
 		
 		float totalStorage = getAmountOfBlood(bloodType);
 		
-		if(totalStorage <= limit) {
-			for(int i = 0; i < getNumberOfDonations(bloodType); i++) {
-				//recorre todas las donaciones con el mismo tipo de sangre
-				//no sabemos como acceder a cada
-				
-			}
+		while(totalStorage>limit) {
 			
-		}else {
-			System.out.println("Not allowed. Transfussion exceeds de blood limit.");	
+			//menu
+			
 		}
+		System.out.println("Not allowed. Transfussion exceeds de blood limit.");	
 	}
 	
+	
+	
+	
+	
 	@Override
-	public void updateDonation(int id) { //terminar
+	public void deleteDonation(int id) { 
 
 		try {
-			String sql = "SELECT COUNT(id) FROM blood WHERE id = (SELECT id FROM donor WHERE blood_type = ?)";
+			String sql = "DELETE FROM blood WHERE id=? ";
 			PreparedStatement p = connection.prepareStatement(sql);
-			p.setString(1, bloodType);
+			p.setInt(1, id);
+			p.executeQuery();
+			p.close();
 			
-			ResultSet rs = p.executeQuery();
-			int totalDonations = rs.getInt("id");
-			
-			return totalDonations;
-
+		
 		}catch(SQLException e) {
 			System.out.println("Databases error");
 			e.printStackTrace();
-			return null;
+		
 		}
 	}
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

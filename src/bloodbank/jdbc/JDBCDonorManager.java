@@ -113,7 +113,7 @@ public class JDBCDonorManager implements DonorManager{
 			e.printStackTrace();
 		}
 		return list;
-		return null;
+			
 	}
 	
 	public Donor getDonor(int id) {

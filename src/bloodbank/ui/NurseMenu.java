@@ -58,7 +58,7 @@ public abstract class NurseMenu {
 					break;
 				}
 				case 4: {
-					System.out.println("Show all abailable blood:");
+					System.out.println("Show all available blood:");
 					showAllAvailableBlood(retrivalLimit);
 					break;
 				}

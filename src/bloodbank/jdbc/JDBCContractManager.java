@@ -9,7 +9,7 @@ import bloodbank.pojos.Contract;
 
 public class JDBCContractManager implements ContractManager{
 	
-private Connection conection;
+	private Connection conection;
 	
 	public JDBCContractManager(Connection conection) {
 		this.conection = conection;

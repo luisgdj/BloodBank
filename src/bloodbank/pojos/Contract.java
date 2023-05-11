@@ -1,9 +1,21 @@
 package bloodbank.pojos;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
+
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "Contract")
+@XmlType(propOrder = { "duration", "salary", "nurses" })
 public class Contract implements Serializable {
 
 	/**
@@ -11,31 +23,47 @@ public class Contract implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	@XmlTransient
 	private Integer id;
+	@XmlElement
 	private Integer duration;
+	@XmlElement
 	private float salary;
+	@XmlElement(name = "Nurse")
+    @XmlElementWrapper(name = "Nurses")	
 	private List<Nurse> nurses;
 
 	public Contract() {
-		//establecemos un contrato por defecto que tendran todas las nurses inicialmente
+		// establecemos un contrato por defecto que tendran todas las nurses
+		// inicialmente
 		super();
 		this.id = 0;
 		this.duration = 12;
 		this.salary = 2500;
 	}
+<<<<<<< HEAD
 	
 	public Contract( int duration, float salary) {
+=======
+
+	public Contract(int duration, float salary) {
+>>>>>>> branch 'master' of https://github.com/luisgdj/BloodBank
 		super();
 		this.duration = duration;
 		this.salary = salary;
+<<<<<<< HEAD
 	} 
+=======
+		this.nurses = new ArrayList<Nurse>();
+	}
+>>>>>>> branch 'master' of https://github.com/luisgdj/BloodBank
 
 	public Contract(int id, int duration, float salary) {
 		super();
 		this.id = id;
 		this.duration = duration;
 		this.salary = salary;
-	} 
+	}
 
 	public int getId() {
 		return id;
@@ -68,13 +96,12 @@ public class Contract implements Serializable {
 	public void setNurse(Nurse nurse) {
 		this.nurses = (List<Nurse>) nurses;
 	}
-	
 
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

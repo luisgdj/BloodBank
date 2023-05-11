@@ -9,5 +9,9 @@
 	<classpathentry kind="lib" path="lib/eclipselink-2.7.10.jar"/>
 	<classpathentry kind="lib" path="lib/sqlite-jdbc-3.8.7.jar"/>
 	<classpathentry kind="lib" path="lib/javax.persistence-2.1.1.v201509150925.jar"/>
+	<classpathentry kind="lib" path="lib/istack-commons-runtime-3.0.7.jar"/>
+	<classpathentry kind="lib" path="lib/javax.activation-api-1.2.0.jar"/>
+	<classpathentry kind="lib" path="lib/jaxb-api-2.3.1.jar"/>
+	<classpathentry kind="lib" path="lib/jaxb-impl-2.3.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

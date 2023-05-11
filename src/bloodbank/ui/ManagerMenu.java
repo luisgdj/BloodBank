@@ -4,9 +4,6 @@ import java.util.List;
 
 import bloodbank.ifaces.*;
 import bloodbank.pojos.*;
-import dogclinic.pojos.Owner;
-import dogclinic.pojos.Role;
-import dogclinic.pojos.User;
 import bloodbank.jdbc.*;
 import bloodbank.jpa.JPAUserManager;
 
@@ -16,15 +13,29 @@ public abstract class ManagerMenu {
 	private static ContractManager contractMan;
 	private static BloodManager bloodMan;
 	private static UserManager userMan;
+<<<<<<< HEAD
+=======
+	private static DonorManager donorMan;
+	private static DoneeManager doneeMan;
+	private static BloodRetrievalLimitManager retrievalMan;
+>>>>>>> branch 'master' of https://github.com/luisgdj/BloodBank
 
 	public static void menu(UserManager man) {
 		
 		ConnectionManager conMan = new ConnectionManager(); //creamos la conexion con el jdbc
 		nurseMan = new JDBCNurseManager(conMan.getConnection());
 		contractMan = new JDBCContractManager(conMan.getConnection());
+<<<<<<< HEAD
 		bloodMan = new JDBCBloodManager(conMan.getConnection());
 		userMan = man;
+=======
+		donorMan = new JDBCDonorManager(conMan.getConnection());
+		doneeMan = new JDBCDoneeManager(conMan.getConnection());
+		bloodMan = new JDBCBloodManager(conMan.getConnection(), donorMan, doneeMan);
+		retrievalMan = new JDBCBloodRetrievalLimitManager(conMan.getConnection());
+>>>>>>> branch 'master' of https://github.com/luisgdj/BloodBank
 
+		retrievalMan.setBloodRetrievalLimit(0);
 		while (true) {
 			System.out.println("Blood bank storage unit (manager menu):" 
 					+ "\n 1. Register nurse" 
@@ -42,14 +53,14 @@ public abstract class ManagerMenu {
 					break;
 				}
 				case 2: {
-					System.out.println("Sablish contract:");
+					System.out.println("Stablish contract:");
 					registerContract();
 					break;
 				}
 				case 3: {
 					System.out.println("Check blood storage:");
-					selectBlood();
-					//segun orden (cantidad, tipo)
+					String bloodType= Utilities.askBloodType();
+					bloodMan.getAmountOfBlood(bloodType);
 					break;
 				}
 				case 4: {
@@ -59,8 +70,13 @@ public abstract class ManagerMenu {
 				}
 				case 5: {
 					System.out.println("Change blood retreival limit: ");
+<<<<<<< HEAD
 					
 					//funcion que no permita sacar mas sangre de x
+=======
+					float limit= Utilities.readFloat("Insert the limit: ");
+					retrievalMan.modifyBloodRetrievalLimit(limit);
+>>>>>>> branch 'master' of https://github.com/luisgdj/BloodBank
 					break;
 				}
 				case 0: {
@@ -74,16 +90,16 @@ public abstract class ManagerMenu {
 		}
 	}
 
+	//OPTION 1:
 	private static void registerNurse() {
 
 		System.out.println("Input nurse data: ");
-		Integer id = Utilities.readInteger(" -ID: ");
 		String name = Utilities.readString(" -Name: ");
 		String surname = Utilities.readString(" -Surname: ");
 		System.out.println(" -Default contract stablished");
 		Contract contract = new Contract();
 		
-		Nurse n = new Nurse(id, name, surname, contract);
+		Nurse n = new Nurse(name, surname, contract);
 		nurseMan.insertNurse(n); 
 		//meter la nurse en la base de datos mediante la javadatabaseconection(jdbc)
 		
@@ -96,46 +112,19 @@ public abstract class ManagerMenu {
 		userMan.assignRole(user, role);
 	}
 	
+	//OPTION 2:
 	private static void registerContract() {
 
 		System.out.println("Imput contract data: ");
-		int id = Utilities.readInteger(" -ID: ");
 		int duration = Utilities.readInteger("-Duration (months): ");
 		float salary = Utilities.readInteger(" -Salary: ");
 		
-		Contract c = new Contract(id, duration, salary);
+		Contract c = new Contract(duration, salary);
 		contractMan.insertContract(c);
 	}
+						
 	
-	private static void selectBlood() {
-		
-		while (true) {
-			System.out.println("Show blood by:" 
-					+ "\n 1. Blood type" 
-					+ "\n 2. Total amount"
-					+ "\n 0. Return to menu");
-			int option = Utilities.readInteger("Option: ");
-
-			switch (option) {
-				case 1: {
-					System.out.println("");
-					bloodMan.showBloodByBloodType();
-					break;
-				}
-				case 2: {
-					bloodMan.showBloodTotalAmount();
-					break;
-				}
-				case 0: {
-					return;
-				}
-				default: {
-					System.out.println("ERROR: Invalid option");
-				}
-			}
-		}				
-	}
-
+	//OPTION 4:
 	private static void selectNurse() {
 
 		System.out.println("Search nurse by name: ");
@@ -148,11 +137,12 @@ public abstract class ManagerMenu {
 		checkNurseInfo(id);
 	}
 	
+	//OPTION 4: (NURSE INFO)
 	private static void checkNurseInfo(Integer id) {
 		
 		while (true) {
 			System.out.println("Check nurse info:" 
-					+ "\n 1. Show personal information" 
+					+ "\n 1. Check personal information" 
 					+ "\n 2. Show patients"
 					+ "\n 3. Change contract" 
 					+ "\n 0. Return to menu");
@@ -179,6 +169,7 @@ public abstract class ManagerMenu {
 				}
 			}
 		}
+<<<<<<< HEAD
 		
 	}
 	
@@ -194,5 +185,7 @@ public abstract class ManagerMenu {
 		bloodMan.retreiveBlood(0);
 		
 		
+=======
+>>>>>>> branch 'master' of https://github.com/luisgdj/BloodBank
 	}
 }

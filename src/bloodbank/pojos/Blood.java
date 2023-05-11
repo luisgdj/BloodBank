@@ -4,6 +4,22 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import bloodbank.xml.utils.LocalDateAdapter;
+
+
+
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "Blood")
+@XmlType(propOrder = { "amount", "fecha", "donor", "donee" })
 public class Blood implements Serializable{
 	
 	
@@ -12,10 +28,16 @@ public class Blood implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	@XmlTransient
 	private Integer id;
+	@XmlElement
 	private Integer amount;
+	@XmlElement
+	@XmlJavaTypeAdapter(LocalDateAdapter.class)
 	private LocalDate fecha;
+	@XmlElement(name = "Donor")
 	private Donor donor;
+	@XmlElement(name = "Donee")
 	private Donee donee;
 	private static int limit;
 	

@@ -7,12 +7,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import bloodbank.ifaces.BloodManager;
 import bloodbank.ifaces.DoneeManager;
 import bloodbank.ifaces.DonorManager;
 import bloodbank.pojos.*;
+import dogclinic.pojos.Dog;
 
 public class JDBCBloodManager implements BloodManager{
 
@@ -34,6 +36,7 @@ public class JDBCBloodManager implements BloodManager{
 					+ b.getFecha() + "'," + b.getDonor()  + "'," + b.getDonee() + ")";
 			s.execute(sql);
 			s.close(); //las conexiones se cierran asi
+			
 		} catch (SQLException e) { //poner siempre esta excepcion cuando creemos una sql
 			System.out.println("Database exception");
 			e.printStackTrace();
@@ -67,9 +70,8 @@ public class JDBCBloodManager implements BloodManager{
 			}
 			connection.close();
 			return list;
-		}
-		
-		catch (SQLException e) {
+			
+		} catch (SQLException e) {
 			System.out.println("Databases error");
 			e.printStackTrace();
 			return null;
@@ -77,18 +79,19 @@ public class JDBCBloodManager implements BloodManager{
 	}
 
 	@Override
-	public Float getAmountOfBlood(String bloodType) { //TODO change
+	public Float getAmountOfBlood(String bloodType) {
 
 		try {
-			String sql = "SELECT SUM(amount) FROM blood ";
+			String sql = "SELECT SUM(amount) FROM blood WHERE id = (SELECT id FROM donor WHERE blood_type = ?)";
 			PreparedStatement p = connection.prepareStatement(sql);
+			p.setString(1, bloodType);
 			
 			ResultSet rs = p.executeQuery();
 			float amount = rs.getFloat(1);//1 refers to the first column
 			
 			return amount;
 
-		}catch(SQLException e) {
+		} catch(SQLException e) {
 			System.out.println("Databases error");
 			e.printStackTrace();
 			return null;
@@ -106,7 +109,6 @@ public class JDBCBloodManager implements BloodManager{
 			ResultSet rs = p.executeQuery();
 			int totalDonations = rs.getInt("id");
 			
-			
 			return totalDonations;
 
 		}catch(SQLException e) {
@@ -117,43 +119,86 @@ public class JDBCBloodManager implements BloodManager{
 	}
 	
 	@Override
-	public void retreiveBlood(float reteivalAmount, float amount, int id_blood, float limit) { //TODO LUIS
+	public List<Integer> getListOfIds(String type) {
 		
-		float totalStorage = getAmountOfBlood(bloodType);
-		
-		while(totalStorage>limit) {
+		List<Integer> ids = new ArrayList<Integer>();
+		try {
+			String sql = "SELECT id FROM blood WHERE donor_id = (SELECT id FROM donor WHERE blood_type = ?)";
+			PreparedStatement p = connection.prepareStatement(sql);
+			p.setString(1, type);
 			
-			//menu
+			ResultSet rs = p.executeQuery();
+			int cont = 0;
+			while (rs.next()) {
+				int id = rs.getInt(cont);
+				ids.add(id);
+				cont++;
+			}
+			return ids;
 			
+		}catch(SQLException e) {
+			System.out.println("Databases error");
+			e.printStackTrace();
+			return null;
 		}
-		System.out.println("Not allowed. Transfussion exceeds de blood limit.");	
 	}
-	
-	
-	
-	
+
+	@Override
+	public List<Float> getListOfAmounts(String bloodType) {
+
+		List<Float> amounts = new ArrayList<Float>();
+		try {
+			String sql = "SELECT amount FROM blood WHERE donor_id = (SELECT id FROM donor WHERE blood_type = ?)";
+			PreparedStatement p = connection.prepareStatement(sql);
+			p.setString(1, bloodType);
+			
+			ResultSet rs = p.executeQuery();
+			int cont = 0;
+			while (rs.next()) {
+				float amount = rs.getFloat(cont);
+				amounts.add(amount);
+				cont++;
+			}
+			return amounts;
+			
+		}catch(SQLException e) {
+			System.out.println("Databases error");
+			e.printStackTrace();
+			return null;
+		}
+	}
 	
 	@Override
 	public void deleteDonation(int id) {
 		
-		
-
 		try {
-			String sql = "DELETE FROM blood WHERE id=? ";
+			String sql = "DELETE FROM blood WHERE id = ? ";
 			PreparedStatement p = connection.prepareStatement(sql);
 			p.setInt(1, id);
-			p.executeQuery();
-			p.close();
-			
+			p.executeUpdate();
+			p.close();	
 		
 		}catch(SQLException e) {
 			System.out.println("Databases error");
-			e.printStackTrace();
-		
+			e.printStackTrace();	
 		}
 	}
 	
-	
+	@Override
+	public void updateBloodInDonation(int id, float amount) {
+		
+		try {
+			String sql = "UPDATE blood SET amount = ? WHERE id = ?";
+			PreparedStatement p = connection.prepareStatement(sql);
+			p.setInt(1, id);
+			p.setFloat(2, amount);
+			p.close();
+			
+		} catch (SQLException e) {
+			System.out.println("Database error.");
+			e.printStackTrace();
+		}
+	}
 }
 
 

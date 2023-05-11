@@ -104,16 +104,16 @@ public abstract class Utilities {
 	public static String askBloodType() {
 		
 		while(true){
-			System.out.println("Choose blood type:"
-					+ "\n 1. A+" 
-					+ "\n 2. A-" 
-					+ "\n 3. B+" 
-					+ "\n 4. B-" 
-					+ "\n 5. AB+" 
-					+ "\n 6. AB-" 
-					+ "\n 7. 0+" 
-					+ "\n 8. 0-" );
-			int option=Utilities.readInteger("Option: ");
+			System.out.println(" -Choose blood type:"
+					+ "\n   1. A+" 
+					+ "\n   2. A-" 
+					+ "\n   3. B+" 
+					+ "\n   4. B-" 
+					+ "\n   5. AB+" 
+					+ "\n   6. AB-" 
+					+ "\n   7. 0+" 
+					+ "\n   8. 0-" );
+			int option = Utilities.readInteger("  Option: ");
 			
 			switch(option) {
 				case 1: 
@@ -135,7 +135,6 @@ public abstract class Utilities {
 					
 				default:
 					System.out.println("ERROR: Option not valid");
-			
 			}
 		}
 	}

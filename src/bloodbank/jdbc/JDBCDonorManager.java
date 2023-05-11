@@ -46,23 +46,18 @@ public class JDBCDonorManager implements DonorManager{
 
 	@Override
 	public void removeDonor(int id) {
-		// TODO Auto-generated method stub
 		
 		try {
-			
 			String sql = "DELETE FROM donor WHERE id = ?";
 			PreparedStatement p = connection.prepareStatement(sql);
 			p.setString(1, "" + id); //ponemos 1 porque el primer atributo en la clase nurse es name que es por lo que lo queremos buscar
-			ResultSet rs = p.executeQuery();
+			
 			connection.close();
 			
 		}catch(SQLException e) {
 			System.out.println("Databases error");
 			e.printStackTrace();
 		}
-		
-		
-		
 	}
 
 	@Override

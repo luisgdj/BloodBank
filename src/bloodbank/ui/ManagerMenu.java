@@ -87,13 +87,12 @@ public abstract class ManagerMenu {
 	private static void registerNurse() {
 
 		System.out.println("Input nurse data: ");
-		Integer id = Utilities.readInteger(" -ID: ");
 		String name = Utilities.readString(" -Name: ");
 		String surname = Utilities.readString(" -Surname: ");
 		System.out.println(" -Default contract stablished");
 		Contract contract = new Contract();
 		
-		Nurse n = new Nurse(id, name, surname, contract);
+		Nurse n = new Nurse(name, surname, contract);
 		nurseMan.insertNurse(n); 
 		//meter la nurse en la base de datos mediante la javadatabaseconection(jdbc)
 		
@@ -109,11 +108,10 @@ public abstract class ManagerMenu {
 	private static void registerContract() {
 
 		System.out.println("Imput contract data: ");
-		int id = Utilities.readInteger(" -ID: ");
 		int duration = Utilities.readInteger("-Duration (months): ");
 		float salary = Utilities.readInteger(" -Salary: ");
 		
-		Contract c = new Contract(id, duration, salary);
+		Contract c = new Contract(duration, salary);
 		contractMan.insertContract(c);
 	}
 						
@@ -135,7 +133,7 @@ public abstract class ManagerMenu {
 		
 		while (true) {
 			System.out.println("Check nurse info:" 
-					+ "\n 1. Show personal information" 
+					+ "\n 1. Check personal information" 
 					+ "\n 2. Show patients"
 					+ "\n 3. Change contract" 
 					+ "\n 0. Return to menu");
@@ -170,6 +168,7 @@ public abstract class ManagerMenu {
 			System.out.println(nurse.toString());
 	
 	}
+	
 	
 	private static void setBloodRetivalLimit() {
 		

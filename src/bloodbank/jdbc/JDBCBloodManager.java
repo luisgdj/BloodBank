@@ -7,14 +7,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import bloodbank.ifaces.BloodManager;
 import bloodbank.ifaces.DoneeManager;
 import bloodbank.ifaces.DonorManager;
 import bloodbank.pojos.*;
-import dogclinic.pojos.Dog;
 
 public class JDBCBloodManager implements BloodManager{
 
@@ -198,6 +196,12 @@ public class JDBCBloodManager implements BloodManager{
 			System.out.println("Database error.");
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void retreiveBlood(float retreivalAmount, float amount, String bloodType, float limit) {
+		// TODO Auto-generated method stub
+		
 	}
 }
 

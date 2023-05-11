@@ -51,7 +51,6 @@ public abstract class ManagerMenu {
 					System.out.println("Check blood storage:");
 					String bloodType= Utilities.askBloodType();
 					bloodMan.getAmountOfBlood(bloodType);
-					//segun orden (cantidad, tipo)
 					break;
 				}
 				case 4: {
@@ -166,9 +165,7 @@ public abstract class ManagerMenu {
 	//OPTION 5
 	private static void setBloodRetivalLimit() {
 		
-		bloodMan.retreiveBlood(0, 0, 0, 0); //CAMBIAR ESTO
+		
 		
 	}
-	
-	
 }

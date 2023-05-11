@@ -50,4 +50,19 @@ public class JDBCBloodRetrievalLimitManager implements BloodRetrievalLimitManage
 		}
 	}
 
+	@Override
+	public void modifyBloodRetrievalLimit(float limit) {
+		try {
+			String sql = "UPDATE blood_retrieval_limit SET limit = ? ";
+			PreparedStatement p = connection.prepareStatement(sql);
+			p.setFloat(1, limit);
+			p.close();
+			
+		} catch (SQLException e) {
+			System.out.println("Database error.");
+			e.printStackTrace();
+		}
+		
+	}
+
 }

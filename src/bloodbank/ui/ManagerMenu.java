@@ -27,6 +27,7 @@ public abstract class ManagerMenu {
 		bloodMan = new JDBCBloodManager(conMan.getConnection(), donorMan, doneeMan);
 		retrievalMan = new JDBCBloodRetrievalLimitManager(conMan.getConnection());
 
+		retrievalMan.setBloodRetrievalLimit(0);
 		while (true) {
 			System.out.println("Blood bank storage unit (manager menu):" 
 					+ "\n 1. Register nurse" 
@@ -63,7 +64,7 @@ public abstract class ManagerMenu {
 				case 5: {
 					System.out.println("Change blood retreival limit: ");
 					float limit= Utilities.readFloat("Insert the limit: ");
-					retrievalMan.setBloodRetrievalLimit(limit);
+					retrievalMan.modifyBloodRetrievalLimit(limit);
 					break;
 				}
 				case 6: {
@@ -82,7 +83,7 @@ public abstract class ManagerMenu {
 		}
 	}
 
-	//OPTION 1
+	//OPTION 1:
 	private static void registerNurse() {
 
 		System.out.println("Input nurse data: ");
@@ -104,7 +105,7 @@ public abstract class ManagerMenu {
 		userMan.assignRole(user, role);
 	}
 	
-	//OPTION 2
+	//OPTION 2:
 	private static void registerContract() {
 
 		System.out.println("Imput contract data: ");
@@ -116,7 +117,7 @@ public abstract class ManagerMenu {
 	}
 						
 	
-	//OPTION 4
+	//OPTION 4:
 	private static void selectNurse() {
 
 		System.out.println("Search nurse by name: ");
@@ -129,7 +130,7 @@ public abstract class ManagerMenu {
 		checkNurseInfo(id);
 	}
 	
-	//OPTION 4 (NURSE INFO)
+	//OPTION 4: (NURSE INFO)
 	private static void checkNurseInfo(Integer id) {
 		
 		while (true) {
@@ -161,6 +162,5 @@ public abstract class ManagerMenu {
 				}
 			}
 		}
-		
 	}
 }

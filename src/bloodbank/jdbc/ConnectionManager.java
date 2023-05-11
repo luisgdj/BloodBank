@@ -58,7 +58,8 @@ public class ConnectionManager {
 					+ "donor_id INTEGER REFERENCES donor(id)," + "PRIMARY KEY(nurse_id, donor_id));";
 			s.executeUpdate(table);
 			
-			table= "CREATE TABLE blood_retrieval
+			table= "CREATE TABLE blood_retrieval (" + "limit FLOAT )";
+			s.execute(table);
 			
 			s.close();
 			

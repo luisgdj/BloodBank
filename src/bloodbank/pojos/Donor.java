@@ -58,7 +58,7 @@ public class Donor implements Serializable{
 	}
 
 
-	public Donor(int id, String name, String surname, String bloodType, LocalDate dob, long ssn) {
+	public Donor(int id, String name, String surname, String bloodType, LocalDate dob, long ssn, List<Blood> donations) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -66,6 +66,7 @@ public class Donor implements Serializable{
 		this.bloodType = bloodType;
 		this.dob = dob;
 		this.ssn = ssn;
+		this.donations = donations;
 	}
 
 	public int getId() {

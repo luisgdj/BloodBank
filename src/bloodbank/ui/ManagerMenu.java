@@ -1,5 +1,6 @@
 package bloodbank.ui;
 
+import java.util.Iterator;
 import java.util.List;
 
 import bloodbank.ifaces.*;
@@ -142,15 +143,28 @@ public abstract class ManagerMenu {
 
 			switch (option) {
 				case 1: {
-					
+					System.out.println("Check personal information");
+					nurseMan.getNurse(id);
 					break;
 				}
 				case 2: {
-	
+					System.out.println("Show patients:");
+					Iterator donorIt = donorMan.getListOfDonors(id).iterator();
+					Iterator doneeIt = doneeMan.getListOfDonees(id).iterator();
+					
+					System.out.println(" -List of donors: ");
+					while(donorIt.hasNext()) {
+						System.out.println(donorIt.next().toString());
+					}
+					System.out.println(" -List of donees: ");
+					while(doneeIt.hasNext()) {
+						System.out.println(doneeIt.next().toString());
+					}
 					break;
 				}
 				case 3: {
-	
+					System.out.println("Change contract:");
+					
 					break;
 				}
 				case 0: {

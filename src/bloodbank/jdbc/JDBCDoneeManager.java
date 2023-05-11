@@ -6,17 +6,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import bloodbank.ifaces.DoneeManager;
 import bloodbank.pojos.Blood;
 import bloodbank.pojos.Donee;
+import bloodbank.pojos.Donor;
 
 public class JDBCDoneeManager implements DoneeManager{
 
 	private Connection connection;
-	private JDBCDonorManager donorMan;
-	private JDBCDonorManager doneeMan;
 	
 	public JDBCDoneeManager(Connection connection) {
 		this.connection = connection;
@@ -85,10 +85,39 @@ public class JDBCDoneeManager implements DoneeManager{
 
 		}catch(SQLException e) {
 			System.out.println("Databases error");
-			e.printStackTrace();
-			
+			e.printStackTrace();	
 		}
-		
 	}
 
+	public List<Donee> getListOfDonees(int nurseId) {
+		
+		List<Donee> list = new ArrayList<Donee>();
+		try {
+			String sql = "SELECT * FROM nurse AS n JOIN nurse_donee AS nd ON n.id = nd.nurse_id"
+					+ " JOIN donee AS d ON d.id = nd.donee_id WHERE n.id = ? ";
+			PreparedStatement p = connection.prepareStatement(sql);
+			p.setString(1, "" + nurseId);
+			ResultSet rs = p.executeQuery();
+			
+			while (rs.next()) {
+				Integer id = rs.getInt("id");
+				String name = rs.getString("name");
+				String surname = rs.getString("surname");
+				String bloodType = rs.getString("blood_type");
+				float bloodNeeded = rs.getFloat("blood_needed");
+				LocalDate dob = (LocalDate) rs.getObject("dob");
+				Long ssn = rs.getLong("ssn");
+				List<Blood> transfussions = bloodMan.getTransfusions(id);
+				Donee donee = new Donee(id,name,surname,bloodType,bloodNeeded,dob,ssn,transfussions);
+				list.add(donee);
+			}
+			connection.close();
+			return list;
+			
+		} catch (SQLException e) {
+			System.out.println("Databases error");
+			e.printStackTrace();
+			return null;
+		}
+	}
 }

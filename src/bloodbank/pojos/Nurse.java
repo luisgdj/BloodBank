@@ -44,12 +44,14 @@ public class Nurse implements Serializable {
 		this.contract = contract;
 	}
 
-	public Nurse(int id, String name, String surname, Contract contract) {
+	public Nurse(int id, String name, String surname, Contract contract, List<Donor> donors, List<Donee> donees) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.surname = surname;
 		this.contract = contract;
+		this.donors = donors;
+		this.donees = donees;
 	}
 
 	public int getId() {

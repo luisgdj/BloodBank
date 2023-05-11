@@ -35,12 +35,12 @@ public class Donee implements Serializable {
 	@XmlElement
 	private String bloodType;
 	@XmlElement
-	private Integer bloodNeeded;
+	private Float bloodNeeded;
 	@XmlElement
 	@XmlJavaTypeAdapter(LocalDateAdapter.class)
 	private LocalDate dob;
 	@XmlElement
-	private long ssn;
+	private Long ssn;
 	@XmlElement(name = "Blood")
     @XmlElementWrapper(name = "Transfusions")
 	private List<Blood> transfusions;
@@ -49,7 +49,7 @@ public class Donee implements Serializable {
 		super();
 	}
  
-	public Donee(String name, String surname, String bloodType, int bloodNeeded, LocalDate dob, long ssn) {
+	public Donee(String name, String surname, String bloodType, float bloodNeeded, LocalDate dob, long ssn) {
 		super();
 		this.name = name;
 		this.surname = surname;
@@ -59,7 +59,7 @@ public class Donee implements Serializable {
 		this.ssn = ssn;
 	}
 	
-	public Donee(int id, String name, String surname, String bloodType, int bloodNeeded, LocalDate dob, long ssn) {
+	public Donee(int id, String name, String surname, String bloodType, float bloodNeeded, LocalDate dob, long ssn, List<Blood> transfusions) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -68,6 +68,7 @@ public class Donee implements Serializable {
 		this.bloodNeeded = bloodNeeded;
 		this.dob = dob;
 		this.ssn = ssn;
+		this.transfusions = transfusions;
 	}
 
 	public int getId() {
@@ -102,11 +103,11 @@ public class Donee implements Serializable {
 		this.bloodType = bloodType;
 	}
 
-	public int getBloodNeeded() {
+	public float getBloodNeeded() {
 		return bloodNeeded;
 	}
 
-	public void setBloodNeeded(int bloodNeeded) {
+	public void setBloodNeeded(float bloodNeeded) {
 		this.bloodNeeded = bloodNeeded;
 	}
 

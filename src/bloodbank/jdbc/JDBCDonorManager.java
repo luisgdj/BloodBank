@@ -9,8 +9,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import bloodbank.ifaces.BloodManager;
 import bloodbank.ifaces.DonorManager;
 import bloodbank.pojos.Blood;
+import bloodbank.pojos.Donee;
 import bloodbank.pojos.Donor;
 
 public class JDBCDonorManager implements DonorManager{
@@ -18,6 +20,7 @@ public class JDBCDonorManager implements DonorManager{
 	private Connection connection;
 	
 	public JDBCDonorManager(Connection connection) {
+		
 		this.connection = connection;
 	}
 	 
@@ -120,20 +123,47 @@ public class JDBCDonorManager implements DonorManager{
 			String bloodType = rs.getString("blood_type");
 			LocalDate dob = (LocalDate) rs.getObject("dob");
 			long ssn = rs.getLong("ssn");
-			Donor d = new Donor(id, name, surname, bloodType, dob, ssn);
-			
-			//creo que no habria que poner que devolviese la lista de transfusiones
-			List <Blood> donations = (List<Blood>) rs.getArray("donations"); //tampoco se como hacerlo
-			d.setDonations(donations);
-			
+			List<Blood> donations = bloodMan.getDonations(id);
+			Donor donor = new Donor(id,name,surname,bloodType,dob,ssn,donations);
 			connection.close();
-			return d;
+			return donor;
 		
 		}catch(SQLException e) {
 			System.out.println("Databases error");
 			e.printStackTrace();
 			return null;
 		}
+		
 	}
-
+	
+	public List<Donor> getListOfDonors(int nurseId) {
+		
+		List<Donor> list = new ArrayList<Donor>();
+		try {
+			String sql = "SELECT * FROM nurse AS n JOIN nurse_donor AS nd ON n.id = nd.nurse_id"
+					+ " JOIN donor AS d ON d.id = nd.donor_id WHERE n.id = ? ";
+			PreparedStatement p = connection.prepareStatement(sql);
+			p.setString(1, "" + nurseId);
+			ResultSet rs = p.executeQuery();
+			
+			while (rs.next()) {
+				Integer id = rs.getInt("id");
+				String name = rs.getString("name");
+				String surname = rs.getString("surname");
+				String bloodType = rs.getString("blood_type");
+				LocalDate dob = (LocalDate) rs.getObject("dob");
+				Long ssn = rs.getLong("ssn");
+				List<Blood> donations = bloodMan.getDonations(id);
+				Donor donor = new Donor(id,name,surname,bloodType,dob,ssn,donations);
+				list.add(donor);
+			}
+			connection.close();
+			return list;
+			
+		} catch (SQLException e) {
+			System.out.println("Databases error");
+			e.printStackTrace();
+			return null;
+		}
+	}
 }

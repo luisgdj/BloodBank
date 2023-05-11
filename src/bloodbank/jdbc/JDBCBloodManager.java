@@ -188,8 +188,8 @@ public class JDBCBloodManager implements BloodManager{
 		try {
 			String sql = "UPDATE blood SET amount = ? WHERE id = ?";
 			PreparedStatement p = connection.prepareStatement(sql);
-			p.setInt(1, id);
-			p.setFloat(2, amount);
+			p.setFloat(1, amount);
+			p.setInt(2, id);
 			p.close();
 			
 		} catch (SQLException e) {

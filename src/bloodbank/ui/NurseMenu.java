@@ -78,14 +78,13 @@ public abstract class NurseMenu {
 	private static void registerDonor() {
 
 		System.out.println("Imput donor data: ");
-		Integer id = Utilities.readInteger(" -ID: ");
 		String name = Utilities.readString(" -Name: ");
 		String surname = Utilities.readString(" -Surname: ");
 		String bloodType = Utilities.askBloodType();
 		Long ssn = Utilities.readLong(" -Social Security Number: ");
 		LocalDate dob = Utilities.askDate(" -Date of birth: ");
 
-		Donor d = new Donor(id, name, surname, bloodType, dob, ssn);
+		Donor d = new Donor(name, surname, bloodType, dob, ssn);
 		donorMan.insertDonor(d);
 	}
 	
@@ -93,7 +92,6 @@ public abstract class NurseMenu {
 	private static void registerDonee() {
 
 		System.out.println("Imput donor data: ");
-		Integer id = Utilities.readInteger(" -ID: ");
 		String name = Utilities.readString(" -Name: ");
 		String surname = Utilities.readString(" -Surname: ");
 		String bloodType = Utilities.askBloodType();
@@ -101,7 +99,7 @@ public abstract class NurseMenu {
 		Long ssn = Utilities.readLong(" -Social Security Number: ");
 		LocalDate dob = Utilities.askDate(" -Date of birth: ");
 
-		Donee d = new Donee(id, name, surname, bloodType, bloodNedeed,  dob, ssn);
+		Donee d = new Donee(name, surname, bloodType, bloodNedeed,  dob, ssn);
 		doneeMan.insertDonee(d);
 	}
 	

@@ -10,5 +10,8 @@ public interface NurseManager {
 	public void insertNurse(Nurse nurse); //Register nurse (manager menu)
 	public List<Nurse> searchNurseByName(String name);	//Select nurse (manager menu)
 	public Nurse getNurse(int id);	//Check nurse info (select nurse) 
-	public void assignContractToNurse(int contractId, int nurseId); //change contract (check nurse info)
+	public void updateContract(int contractId, int nurseId); //change contract (check nurse info)
+	public List<Nurse> getListOfNurses(int contractId);
+	
 }
+

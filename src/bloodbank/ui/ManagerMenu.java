@@ -4,9 +4,6 @@ import java.util.List;
 
 import bloodbank.ifaces.*;
 import bloodbank.pojos.*;
-import dogclinic.pojos.Owner;
-import dogclinic.pojos.Role;
-import dogclinic.pojos.User;
 import bloodbank.jdbc.*;
 import bloodbank.jpa.JPAUserManager;
 
@@ -84,6 +81,7 @@ public abstract class ManagerMenu {
 		}
 	}
 
+	//OPTION 1
 	private static void registerNurse() {
 
 		System.out.println("Input nurse data: ");
@@ -105,6 +103,7 @@ public abstract class ManagerMenu {
 		userMan.assignRole(user, role);
 	}
 	
+	//OPTION 2
 	private static void registerContract() {
 
 		System.out.println("Imput contract data: ");
@@ -116,7 +115,7 @@ public abstract class ManagerMenu {
 	}
 						
 	
-
+	//OPTION 4
 	private static void selectNurse() {
 
 		System.out.println("Search nurse by name: ");
@@ -129,6 +128,7 @@ public abstract class ManagerMenu {
 		checkNurseInfo(id);
 	}
 	
+	//OPTION 4 (NURSE INFO)
 	private static void checkNurseInfo(Integer id) {
 		
 		while (true) {
@@ -163,13 +163,7 @@ public abstract class ManagerMenu {
 		
 	}
 	
-	private static void personalInfoNurse(Integer id) {
-			Nurse nurse= nurseMan.getNurse(id);
-			System.out.println(nurse.toString());
-	
-	}
-	
-	
+	//OPTION 5
 	private static void setBloodRetivalLimit() {
 		
 		bloodMan.retreiveBlood(0, 0, 0, 0); //CAMBIAR ESTO

@@ -5,12 +5,14 @@ import java.util.Iterator;
 import java.util.List;
 
 import bloodbank.ifaces.BloodManager;
+import bloodbank.ifaces.BloodRetrievalLimitManager;
 import bloodbank.ifaces.ContractManager;
 import bloodbank.ifaces.DoneeManager;
 import bloodbank.ifaces.DonorManager;
 import bloodbank.ifaces.NurseManager;
 import bloodbank.jdbc.ConnectionManager;
 import bloodbank.jdbc.JDBCBloodManager;
+import bloodbank.jdbc.JDBCBloodRetrievalLimitManager;
 import bloodbank.jdbc.JDBCDoneeManager;
 import bloodbank.jdbc.JDBCDonorManager;
 import bloodbank.jdbc.JDBCNurseManager;
@@ -21,6 +23,7 @@ public abstract class NurseMenu {
 	private static DonorManager donorMan;
 	private static DoneeManager doneeMan;
 	private static BloodManager bloodMan;
+	private static BloodRetrievalLimitManager retrievalMan;
 
 	public static void menu(int nurse_id) {
 
@@ -28,8 +31,9 @@ public abstract class NurseMenu {
 		donorMan = new JDBCDonorManager(conMan.getConnection());
 		doneeMan = new JDBCDoneeManager(conMan.getConnection());
 		bloodMan = new JDBCBloodManager(conMan.getConnection(), donorMan, doneeMan);
+		retrievalMan = new JDBCBloodRetrievalLimitManager(conMan.getConnection());
 		
-		int retrivalLimit = 0; //POR AHORA (hay que ver como pasarle el limit q pone manager)
+		float retrievalLimit = retrievalMan.getBloodRetrievalLimit();
 		
 		while(true) {
 			System.out.println("Blood bank storage unit:"
@@ -59,14 +63,14 @@ public abstract class NurseMenu {
 				}
 				case 4: {
 					System.out.println("Show all available blood:");
-					showAllAvailableBlood(retrivalLimit);
+					showAllAvailableBlood(retrievalLimit);
 					break;
 				}
 				case 5: {
 					System.out.println("Retreive blood:");
 					String bloodType = Utilities.askBloodType();
-					float retrivalAmount = Utilities.readFloat(" -Retreival amount: ");
-					retriveBlood(retrivalAmount, bloodType, retrivalLimit);
+					float retrievalAmount = Utilities.readFloat(" -Retrieval amount: ");
+					retrievalBlood(retrievalAmount, bloodType, retrievalLimit);
 					break;
 				}
 				case 0: {
@@ -200,7 +204,7 @@ public abstract class NurseMenu {
 	}
 	
 	//OPTION 5:
-	private static void retriveBlood(float retrivalAmount, String type, float limit) {
+	private static void retrievalBlood(float retrivalAmount, String type, float limit) {
 		
 		float totalStorage = bloodMan.getAmountOfBlood(type);
 		

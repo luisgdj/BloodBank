@@ -15,6 +15,7 @@ public abstract class ManagerMenu {
 	private static UserManager userMan;
 	private static DonorManager donorMan;
 	private static DoneeManager doneeMan;
+	private static BloodRetrievalLimitManager retrievalMan;
 
 	public static void menu(UserManager man) {
 		
@@ -24,6 +25,7 @@ public abstract class ManagerMenu {
 		donorMan = new JDBCDonorManager(conMan.getConnection());
 		doneeMan = new JDBCDoneeManager(conMan.getConnection());
 		bloodMan = new JDBCBloodManager(conMan.getConnection(), donorMan, doneeMan);
+		retrievalMan = new JDBCBloodRetrievalLimitManager(conMan.getConnection());
 
 		while (true) {
 			System.out.println("Blood bank storage unit (manager menu):" 
@@ -60,8 +62,8 @@ public abstract class ManagerMenu {
 				}
 				case 5: {
 					System.out.println("Change blood retreival limit: ");
-					setBloodRetivalLimit();
-					//funcion que no permita sacar mas sangre de x
+					float limit= Utilities.readFloat("Insert the limit: ");
+					retrievalMan.setBloodRetrievalLimit(limit);
 					break;
 				}
 				case 6: {
@@ -159,13 +161,6 @@ public abstract class ManagerMenu {
 				}
 			}
 		}
-		
-	}
-	
-	//OPTION 5
-	private static void setBloodRetivalLimit() {
-		
-		
 		
 	}
 }

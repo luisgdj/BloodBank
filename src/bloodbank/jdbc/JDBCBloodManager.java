@@ -197,12 +197,6 @@ public class JDBCBloodManager implements BloodManager{
 			e.printStackTrace();
 		}
 	}
-
-	@Override
-	public void retreiveBlood(float retreivalAmount, float amount, String bloodType, float limit) {
-		// TODO Auto-generated method stub
-		
-	}
 }
 
 

@@ -1,4 +1,4 @@
- package bloodbank.jdbc;
+package bloodbank.jdbc;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -102,11 +102,7 @@ public class JDBCNurseManager implements NurseManager {
 			
 			Integer duration = rs.getInt("duration");
 			Integer salary = rs.getInt("salary");
-<<<<<<< HEAD
-			connection.close();
-=======
 			rs.close();
->>>>>>> branch 'master' of https://github.com/luisgdj/BloodBank
 			return new Contract(contract_id, duration, salary);
 			
 

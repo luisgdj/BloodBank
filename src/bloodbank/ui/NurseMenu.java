@@ -1,21 +1,11 @@
- package bloodbank.ui;
+package bloodbank.ui;
 
 import java.time.LocalDate;
 import java.util.Iterator;
 import java.util.List;
 
-import bloodbank.ifaces.BloodManager;
-import bloodbank.ifaces.BloodRetrievalLimitManager;
-import bloodbank.ifaces.ContractManager;
-import bloodbank.ifaces.DoneeManager;
-import bloodbank.ifaces.DonorManager;
-import bloodbank.ifaces.NurseManager;
-import bloodbank.jdbc.ConnectionManager;
-import bloodbank.jdbc.JDBCBloodManager;
-import bloodbank.jdbc.JDBCBloodRetrievalLimitManager;
-import bloodbank.jdbc.JDBCDoneeManager;
-import bloodbank.jdbc.JDBCDonorManager;
-import bloodbank.jdbc.JDBCNurseManager;
+import bloodbank.ifaces.*;
+import bloodbank.jdbc.*;
 import bloodbank.pojos.*;
 
 public abstract class NurseMenu {
@@ -28,11 +18,6 @@ public abstract class NurseMenu {
 	public static void menu(int nurse_id) {
 
 		ConnectionManager conMan = new ConnectionManager();
-<<<<<<< HEAD
-		nurseMan = new JDBCNurseManager(conMan.getConnection()); // nurseMan= nurseManager
-		while (true) {
-
-=======
 		donorMan = new JDBCDonorManager(conMan.getConnection());
 		doneeMan = new JDBCDoneeManager(conMan.getConnection());
 		bloodMan = new JDBCBloodManager(conMan.getConnection(), donorMan, doneeMan);
@@ -41,7 +26,6 @@ public abstract class NurseMenu {
 		float retrievalLimit = retrievalMan.getBloodRetrievalLimit();
 		
 		while(true) {
->>>>>>> branch 'master' of https://github.com/luisgdj/BloodBank
 			System.out.println("Blood bank storage unit:"
 					+ "\n 1. Register donor" 
 					+ "\n 2. Register donee"

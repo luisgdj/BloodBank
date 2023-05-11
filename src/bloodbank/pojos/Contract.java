@@ -41,22 +41,13 @@ public class Contract implements Serializable {
 		this.duration = 12;
 		this.salary = 2500;
 	}
-<<<<<<< HEAD
-	
-	public Contract( int duration, float salary) {
-=======
 
 	public Contract(int duration, float salary) {
->>>>>>> branch 'master' of https://github.com/luisgdj/BloodBank
 		super();
 		this.duration = duration;
 		this.salary = salary;
-<<<<<<< HEAD
-	} 
-=======
 		this.nurses = new ArrayList<Nurse>();
 	}
->>>>>>> branch 'master' of https://github.com/luisgdj/BloodBank
 
 	public Contract(int id, int duration, float salary) {
 		super();

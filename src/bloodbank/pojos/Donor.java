@@ -2,7 +2,6 @@ package bloodbank.pojos;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -35,14 +34,10 @@ public class Donor implements Serializable{
 	private String surname;
 	@XmlElement
 	private String bloodType;
-<<<<<<< HEAD
-	private Date dob;
-=======
 	@XmlElement
 	@XmlJavaTypeAdapter(LocalDateAdapter.class)
 	private LocalDate dob;
 	@XmlElement
->>>>>>> branch 'master' of https://github.com/luisgdj/BloodBank
 	private long ssn;
 	@XmlElement(name = "Blood")
     @XmlElementWrapper(name = "Donations")
@@ -53,7 +48,7 @@ public class Donor implements Serializable{
 	}
 	
 
-	public Donor(String name, String surname, String bloodType, Date dob, long ssn) {
+	public Donor(String name, String surname, String bloodType, LocalDate dob, long ssn) {
 		super();
 		this.name = name;
 		this.surname = surname;
@@ -63,7 +58,7 @@ public class Donor implements Serializable{
 	}
 
 
-	public Donor(int id, String name, String surname, String bloodType, Date dob, long ssn) {
+	public Donor(int id, String name, String surname, String bloodType, LocalDate dob, long ssn) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -105,11 +100,11 @@ public class Donor implements Serializable{
 		this.bloodType = bloodType;
 	}
 	
-	public Date getDob() {
+	public LocalDate getDob() {
 		return dob;
 	}
 	
-	public void setDob(Date dob) {
+	public void setDob(LocalDate dob) {
 		this.dob = dob;
 	}
 	

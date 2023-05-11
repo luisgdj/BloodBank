@@ -1,7 +1,6 @@
 package bloodbank.jdbc;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,18 +10,13 @@ import java.util.List;
 
 import bloodbank.ifaces.DoneeManager;
 import bloodbank.pojos.Blood;
-import bloodbank.pojos.Contract;
 import bloodbank.pojos.Donee;
 
 public class JDBCDoneeManager implements DoneeManager{
 
-<<<<<<< HEAD
-	private Connection conection;
-=======
 	private Connection connection;
 	private JDBCDonorManager donorMan;
 	private JDBCDonorManager doneeMan;
->>>>>>> branch 'master' of https://github.com/luisgdj/BloodBank
 	
 	public JDBCDoneeManager(Connection connection) {
 		this.connection = connection;
@@ -41,23 +35,16 @@ public class JDBCDoneeManager implements DoneeManager{
 					+ "','" + d.getSsn() + "','" + d.getTransfusions() + "')";
 			s.execute(sql); 
 			s.close();
+			
 		} catch (SQLException e) {
 			System.out.println("Database exception");
 			e.printStackTrace();
 		}
-	
 	}
 
-	@Override
-	public void showDonee(int id) {
+	public Donee getDonee(int id) {
 		
 		try {
-<<<<<<< HEAD
-		String sql =  "SELECT * FROM donee where id = ?";
-		PreparedStatement p = conection.prepareStatement(sql);
-		p.setString(1, "" + id); //ponemos 1 porque el primer atributo en la clase nurse es name que es por lo que lo queremos buscar
-		ResultSet rs = p.executeQuery();
-=======
 			String sql =  "SELECT * FROM donee where id = ?";
 			PreparedStatement p = connection.prepareStatement(sql);
 			p.setString(1, "" + id); //ponemos 1 porque el primer atributo en la clase nurse es name que es por lo que lo queremos buscar
@@ -77,24 +64,13 @@ public class JDBCDoneeManager implements DoneeManager{
 			
 			connection.close();
 			return d;
->>>>>>> branch 'master' of https://github.com/luisgdj/BloodBank
 		
-		String name = rs.getString("name");
-		String surname= rs.getString("surname");
-		String bloodType = rs.getString("blood_type");
-		Integer bloodNeeded = rs.getInt("blood_needed");
-		Date dob = rs.getDate("dob"); //ni idea de como hacer esto
-		long ssn = rs.getLong("SSN");
-		List <Blood> transfussions = (List<Blood>) rs.getArray("tranfussions"); //tampoco se como hacerlo
-		conection.close();
-		
-		
-	}catch(SQLException e) {
-		System.out.println("Databases error");
-		e.printStackTrace();
-	}
-	}
-	
+		}catch(SQLException e) {
+			System.out.println("Databases error");
+			e.printStackTrace();
+			return null;
+		}
+	} 
 
 	@Override
 	public void assignDoneeToNurse(int doneeId, int nurseId) {

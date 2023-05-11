@@ -5,7 +5,6 @@ import java.util.List;
 import bloodbank.ifaces.*;
 import bloodbank.pojos.*;
 import bloodbank.jdbc.*;
-import bloodbank.jpa.JPAUserManager;
 
 public abstract class ManagerMenu {
 
@@ -13,27 +12,19 @@ public abstract class ManagerMenu {
 	private static ContractManager contractMan;
 	private static BloodManager bloodMan;
 	private static UserManager userMan;
-<<<<<<< HEAD
-=======
 	private static DonorManager donorMan;
 	private static DoneeManager doneeMan;
 	private static BloodRetrievalLimitManager retrievalMan;
->>>>>>> branch 'master' of https://github.com/luisgdj/BloodBank
 
 	public static void menu(UserManager man) {
 		
 		ConnectionManager conMan = new ConnectionManager(); //creamos la conexion con el jdbc
 		nurseMan = new JDBCNurseManager(conMan.getConnection());
 		contractMan = new JDBCContractManager(conMan.getConnection());
-<<<<<<< HEAD
-		bloodMan = new JDBCBloodManager(conMan.getConnection());
-		userMan = man;
-=======
 		donorMan = new JDBCDonorManager(conMan.getConnection());
 		doneeMan = new JDBCDoneeManager(conMan.getConnection());
 		bloodMan = new JDBCBloodManager(conMan.getConnection(), donorMan, doneeMan);
 		retrievalMan = new JDBCBloodRetrievalLimitManager(conMan.getConnection());
->>>>>>> branch 'master' of https://github.com/luisgdj/BloodBank
 
 		retrievalMan.setBloodRetrievalLimit(0);
 		while (true) {
@@ -42,7 +33,8 @@ public abstract class ManagerMenu {
 					+ "\n 2. Establish contract"
 					+ "\n 3. View blood storage" 
 					+ "\n 4. Access nurse information" 
-					+ "\n 5. Change blood retreival limit" 
+					+ "\n 5. Change blood retreival limit"
+					+ "\n 6. Change password"
 					+ "\n 0. Log out");
 			int option = Utilities.readInteger("Choose an option: ");
 
@@ -70,13 +62,13 @@ public abstract class ManagerMenu {
 				}
 				case 5: {
 					System.out.println("Change blood retreival limit: ");
-<<<<<<< HEAD
-					
-					//funcion que no permita sacar mas sangre de x
-=======
 					float limit= Utilities.readFloat("Insert the limit: ");
 					retrievalMan.modifyBloodRetrievalLimit(limit);
->>>>>>> branch 'master' of https://github.com/luisgdj/BloodBank
+					break;
+				}
+				case 6: {
+					System.out.println("Change password:");
+					//crear funcion para cambiar la contraseña establecida por defecto
 					break;
 				}
 				case 0: {
@@ -169,23 +161,5 @@ public abstract class ManagerMenu {
 				}
 			} 
 		}
-<<<<<<< HEAD
-		
-	}
-	
-	private static void personalInfoNurse(Integer id) {
-			Nurse nurse= nurseMan.getNurse(id);
-			System.out.println(nurse.toString());
-	
-
-	}
-	
-	private static void setBloodRetivalLimit() {
-		
-		bloodMan.retreiveBlood(0);
-		
-		
-=======
->>>>>>> branch 'master' of https://github.com/luisgdj/BloodBank
 	}
 }

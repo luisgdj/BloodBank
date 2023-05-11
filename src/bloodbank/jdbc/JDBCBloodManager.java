@@ -6,27 +6,28 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import bloodbank.ifaces.BloodManager;
-import bloodbank.pojos.Blood;
-import bloodbank.pojos.Contract;
-import bloodbank.pojos.Donor;
-import bloodbank.pojos.Nurse;
+import bloodbank.ifaces.DoneeManager;
+import bloodbank.ifaces.DonorManager;
+import bloodbank.pojos.*;
 
 public class JDBCBloodManager implements BloodManager{
 
 	private Connection connection;
+	private static DonorManager donorMan;
+	private static DoneeManager doneeMan;
 	
-	public JDBCBloodManager(Connection connection) {
+	public  JDBCBloodManager(Connection connection, DonorManager donorMan, DoneeManager doneeMan) {
 		this.connection = connection;
+		this.donorMan = donorMan;
+		this.doneeMan = doneeMan;		
 	}
 	
 	@Override
 	public void insertBloodDonation(Blood b) {
-<<<<<<< HEAD
-		// TODO Auto-generated method stub
-=======
 		try {
 			Statement s = connection.createStatement(); //cuando haya una insert se usa statement 
 			String sql = "INSERT INTO blood (amount, fecha, donor, donee) VALUES ('" + b.getAmount() + "','"
@@ -38,29 +39,20 @@ public class JDBCBloodManager implements BloodManager{
 			System.out.println("Database exception");
 			e.printStackTrace();
 		}
->>>>>>> branch 'master' of https://github.com/luisgdj/BloodBank
 		
 	}
 
 	@Override
-	/*public void List<Blood> showDonations(int donorId) {	//tutoria con esto entero
+	public List<Blood> getDonations(int donorId) {
 		
+		List<Blood> list = new ArrayList<Blood>();
 		try {
-			String sql = "SELECT donor.amount, donor.date,donor.name, donee.name FROM donor JOIN blood ON blood.donor_id = donor.id"
-					  +  "JOIN donee ON blood.donee_id= donee.id"
-					  +	  "WHERE donee.blood_type= donor.blood_type";
+			String sql = "SELECT * FROM blood WHERE donor_id = ?";
 			PreparedStatement p = connection.prepareStatement(sql);
+			p.setString(1, "" + donorId);
 			ResultSet rs = p.executeQuery();
 			
 			while (rs.next()) {
-<<<<<<< HEAD
-			Integer amount = rs.getInt(1);
-			Date date = rs.getDate(2);
-			Donor donor = getDonor(donorId);
-			Integer donee = rs.getInt(3);
-			
-			Blood b = new Blood(donorId,amount,date,donor, donee);
-=======
 				Integer id = rs.getInt("id");
 				Integer amount = rs.getInt("amount");
 				LocalDate date = (LocalDate) rs.getObject("collection_date");
@@ -73,57 +65,38 @@ public class JDBCBloodManager implements BloodManager{
 				// IMPORTANT: I don't have the dogs
 				// Add the Owner to the list
 				list.add(b);
->>>>>>> branch 'master' of https://github.com/luisgdj/BloodBank
 			}
-			
-			//System.out.println(b.toString());
 			connection.close();
-<<<<<<< HEAD
-		}
-		
-		catch (SQLException e) {
-=======
 			return list;
 			
 		} catch (SQLException e) {
->>>>>>> branch 'master' of https://github.com/luisgdj/BloodBank
 			System.out.println("Databases error");
 			e.printStackTrace();
+			return null;
 		}
 	}
-*/
+
 	@Override
-	public void showBloodByBloodType() {
+	public Float getAmountOfBlood(String bloodType) {
 
 		try {
-			String sql = "SELECT d.blood_type, b.SUM(amount) "
-					+ "FROM donor AS d JOIN blood AS b ON d.blood_id = b.id "
-					+ "GROUP BY d.blood_type ";
+			String sql = "SELECT SUM(amount) FROM blood WHERE id = (SELECT id FROM donor WHERE blood_type = ?)";
 			PreparedStatement p = connection.prepareStatement(sql);
+			p.setString(1, bloodType);
+			
 			ResultSet rs = p.executeQuery();
-<<<<<<< HEAD
-	
-			String blood_type = rs.getString(1); //ponemos un 1 ya que cuando son joins no ponemos el nombre, se pone la posicion de la query en la que está el atriburto
-			float amount = rs.getFloat(2);
-			String result = "";
-			//como imprimir amount y result
-=======
 			float amount = rs.getFloat(1);//1 refers to the first column
->>>>>>> branch 'master' of https://github.com/luisgdj/BloodBank
 			
-			
-			connection.close();
+			return amount;
 
 		} catch(SQLException e) {
 			System.out.println("Databases error");
 			e.printStackTrace();
+			return null;
 		}
 	}
 	
 	@Override
-<<<<<<< HEAD
-	public void showBloodTotalAmount() {
-=======
 	public Integer getNumberOfDonations(String bloodType) {
 
 		try {
@@ -145,10 +118,7 @@ public class JDBCBloodManager implements BloodManager{
 	
 	@Override
 	public List<Integer> getListOfIds(String type) {
->>>>>>> branch 'master' of https://github.com/luisgdj/BloodBank
 		
-<<<<<<< HEAD
-=======
 		List<Integer> ids = new ArrayList<Integer>();
 		try {
 			String sql = "SELECT id FROM blood WHERE donor_id = (SELECT id FROM donor WHERE blood_type = ?)";
@@ -175,22 +145,12 @@ public class JDBCBloodManager implements BloodManager{
 	public List<Float> getListOfAmounts(String bloodType) {
 
 		List<Float> amounts = new ArrayList<Float>();
->>>>>>> branch 'master' of https://github.com/luisgdj/BloodBank
 		try {
-<<<<<<< HEAD
-			String sql = "SELECT d.blood_type, b.SUM(amount) "
-					+ "FROM donor AS d JOIN blood AS b ON d.blood_id = b.id "
-					+ "GROUP BY d.blood_type ";
-=======
 			String sql = "SELECT amount FROM blood WHERE donor_id = (SELECT id FROM donor WHERE blood_type = ?)";
->>>>>>> branch 'master' of https://github.com/luisgdj/BloodBank
 			PreparedStatement p = connection.prepareStatement(sql);
-			//p.setString(1, "" + option); //ponemos 1 porque el primer atributo en la clase nurse es name que es por lo que lo queremos buscar
+			p.setString(1, bloodType);
+			
 			ResultSet rs = p.executeQuery();
-<<<<<<< HEAD
-			connection.close();
-
-=======
 			int cont = 0;
 			while (rs.next()) {
 				float amount = rs.getFloat(cont);
@@ -199,53 +159,14 @@ public class JDBCBloodManager implements BloodManager{
 			}
 			return amounts;
 			
->>>>>>> branch 'master' of https://github.com/luisgdj/BloodBank
 		}catch(SQLException e) {
 			System.out.println("Databases error");
 			e.printStackTrace();
+			return null;
 		}
 	}
 	
 	@Override
-<<<<<<< HEAD
-	public void retreiveBlood(int amount, String bloodType) {
-		// TODO Auto-generated method stub
-		String sql = "SELECT SUM(amount) FROM blood WHERE donor_id = (SELECT id FROM donor WHERE blood_type = ?)";
-		try {
-			PreparedStatement p = connection.prepareStatement(sql);
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
-	
-	public Donor getDonor (int id) {
-		try {
-			String sql = "SELECT * FROM donor WHERE id = ?";
-			PreparedStatement p = connection.prepareStatement(sql);
-			p.setString(1, "" + id); 
-			ResultSet rs = p.executeQuery();
-			
-			String name = rs.getString("name");
-			String surname = rs.getString("surname");
-			String bloodType = rs.getString("blood_type");
-			Date dob = rs.getDate("dob");
-			long ssn = rs.getLong("ssn");
-			
-			return new Donor(name,surname,bloodType,dob,ssn);
-			connection.close();
-
-		}catch(SQLException e) {
-			System.out.println("Databases error");
-			e.printStackTrace();
-			
-		}
-		return null;
-	}
-
-=======
 	public void deleteDonation(int id) {
 		
 		try {
@@ -276,19 +197,4 @@ public class JDBCBloodManager implements BloodManager{
 			e.printStackTrace();
 		}
 	}
->>>>>>> branch 'master' of https://github.com/luisgdj/BloodBank
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

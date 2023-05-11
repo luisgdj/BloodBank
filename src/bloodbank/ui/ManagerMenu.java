@@ -160,7 +160,7 @@ public abstract class ManagerMenu {
 				default: {
 					System.out.println("ERROR: Invalid option");
 				}
-			}
+			} 
 		}
 	}
 }

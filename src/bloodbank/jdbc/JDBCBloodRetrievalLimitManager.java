@@ -10,20 +10,22 @@ import bloodbank.ifaces.BloodRetrievalLimitManager;
 
 public class JDBCBloodRetrievalLimitManager implements BloodRetrievalLimitManager{
 
-	private Connection connection;
+	private ConnectionManager conMan;
+	private Connection c;
 	
-	public JDBCBloodRetrievalLimitManager(Connection connection) {
-		this.connection = connection;
-	} 
+	public JDBCBloodRetrievalLimitManager(ConnectionManager conMan) {
+		this.conMan = conMan;
+		this.c = conMan.getConnection();
+	}
 	
 	@Override
 	public void setBloodRetrievalLimit(float limit) {
 		
 		try {
-			Statement s = connection.createStatement(); //cuando haya una insert se usa statement 
-			String sql = "INSERT INTO blood_retrieval_limit (limit) VALUES (" + limit + ")";
-			s.execute(sql);
-			s.close(); //las conexiones se cierran asi
+			String sql = "INSERT INTO blood_retrieval(blood_limit) VALUES(?)";
+			PreparedStatement p = c.prepareStatement(sql);
+			p.setFloat(1, limit);
+			p.close();
 			
 		} catch (SQLException e) { //poner siempre esta excepcion cuando creemos una sql
 			System.out.println("Database exception");
@@ -35,8 +37,8 @@ public class JDBCBloodRetrievalLimitManager implements BloodRetrievalLimitManage
 	@Override
 	public float getBloodRetrievalLimit() {
 		try {
-			String sql = "SELECT limit FROM blood_retrieval_limit ";
-			PreparedStatement p = connection.prepareStatement(sql);
+			String sql = "SELECT blood_limit FROM blood_retrieval ";
+			PreparedStatement p = c.prepareStatement(sql);
 			
 			ResultSet rs = p.executeQuery();
 			float limit = rs.getFloat(1);//1 refers to the first column
@@ -53,8 +55,8 @@ public class JDBCBloodRetrievalLimitManager implements BloodRetrievalLimitManage
 	@Override
 	public void modifyBloodRetrievalLimit(float limit) {
 		try {
-			String sql = "UPDATE blood_retrieval_limit SET limit = ? ";
-			PreparedStatement p = connection.prepareStatement(sql);
+			String sql = "UPDATE blood_retrieval SET blood_limit = ? ";
+			PreparedStatement p = c.prepareStatement(sql);
 			p.setFloat(1, limit);
 			p.close();
 			
@@ -62,7 +64,5 @@ public class JDBCBloodRetrievalLimitManager implements BloodRetrievalLimitManage
 			System.out.println("Database error.");
 			e.printStackTrace();
 		}
-		
 	}
-
 }

@@ -10,26 +10,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bloodbank.ifaces.BloodManager;
-import bloodbank.ifaces.DoneeManager;
-import bloodbank.ifaces.DonorManager;
 import bloodbank.pojos.*;
 
 public class JDBCBloodManager implements BloodManager{
 
-	private Connection connection;
-	private static DonorManager donorMan;
-	private static DoneeManager doneeMan;
+	private ConnectionManager conMan;
+	private Connection c;
 	
-	public  JDBCBloodManager(Connection connection, DonorManager donorMan, DoneeManager doneeMan) {
-		this.connection = connection;
-		this.donorMan = donorMan;
-		this.doneeMan = doneeMan;		
+	public JDBCBloodManager(ConnectionManager conMan) {
+		this.conMan = conMan;
+		this.c = conMan.getConnection();
 	}
 	
 	@Override
 	public void insertBloodDonation(Blood b) {
 		try {
-			Statement s = connection.createStatement(); //cuando haya una insert se usa statement 
+			Statement s = c.createStatement(); //cuando haya una insert se usa statement 
 			String sql = "INSERT INTO blood (amount, fecha, donor, donee) VALUES ('" + b.getAmount() + "','"
 					+ b.getFecha() + "'," + b.getDonor()  + "'," + b.getDonee() + ")";
 			s.execute(sql);
@@ -48,7 +44,7 @@ public class JDBCBloodManager implements BloodManager{
 		List<Blood> list = new ArrayList<Blood>();
 		try {
 			String sql = "SELECT * FROM blood WHERE donor_id = ?";
-			PreparedStatement p = connection.prepareStatement(sql);
+			PreparedStatement p = c.prepareStatement(sql);
 			p.setString(1, "" + donorId);
 			ResultSet rs = p.executeQuery();
 			
@@ -57,16 +53,16 @@ public class JDBCBloodManager implements BloodManager{
 				Integer amount = rs.getInt("amount");
 				LocalDate date = (LocalDate) rs.getObject("collection_date");
 				Integer donor_id = rs.getInt("donor_id");
-				Donor donor = donorMan.getDonor(donor_id);
+				Donor donor = conMan.getDonorMan().getDonor(donor_id);
 				Integer donee_id = rs.getInt("donee_id");
-				Donee donee = doneeMan.getDonee(donee_id);
+				Donee donee = conMan.getDoneeMan().getDonee(donee_id);
 				
 				Blood b = new Blood(id, amount, date, donor, donee);
 				// IMPORTANT: I don't have the dogs
 				// Add the Owner to the list
 				list.add(b);
 			}
-			connection.close();
+			c.close();
 			return list;
 			
 		} catch (SQLException e) {
@@ -81,7 +77,7 @@ public class JDBCBloodManager implements BloodManager{
 
 		try {
 			String sql = "SELECT SUM(amount) FROM blood WHERE id = (SELECT id FROM donor WHERE blood_type = ?)";
-			PreparedStatement p = connection.prepareStatement(sql);
+			PreparedStatement p = c.prepareStatement(sql);
 			p.setString(1, bloodType);
 			
 			ResultSet rs = p.executeQuery();
@@ -101,7 +97,7 @@ public class JDBCBloodManager implements BloodManager{
 
 		try {
 			String sql = "SELECT COUNT(id) FROM blood WHERE id = (SELECT id FROM donor WHERE blood_type = ?)";
-			PreparedStatement p = connection.prepareStatement(sql);
+			PreparedStatement p = c.prepareStatement(sql);
 			p.setString(1, bloodType);
 			
 			ResultSet rs = p.executeQuery();
@@ -122,7 +118,7 @@ public class JDBCBloodManager implements BloodManager{
 		List<Integer> ids = new ArrayList<Integer>();
 		try {
 			String sql = "SELECT id FROM blood WHERE donor_id = (SELECT id FROM donor WHERE blood_type = ?)";
-			PreparedStatement p = connection.prepareStatement(sql);
+			PreparedStatement p = c.prepareStatement(sql);
 			p.setString(1, type);
 			
 			ResultSet rs = p.executeQuery();
@@ -147,7 +143,7 @@ public class JDBCBloodManager implements BloodManager{
 		List<Float> amounts = new ArrayList<Float>();
 		try {
 			String sql = "SELECT amount FROM blood WHERE donor_id = (SELECT id FROM donor WHERE blood_type = ?)";
-			PreparedStatement p = connection.prepareStatement(sql);
+			PreparedStatement p = c.prepareStatement(sql);
 			p.setString(1, bloodType);
 			
 			ResultSet rs = p.executeQuery();
@@ -171,7 +167,7 @@ public class JDBCBloodManager implements BloodManager{
 		
 		try {
 			String sql = "DELETE FROM blood WHERE id = ? ";
-			PreparedStatement p = connection.prepareStatement(sql);
+			PreparedStatement p = c.prepareStatement(sql);
 			p.setInt(1, id);
 			p.executeUpdate();
 			p.close();	
@@ -187,7 +183,7 @@ public class JDBCBloodManager implements BloodManager{
 		
 		try {
 			String sql = "UPDATE blood SET amount = ? WHERE id = ?";
-			PreparedStatement p = connection.prepareStatement(sql);
+			PreparedStatement p = c.prepareStatement(sql);
 			p.setFloat(1, amount);
 			p.setInt(2, id);
 			p.close();
@@ -196,5 +192,11 @@ public class JDBCBloodManager implements BloodManager{
 			System.out.println("Database error.");
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public List<Blood> getTransfusions(int doneeId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

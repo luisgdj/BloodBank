@@ -33,11 +33,8 @@ public class Contract implements Serializable {
     @XmlElementWrapper(name = "Nurses")	
 	private List<Nurse> nurses;
 
-	public Contract() {
-		// establecemos un contrato por defecto que tendran todas las nurses
-		// inicialmente
+	public Contract() { //Deault contract
 		super();
-		this.id = 0;
 		this.duration = 12;
 		this.salary = 2500;
 	}

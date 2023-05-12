@@ -12,23 +12,24 @@ import bloodbank.ifaces.ContractManager;
 import bloodbank.pojos.Contract;
 import bloodbank.pojos.Nurse;
 
-public class JDBCContractManager implements ContractManager{
+public class JDBCContractManager implements ContractManager {
 	
-	private Connection connection;
+	private ConnectionManager conMan;
+	private Connection c;
 	
-	public JDBCContractManager(Connection connection) {
-		this.connection = connection;
+	public JDBCContractManager(ConnectionManager conMan) {
+		this.conMan = conMan;
+		this.c = conMan.getConnection();
 	}
-	
 
 	@Override
-	public void insertContract(Contract c) {
+	public void insertContract(Contract con) {
 		
 		try {
-			Statement s = connection.createStatement();
-			String sql = "INSERT INTO contract (duration, salary, nurses) "
-					+ "VALUES ('" + c.getDuration() + "','"
-					+ c.getSalary() + "'," + c.getNurse() + ")";
+			Statement s = c.createStatement();
+			String sql = "INSERT INTO contract (duration, salary) "
+					+ "VALUES (" + con.getDuration() + " , "
+					+ con.getSalary() + ")";
 			s.execute(sql);
 			s.close();
 		} catch (SQLException e) {
@@ -42,13 +43,13 @@ public class JDBCContractManager implements ContractManager{
 		
 		try {
 			String sql = "SELECT * FROM contract WHERE id = ?";
-			PreparedStatement p = connection.prepareStatement(sql);
+			PreparedStatement p = c.prepareStatement(sql);
 			p.setInt(1, id); 
 			ResultSet rs = p.executeQuery();
 			
 			Integer duration = rs.getInt("duration");
 			Integer salary = rs.getInt("salary");
-			List<Nurse> nurses = nurseMan.getListOfNurses(id);
+			List<Nurse> nurses = conMan.getNurseMan().getListOfNursesOfContract(id);
 			rs.close();
 			return new Contract(id, duration, salary, nurses);
 
@@ -66,14 +67,14 @@ public class JDBCContractManager implements ContractManager{
 		List<Contract> contracts = new ArrayList<Contract>();
 		try {
 			String sql = "SELECT * FROM contract ";
-			PreparedStatement p = connection.prepareStatement(sql);
+			PreparedStatement p = c.prepareStatement(sql);
 			ResultSet rs = p.executeQuery();
 			
 			while (rs.next()) {
 				Integer id = rs.getInt("id");
 				Integer duration = rs.getInt("duration"); 
 				Float salary = rs.getFloat("salary");
-				List<Nurse> nurses = nurseMan.getListOfNurses(id);
+				List<Nurse> nurses = conMan.getNurseMan().getListOfNursesOfContract(id);
 				Contract contract = new Contract(id,duration,salary,nurses);
 				contracts.add(contract);
 			}
@@ -85,6 +86,5 @@ public class JDBCContractManager implements ContractManager{
 			return null;
 		}
 	}
-	
 }
 

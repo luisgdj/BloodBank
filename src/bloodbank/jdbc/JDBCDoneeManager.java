@@ -13,20 +13,23 @@ import bloodbank.ifaces.DoneeManager;
 import bloodbank.pojos.Blood;
 import bloodbank.pojos.Donee;
 import bloodbank.pojos.Donor;
+import bloodbank.pojos.Nurse;
 
 public class JDBCDoneeManager implements DoneeManager{
 
-	private Connection connection;
+	private ConnectionManager conMan;
+	private Connection c;
 	
-	public JDBCDoneeManager(Connection connection) {
-		this.connection = connection;
+	public JDBCDoneeManager(ConnectionManager conMan) {
+		this.conMan = conMan;
+		this.c = conMan.getConnection();
 	}
 	
 	@Override
 	public void insertDonee(Donee d) {
 	
 		try {
-			Statement s = connection.createStatement();
+			Statement s = c.createStatement();
 			String sql = "INSERT INTO contract "
 					+ "(name, surname, blood_type,blood_needed,dob,ssn,transfussions) "
 					+ "VALUES ('" +  d.getName()+ "','"
@@ -46,7 +49,7 @@ public class JDBCDoneeManager implements DoneeManager{
 		
 		try {
 			String sql =  "SELECT * FROM donee where id = ?";
-			PreparedStatement p = connection.prepareStatement(sql);
+			PreparedStatement p = c.prepareStatement(sql);
 			p.setString(1, "" + id); //ponemos 1 porque el primer atributo en la clase nurse es name que es por lo que lo queremos buscar
 			ResultSet rs = p.executeQuery();
 			
@@ -56,13 +59,12 @@ public class JDBCDoneeManager implements DoneeManager{
 			Integer bloodNeeded = rs.getInt("blood_needed");
 			LocalDate dob = (LocalDate) rs.getObject("dob");
 			long ssn = rs.getLong("ssn");
-			Donee d = new Donee(id, name, surname, bloodType, bloodNeeded, dob, ssn);
+			List<Blood> transfusions = conMan.getBloodMan().getTransfusions(id);
+			List<Nurse> nurses = conMan.getNurseMan().getListOfNursesOfDonee(id);
 			
-			//creo que no habria que poner que devolviese la lista de transfusiones
-			List <Blood> transfussions = (List<Blood>) rs.getArray("tranfussions"); //tampoco se como hacerlo
-			d.setTransfusions(transfussions);
+			Donee d = new Donee(id, name, surname, bloodType, bloodNeeded, dob, ssn, transfusions);
 			
-			connection.close();
+			c.close();
 			return d;
 		
 		}catch(SQLException e) {
@@ -76,7 +78,7 @@ public class JDBCDoneeManager implements DoneeManager{
 	public void assignDoneeToNurse(int doneeId, int nurseId) {
 		try {
 			String sql = "INSERT INTO nurse_donee (doneeId, nurseId) VALUES (?,?)";
-			PreparedStatement p = connection.prepareStatement(sql);
+			PreparedStatement p = c.prepareStatement(sql);
 			p.setInt(1,doneeId); 
 			p.setInt(2, nurseId);
 			p.executeUpdate();
@@ -95,7 +97,7 @@ public class JDBCDoneeManager implements DoneeManager{
 		try {
 			String sql = "SELECT * FROM nurse AS n JOIN nurse_donee AS nd ON n.id = nd.nurse_id"
 					+ " JOIN donee AS d ON d.id = nd.donee_id WHERE n.id = ? ";
-			PreparedStatement p = connection.prepareStatement(sql);
+			PreparedStatement p = c.prepareStatement(sql);
 			p.setString(1, "" + nurseId);
 			ResultSet rs = p.executeQuery();
 			
@@ -107,11 +109,11 @@ public class JDBCDoneeManager implements DoneeManager{
 				float bloodNeeded = rs.getFloat("blood_needed");
 				LocalDate dob = (LocalDate) rs.getObject("dob");
 				Long ssn = rs.getLong("ssn");
-				List<Blood> transfussions = bloodMan.getTransfusions(id);
+				List<Blood> transfussions = conMan.getBloodMan().getTransfusions(id);
 				Donee donee = new Donee(id,name,surname,bloodType,bloodNeeded,dob,ssn,transfussions);
 				list.add(donee);
 			}
-			connection.close();
+			c.close();
 			return list;
 			
 		} catch (SQLException e) {

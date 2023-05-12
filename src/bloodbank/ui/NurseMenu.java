@@ -18,10 +18,10 @@ public abstract class NurseMenu {
 	public static void menu(int nurse_id) {
 
 		ConnectionManager conMan = new ConnectionManager();
-		donorMan = new JDBCDonorManager(conMan.getConnection());
-		doneeMan = new JDBCDoneeManager(conMan.getConnection());
-		bloodMan = new JDBCBloodManager(conMan.getConnection(), donorMan, doneeMan);
-		retrievalMan = new JDBCBloodRetrievalLimitManager(conMan.getConnection());
+		donorMan = conMan.getDonorMan();
+		doneeMan = conMan.getDoneeMan();
+		bloodMan = conMan.getBloodMan();
+		retrievalMan = conMan.getRetrievalMan();
 		
 		float retrievalLimit = retrievalMan.getBloodRetrievalLimit();
 		

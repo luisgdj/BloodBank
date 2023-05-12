@@ -14,20 +14,22 @@ import bloodbank.ifaces.DonorManager;
 import bloodbank.pojos.Blood;
 import bloodbank.pojos.Donee;
 import bloodbank.pojos.Donor;
+import bloodbank.pojos.Nurse;
 
 public class JDBCDonorManager implements DonorManager{
 
-	private Connection connection;
+	private ConnectionManager conMan;
+	private Connection c;
 	
-	public JDBCDonorManager(Connection connection) {
-		
-		this.connection = connection;
+	public JDBCDonorManager(ConnectionManager conMan) {
+		this.conMan = conMan;
+		this.c = conMan.getConnection();
 	}
 	 
 	@Override
 	public void insertDonor(Donor d) {
 		try {
-			Statement s = connection.createStatement();
+			Statement s = c.createStatement();
 			String sql = "INSERT INTO contract "
 					+ "(name, surname, blood_type, dob, ssn) "
 					+ "VALUES ('" +  d.getName()+ "','"
@@ -48,10 +50,10 @@ public class JDBCDonorManager implements DonorManager{
 		
 		try {
 			String sql = "DELETE FROM donor WHERE id = ?";
-			PreparedStatement p = connection.prepareStatement(sql);
+			PreparedStatement p = c.prepareStatement(sql);
 			p.setString(1, "" + id); //ponemos 1 porque el primer atributo en la clase nurse es name que es por lo que lo queremos buscar
 			
-			connection.close();
+			c.close();
 			
 		}catch(SQLException e) {
 			System.out.println("Databases error");
@@ -63,7 +65,7 @@ public class JDBCDonorManager implements DonorManager{
 	public void assignDonorToNurse(int donorId, int nurseId) {
 		try {
 			String sql = "INSERT INTO nurse_donor (donorId, nurseId) VALUES (?,?)";
-			PreparedStatement p = connection.prepareStatement(sql);
+			PreparedStatement p = c.prepareStatement(sql);
 			p.setInt(1,donorId); 
 			p.setInt(2, nurseId);
 			p.executeUpdate();
@@ -85,7 +87,7 @@ public class JDBCDonorManager implements DonorManager{
 		
 		try {
 			String sql= "SELECT * FROM donor WHERE name = ?";
-			PreparedStatement p=connection.prepareStatement(sql);//cuando haya una slect se usa preparedStatement 
+			PreparedStatement p = c.prepareStatement(sql);//cuando haya una slect se usa preparedStatement 
 			p.setString(1, "%"+name+ "%"); //el 1 apunta a la interrogacion y lo que va despues (name), apunta al parametro que se le pasa al metodo
 			ResultSet rs=p.executeQuery();
 			while(rs.next()) {
@@ -99,7 +101,7 @@ public class JDBCDonorManager implements DonorManager{
 
 				list.add(donor);
 				
-			connection.close();
+			c.close();
 				
 			}
 		}catch(SQLException e) {
@@ -114,7 +116,7 @@ public class JDBCDonorManager implements DonorManager{
 		
 		try {			
 			String sql =  "SELECT * FROM donee where id = ?";
-			PreparedStatement p = connection.prepareStatement(sql);
+			PreparedStatement p = c.prepareStatement(sql);
 			p.setString(1, "" + id); //ponemos 1 porque el primer atributo en la clase nurse es name que es por lo que lo queremos buscar
 			ResultSet rs = p.executeQuery();
 			
@@ -123,9 +125,11 @@ public class JDBCDonorManager implements DonorManager{
 			String bloodType = rs.getString("blood_type");
 			LocalDate dob = (LocalDate) rs.getObject("dob");
 			long ssn = rs.getLong("ssn");
-			List<Blood> donations = bloodMan.getDonations(id);
-			Donor donor = new Donor(id,name,surname,bloodType,dob,ssn,donations);
-			connection.close();
+			List<Blood> donations = conMan.getBloodMan().getDonations(id);
+			List<Nurse> nurses = conMan.getNurseMan().getListOfNursesOfDonor(id);
+			
+			Donor donor = new Donor(id,name,surname,bloodType,dob,ssn,donations,nurses);
+			c.close();
 			return donor;
 		
 		}catch(SQLException e) {
@@ -133,7 +137,6 @@ public class JDBCDonorManager implements DonorManager{
 			e.printStackTrace();
 			return null;
 		}
-		
 	}
 	
 	public List<Donor> getListOfDonors(int nurseId) {
@@ -142,7 +145,7 @@ public class JDBCDonorManager implements DonorManager{
 		try {
 			String sql = "SELECT * FROM nurse AS n JOIN nurse_donor AS nd ON n.id = nd.nurse_id"
 					+ " JOIN donor AS d ON d.id = nd.donor_id WHERE n.id = ? ";
-			PreparedStatement p = connection.prepareStatement(sql);
+			PreparedStatement p = c.prepareStatement(sql);
 			p.setString(1, "" + nurseId);
 			ResultSet rs = p.executeQuery();
 			
@@ -153,11 +156,13 @@ public class JDBCDonorManager implements DonorManager{
 				String bloodType = rs.getString("blood_type");
 				LocalDate dob = (LocalDate) rs.getObject("dob");
 				Long ssn = rs.getLong("ssn");
-				List<Blood> donations = bloodMan.getDonations(id);
-				Donor donor = new Donor(id,name,surname,bloodType,dob,ssn,donations);
+				List<Blood> donations = conMan.getBloodMan().getDonations(id);
+				List<Nurse> nurses = conMan.getNurseMan().getListOfNursesOfDonor(id);
+				
+				Donor donor = new Donor(id,name,surname,bloodType,dob,ssn,donations,nurses);
 				list.add(donor);
 			}
-			connection.close();
+			c.close();
 			return list;
 			
 		} catch (SQLException e) {

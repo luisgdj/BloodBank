@@ -5,10 +5,25 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import bloodbank.ifaces.BloodManager;
+import bloodbank.ifaces.BloodRetrievalLimitManager;
+import bloodbank.ifaces.ContractManager;
+import bloodbank.ifaces.DoneeManager;
+import bloodbank.ifaces.DonorManager;
+import bloodbank.ifaces.NurseManager;
+import bloodbank.ifaces.UserManager;
+import bloodbank.pojos.Contract;
+
 public class ConnectionManager {
 	
 	Connection c; // we define it outside because we use it in all the methods
-
+	private static NurseManager nurseMan;
+	private static ContractManager contractMan;
+	private static BloodManager bloodMan;
+	private static DonorManager donorMan;
+	private static DoneeManager doneeMan;
+	private static BloodRetrievalLimitManager retrievalMan;
+	
 	public ConnectionManager() {
 		try {
 			Class.forName("org.sqlite.JDBC"); // establish a connection with the database
@@ -16,12 +31,50 @@ public class ConnectionManager {
 			c.createStatement().execute("PRAGMA foreign_keys=ON");
 			System.out.println("Database connection opened.");
 			createTables();
+			
+			this.nurseMan = new JDBCNurseManager(this);
+			this.contractMan = new JDBCContractManager(this);
+			this.bloodMan = new JDBCBloodManager(this);
+			this.donorMan = new JDBCDonorManager(this);
+			this.doneeMan = new JDBCDoneeManager(this);
+			this.retrievalMan = new JDBCBloodRetrievalLimitManager(this);
+			retrievalMan.setBloodRetrievalLimit(0.0F);
+			contractMan.insertContract(new Contract());
+			
 		} catch (Exception e) {
 			System.out.println("Database access error.");
 			e.printStackTrace();
 		}
-
 	}
+	
+	public Connection getConnection() {
+		return c;
+	}
+
+	public static NurseManager getNurseMan() {
+		return nurseMan;
+	}
+
+	public static ContractManager getContractMan() {
+		return contractMan;
+	}
+
+	public static BloodManager getBloodMan() {
+		return bloodMan;
+	}
+
+	public static DonorManager getDonorMan() {
+		return donorMan;
+	}
+
+	public static DoneeManager getDoneeMan() {
+		return doneeMan;
+	}
+
+	public static BloodRetrievalLimitManager getRetrievalMan() {
+		return retrievalMan;
+	}
+
 
 	private void createTables() {
 		try {
@@ -58,8 +111,8 @@ public class ConnectionManager {
 					+ "donor_id INTEGER REFERENCES donor(id)," + "PRIMARY KEY(nurse_id, donor_id));";
 			s.executeUpdate(table);
 			
-			table= "CREATE TABLE blood_retrieval (" + "limit FLOAT )";
-			s.execute(table);
+			table= "CREATE TABLE blood_retrieval(" + "blood_limit FLOAT NOT NULL)";
+			s.executeUpdate(table);
 			
 			s.close();
 			
@@ -70,10 +123,6 @@ public class ConnectionManager {
 			System.out.println("Database error");
 			e.printStackTrace();
 		}
-	}
-
-	public Connection getConnection() {
-		return c;
 	}
 
 	public void closeConnection () {

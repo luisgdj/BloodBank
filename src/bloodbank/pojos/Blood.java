@@ -16,7 +16,6 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import bloodbank.xml.utils.LocalDateAdapter;
 
 
-
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "Blood")
 @XmlType(propOrder = { "amount", "fecha", "donor", "donee" })
@@ -39,7 +38,6 @@ public class Blood implements Serializable{
 	private Donor donor;
 	@XmlElement(name = "Donee")
 	private Donee donee;
-	private static int limit;
 	
 	public Blood() {
 		super();
@@ -50,7 +48,6 @@ public class Blood implements Serializable{
 		this.amount = amount;
 		this.fecha = fecha;
 		this.donor = donor;
-		
 	}
 
 	public Blood(int id, int amount, LocalDate fecha, Donor donor, Donee donee) {
@@ -101,14 +98,6 @@ public class Blood implements Serializable{
 	public void setDonee(Donee donee) {
 		this.donee = donee;
 	}
-	
-	public static int getLimit() {
-		return limit;
-	}
-
-	public static void setLimit(int limit) {
-		Blood.limit = limit;
-	}
 
 	@Override
 	public int hashCode() {
@@ -132,6 +121,4 @@ public class Blood implements Serializable{
 		return "Blood [id=" + id + ", amount=" + amount + ", fecha=" + fecha + ", donor=" + donor.toString() + ", donee="
 				+ donee.toString() + "]";
 	}
-	
-	
 }

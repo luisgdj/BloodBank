@@ -20,14 +20,14 @@ public abstract class ManagerMenu {
 	public static void menu(UserManager man) {
 		
 		ConnectionManager conMan = new ConnectionManager(); //creamos la conexion con el jdbc
-		nurseMan = new JDBCNurseManager(conMan.getConnection());
-		contractMan = new JDBCContractManager(conMan.getConnection());
-		donorMan = new JDBCDonorManager(conMan.getConnection());
-		doneeMan = new JDBCDoneeManager(conMan.getConnection());
-		bloodMan = new JDBCBloodManager(conMan.getConnection(), donorMan, doneeMan);
-		retrievalMan = new JDBCBloodRetrievalLimitManager(conMan.getConnection());
-
-		retrievalMan.setBloodRetrievalLimit(0);
+		
+		nurseMan = conMan.getNurseMan();
+		contractMan = conMan.getContractMan();
+		donorMan = conMan.getDonorMan();
+		doneeMan = conMan.getDoneeMan();
+		bloodMan = conMan.getBloodMan();
+		retrievalMan = conMan.getRetrievalMan();
+		
 		while (true) {
 			System.out.println("Blood bank storage unit (manager menu):" 
 					+ "\n 1. Register nurse" 

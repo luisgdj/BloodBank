@@ -27,6 +27,11 @@ public class JPAUserManager implements UserManager {
 			Role nurse = new Role("nurse");
 			this.createRole(manager);
 			this.createRole(nurse);
+			
+			User user =  new User("manager@bloodBank.com", "default0");
+			register(user);
+			Role role = getRole("manager");
+			assignRole(user, role);
 		}
 	}
 	

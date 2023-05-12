@@ -11,5 +11,6 @@ public interface DonorManager {
 	public void assignDonorToNurse(int donorId, int nurseId);	
 	public List<Donor> searchDonorByName(String name); //select nurse (nurse menu)
 	public Donor getDonor(int id);	//select donor (nurse menu)
+	
 	public List<Donor> getListOfDonors(int nurseId);
 }

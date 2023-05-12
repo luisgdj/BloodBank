@@ -44,6 +44,10 @@ public class Donee implements Serializable {
 	@XmlElement(name = "Blood")
     @XmlElementWrapper(name = "Transfusions")
 	private List<Blood> transfusions;
+	@XmlElement(name = "Nurse")
+    @XmlElementWrapper(name = "Nurses")
+	private List<Nurse> nurses;
+	
 	
 	public Donee() {
 		super();

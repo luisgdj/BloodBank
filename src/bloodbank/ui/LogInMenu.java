@@ -2,6 +2,7 @@ package bloodbank.ui;
 
 import bloodbank.ifaces.UserManager;
 import bloodbank.jpa.JPAUserManager;
+import bloodbank.pojos.Role;
 import bloodbank.pojos.User;
 
 public abstract class LogInMenu {
@@ -11,7 +12,7 @@ public abstract class LogInMenu {
 	public static void main(String[] Args) {
 		
 		userMan = new JPAUserManager();
-		System.out.println("Welcome to the blood bank!");
+		System.out.println("\nWelcome to the blood bank!");
 		
 		while (true) {
 			// Ask for the username and password

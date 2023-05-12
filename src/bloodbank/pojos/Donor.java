@@ -42,11 +42,14 @@ public class Donor implements Serializable{
 	@XmlElement(name = "Blood")
     @XmlElementWrapper(name = "Donations")
 	private List<Blood> donations;
+	@XmlElement(name = "Nurse")
+    @XmlElementWrapper(name = "Nurses")
+	private List<Nurse> nurses;
+	
 	 
 	public Donor() {
 		super();
 	}
-	
 
 	public Donor(String name, String surname, String bloodType, LocalDate dob, long ssn) {
 		super();
@@ -57,8 +60,7 @@ public class Donor implements Serializable{
 		this.ssn = ssn;
 	}
 
-
-	public Donor(int id, String name, String surname, String bloodType, LocalDate dob, long ssn, List<Blood> donations) {
+	public Donor(int id, String name, String surname, String bloodType, LocalDate dob, long ssn, List<Blood> donations, List<Nurse> nurses) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -67,6 +69,7 @@ public class Donor implements Serializable{
 		this.dob = dob;
 		this.ssn = ssn;
 		this.donations = donations;
+		this.nurses = nurses;
 	}
 
 	public int getId() {

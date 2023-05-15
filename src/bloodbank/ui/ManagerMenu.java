@@ -29,7 +29,7 @@ public abstract class ManagerMenu {
 		retrievalMan = conMan.getRetrievalMan();
 		
 		while (true) {
-			System.out.println("Blood bank storage unit (manager menu):" 
+			System.out.println("\nBlood bank storage unit (manager menu):" 
 					+ "\n 1. Register nurse" 
 					+ "\n 2. Establish contract"
 					+ "\n 3. View blood storage" 
@@ -41,29 +41,30 @@ public abstract class ManagerMenu {
 
 			switch (option) {
 				case 1: {
-					System.out.println("Registration of a nurse: ");
+					System.out.println("\nRegistration of a nurse: ");
 					registerNurse();
 					break;
 				}
 				case 2: {
-					System.out.println("Stablish contract:");
+					System.out.println("\nStablish contract:");
 					registerContract();
 					break;
 				}
 				case 3: {
-					System.out.println("Check blood storage:");
+					System.out.println("\nCheck blood storage:");
 					String bloodType= Utilities.askBloodType();
-					bloodMan.getAmountOfBlood(bloodType);
+					float amount = bloodMan.getAmountOfBlood(bloodType);
+					System.out.println(" Amount of " + bloodType + " blood: " + amount);
 					break;
 				}
 				case 4: {
-					System.out.println("Access nurse information:");
+					System.out.println("\nAccess nurse information:");
 					selectNurse();
 					break;
 				}
 				case 5: {
-					System.out.println("Change blood retreival limit: ");
-					float limit= Utilities.readFloat("Insert the limit: ");
+					System.out.println("\nChange blood retreival limit: ");
+					float limit= Utilities.readFloat(" -Limit: ");
 					retrievalMan.modifyBloodRetrievalLimit(limit);
 					break;
 				}
@@ -90,11 +91,11 @@ public abstract class ManagerMenu {
 		String name = Utilities.readString(" -Name: ");
 		String surname = Utilities.readString(" -Surname: ");
 		System.out.println(" -Default contract stablished");
-		Contract contract = new Contract();
+		Contract contract = contractMan.getContract(1);
 		
 		Nurse n = new Nurse(name, surname, contract);
+		System.out.println(n.toString());
 		nurseMan.insertNurse(n); 
-		//meter la nurse en la base de datos mediante la javadatabaseconection(jdbc)
 		
 		String username = Utilities.readString(" -Username: ");
 		String password = Utilities.readString(" -Password: ");
@@ -109,7 +110,7 @@ public abstract class ManagerMenu {
 	private static void registerContract() {
 
 		System.out.println("Imput contract data: ");
-		int duration = Utilities.readInteger("-Duration (months): ");
+		int duration = Utilities.readInteger(" -Duration (months): ");
 		float salary = Utilities.readInteger(" -Salary: ");
 		
 		Contract c = new Contract(duration, salary);

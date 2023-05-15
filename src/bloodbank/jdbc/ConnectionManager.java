@@ -38,7 +38,8 @@ public class ConnectionManager {
 			this.donorMan = new JDBCDonorManager(this);
 			this.doneeMan = new JDBCDoneeManager(this);
 			this.retrievalMan = new JDBCBloodRetrievalLimitManager(this);
-			retrievalMan.setBloodRetrievalLimit(0.0F);
+			
+			retrievalMan.setBloodRetrievalLimit(0);
 			contractMan.insertContract(new Contract());
 			
 		} catch (Exception e) {
@@ -77,8 +78,8 @@ public class ConnectionManager {
 
 
 	private void createTables() {
-		try {
 		
+		try {
 			Statement s = c.createStatement();
 
 			String table = "CREATE TABLE contract(" + "id INTEGER PRIMARY KEY AUTOINCREMENT,"

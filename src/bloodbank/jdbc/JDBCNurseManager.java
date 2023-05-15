@@ -28,11 +28,13 @@ public class JDBCNurseManager implements NurseManager {
 
 	@Override
 	public void insertNurse(Nurse nurse) {
+		
 		try {
-			String sql = "INSERT INTO nurse (name, surname, contract_id) VALUES ('" + nurse.getName() + "','"
-					+ nurse.getSurname() + "'," + nurse.getContract().getId() + ")";
-			PreparedStatement p = c.prepareStatement(sql);//cuando haya una slect se usa preparedStatement 
-			ResultSet rs=p.executeQuery();
+			String sql = "INSERT INTO nurse (name, surname, contract_id) VALUES (?,?,?)";
+			PreparedStatement p = c.prepareStatement(sql);
+			p.setString(1, nurse.getName());
+			p.setString(2, nurse.getSurname());
+			p.setInt(3, nurse.getContract().getId());
 			p.close();
 			
 		} catch (SQLException e) { //poner siempre esta excepcion cuando creemos una sql
@@ -50,7 +52,7 @@ public class JDBCNurseManager implements NurseManager {
 			String sql= "SELECT * FROM nurse WHERE name = ?";
 			PreparedStatement p = c.prepareStatement(sql);//cuando haya una slect se usa preparedStatement 
 			p.setString(1, "%"+name+ "%"); //el 1 apunta a la interrogacion y lo que va despues (name), apunta al parametro que se le pasa al metodo
-			ResultSet rs=p.executeQuery();
+			ResultSet rs = p.executeQuery();
 			
 			while(rs.next()) {
 				//Create a new nurse
@@ -61,7 +63,6 @@ public class JDBCNurseManager implements NurseManager {
 				Contract contract = conMan.getContractMan().getContract(contract_id);
 				List<Donor> donors = conMan.getDonorMan().getListOfDonors(id);
 				List<Donee> donees = conMan.getDoneeMan().getListOfDonees(id);
-				
 				
 				Nurse nurse = new Nurse(id, n, surname, contract, donors, donees);
 				list.add(nurse);

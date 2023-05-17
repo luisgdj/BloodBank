@@ -30,7 +30,7 @@ public class Blood implements Serializable{
 	@XmlTransient
 	private Integer id;
 	@XmlElement
-	private Integer amount;
+	private Float amount;
 	@XmlElement
 	@XmlJavaTypeAdapter(LocalDateAdapter.class)
 	private LocalDate fecha;
@@ -43,14 +43,14 @@ public class Blood implements Serializable{
 		super();
 	}
  
-	public Blood(int amount, LocalDate fecha, Donor donor) {
+	public Blood(float amount, LocalDate fecha, Donor donor) {
 		super();
 		this.amount = amount;
 		this.fecha = fecha;
 		this.donor = donor;
 	}
 
-	public Blood(int id, int amount, LocalDate fecha, Donor donor, Donee donee) {
+	public Blood(int id, float amount, LocalDate fecha, Donor donor, Donee donee) {
 		super();
 		this.id = id;
 		this.amount = amount;
@@ -67,11 +67,11 @@ public class Blood implements Serializable{
 		this.id = id;
 	}
 
-	public int getAmount() {
+	public float getAmount() {
 		return amount;
 	}
 
-	public void setAmount(int amount) {
+	public void setAmount(float amount) {
 		this.amount = amount;
 	}
 

@@ -54,8 +54,7 @@ public class XMLManagerImpl implements XMLManager {
 		File file = blood2Xml(blood);
 		TransformerFactory tFactory = TransformerFactory.newInstance();
 		try {
-			//TODO change the xsltPath with the xslt file we will create 
-			Transformer transformer = tFactory.newTransformer(new StreamSource(new File(xsltPath)));
+			Transformer transformer = tFactory.newTransformer(new StreamSource(new File("./xmls/Blood-Style.xslt")));
 			transformer.transform(new StreamSource(file),new StreamResult(new File("./xmls/External-Blood.html")));
 		} catch (Exception e) {
 			e.printStackTrace();

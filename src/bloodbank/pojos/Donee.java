@@ -41,11 +41,9 @@ public class Donee implements Serializable {
 	private LocalDate dob;
 	@XmlElement
 	private Long ssn;
-	@XmlElement(name = "Blood")
-    @XmlElementWrapper(name = "Transfusions")
+	@XmlTransient
 	private List<Blood> transfusions;
-	@XmlElement(name = "Nurse")
-    @XmlElementWrapper(name = "Nurses")
+	@XmlTransient
 	private List<Nurse> nurses;
 	
 	

@@ -30,7 +30,9 @@ public class Nurse implements Serializable {
 	private String surname;
     @XmlElementWrapper(name = "Contract")
 	private Contract contract;
+	@XmlTransient
 	private List<Donor> donors;
+	@XmlTransient
 	private List<Donee> donees;
 
 	public Nurse() {

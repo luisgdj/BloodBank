@@ -39,11 +39,9 @@ public class Donor implements Serializable{
 	private LocalDate dob;
 	@XmlElement
 	private long ssn;
-	@XmlElement(name = "Blood")
-    @XmlElementWrapper(name = "Donations")
+	@XmlTransient
 	private List<Blood> donations;
-	@XmlElement(name = "Nurse")
-    @XmlElementWrapper(name = "Nurses")
+	@XmlTransient
 	private List<Nurse> nurses;
 	
 	 

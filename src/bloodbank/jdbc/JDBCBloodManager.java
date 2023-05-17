@@ -58,8 +58,38 @@ public class JDBCBloodManager implements BloodManager{
 				Donee donee = conMan.getDoneeMan().getDonee(donee_id);
 				
 				Blood b = new Blood(id, amount, date, donor, donee);
-				// IMPORTANT: I don't have the dogs
-				// Add the Owner to the list
+				list.add(b);
+			}
+			c.close();
+			return list;
+			
+		} catch (SQLException e) {
+			System.out.println("Databases error");
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	@Override
+	public List<Blood> getTransfusions(int doneeId) {
+		
+		List<Blood> list = new ArrayList<Blood>();
+		try {
+			String sql = "SELECT * FROM blood WHERE donee_id = ?";
+			PreparedStatement p = c.prepareStatement(sql);
+			p.setString(1, "" + doneeId);
+			ResultSet rs = p.executeQuery();
+			
+			while (rs.next()) {
+				Integer id = rs.getInt("id");
+				Integer amount = rs.getInt("amount");
+				LocalDate date = (LocalDate) rs.getObject("collection_date");
+				Integer donor_id = rs.getInt("donor_id");
+				Donor donor = conMan.getDonorMan().getDonor(donor_id);
+				Integer donee_id = rs.getInt("donee_id");
+				Donee donee = conMan.getDoneeMan().getDonee(donee_id);
+				
+				Blood b = new Blood(id, amount, date, donor, donee);
 				list.add(b);
 			}
 			c.close();
@@ -179,7 +209,7 @@ public class JDBCBloodManager implements BloodManager{
 	}
 	
 	@Override
-	public void updateDoneeInDonation(int id, int donee_id) {
+	public void updateBloodDoneeId(int id, int donee_id) {
 		
 		try {
 			String sql = "UPDATE blood SET donee_id = ? WHERE id = ?";
@@ -192,11 +222,5 @@ public class JDBCBloodManager implements BloodManager{
 			System.out.println("Database error.");
 			e.printStackTrace();
 		}
-	}
-
-	@Override
-	public List<Blood> getTransfusions(int doneeId) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

@@ -6,9 +6,11 @@ import bloodbank.pojos.Donee;
 
 public interface DoneeManager {
 	
-	public void insertDonee(Donee d);	//register donee (nurse menu)
-	public Donee getDonee(int id);	//show patinens (check nurse info)
+	public void insertDonee(Donee d);
+	public void removeDonee(int id);
+	public void updateDoneeBloodNeeded(int donee_id, float amount); 
 	public void assignDoneeToNurse(int doneeId, int nurseId);
 	
-	public List<Donee> getListOfDonees(int id); 
+	public Donee getDonee(int id);
+	public List<Donee> getListOfDonees(int id);
 }

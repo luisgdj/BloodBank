@@ -30,8 +30,8 @@ public class JDBCDoneeManager implements DoneeManager{
 	
 		try {
 			Statement s = c.createStatement();
-			String sql = "INSERT INTO contract "
-					+ "(name, surname, blood_type,blood_needed,dob,ssn,transfussions) "
+			String sql = "INSERT INTO donee "
+					+ "(name, surname, blood_type, blood_needed, dob, ssn, transfussions) "
 					+ "VALUES ('" +  d.getName()+ "','"
 					+ d.getSurname() + "'," + d.getBloodType() 
 					+ "','" + d.getBloodNeeded() + "','" + d.getDob() 
@@ -41,6 +41,21 @@ public class JDBCDoneeManager implements DoneeManager{
 			
 		} catch (SQLException e) {
 			System.out.println("Database exception");
+			e.printStackTrace();
+		}
+	}
+	
+	@Override
+	public void removeDonee(int id) {
+		
+		try {
+			String sql = "DELETE FROM donee WHERE id = ?";
+			PreparedStatement p = c.prepareStatement(sql);
+			p.setString(1, "" + id);
+			c.close();
+			
+		}catch(SQLException e) {
+			System.out.println("Databases error");
 			e.printStackTrace();
 		}
 	}
@@ -120,6 +135,22 @@ public class JDBCDoneeManager implements DoneeManager{
 			System.out.println("Databases error");
 			e.printStackTrace();
 			return null;
+		}
+	}
+
+	@Override
+	public void updateDoneeBloodNeeded(int donee_id, float amount) {
+		
+		try {
+			String sql = "UPDATE donee SET blood_needed = ? WHERE id = ?";
+			PreparedStatement p = c.prepareStatement(sql);
+			p.setFloat(1, amount);
+			p.setInt(2, donee_id);
+			p.close();
+			
+		} catch (SQLException e) {
+			System.out.println("Database error.");
+			e.printStackTrace();
 		}
 	}
 }

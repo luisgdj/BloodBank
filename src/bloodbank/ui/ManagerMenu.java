@@ -1,7 +1,10 @@
 package bloodbank.ui;
 
+import java.io.File;
 import java.util.Iterator;
 import java.util.List;
+
+import javax.xml.bind.JAXBException;
 
 import bloodbank.ifaces.*;
 import bloodbank.pojos.*;
@@ -16,10 +19,12 @@ public abstract class ManagerMenu {
 	private static DonorManager donorMan;
 	private static DoneeManager doneeMan;
 	private static BloodRetrievalLimitManager retrievalMan;
+	private static XMLManager xmlMan;
 
 	public static void menu(UserManager man) {
 		
 		ConnectionManager conMan = new ConnectionManager(); //creamos la conexion con el jdbc
+		//xmlMan = new XMLManager();
 		
 		nurseMan = conMan.getNurseMan();
 		contractMan = conMan.getContractMan();
@@ -36,6 +41,9 @@ public abstract class ManagerMenu {
 					+ "\n 4. Access nurse information" 
 					+ "\n 5. Change blood retreival limit"
 					+ "\n 6. Change password"
+					+ "\n 7. Save blood information in an XML file"
+					+ "\n 8. Save blood information in an HTML file"
+					+ "\n 8. Load blood information"
 					+ "\n 0. Log out");
 			int option = Utilities.readInteger("Choose an option: ");
 
@@ -71,6 +79,26 @@ public abstract class ManagerMenu {
 				case 6: {
 					System.out.println("Change password:");
 					//crear funcion para cambiar la contraseña establecida por defecto
+					break;
+				}
+				case 7: {
+					System.out.println("Save blood information:");
+					xmlMan.blood2Xml(null);
+					break;
+				}
+				case 8: {
+					System.out.println("Save blood information:");
+					xmlMan.blood2Html(null);
+					break;
+				}
+				case 9: {
+					System.out.println("Load blood information:");
+					try {
+						xmlMan.xml2Blood(null);
+					} catch (JAXBException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					break;
 				}
 				case 0: {
@@ -145,27 +173,34 @@ public abstract class ManagerMenu {
 			switch (option) {
 				case 1: {
 					System.out.println("Check personal information");
-					nurseMan.getNurse(id);
+					Nurse n = nurseMan.getNurse(id);
+					System.out.println(n.toString());
 					break;
 				}
 				case 2: {
 					System.out.println("Show patients:");
-					Iterator donorIt = donorMan.getListOfDonors(id).iterator();
-					Iterator doneeIt = doneeMan.getListOfDonees(id).iterator();
+					Iterator<Donor> donorIt = donorMan.getListOfDonors(id).iterator();
+					Iterator<Donee> doneeIt = doneeMan.getListOfDonees(id).iterator();
 					
 					System.out.println(" -List of donors: ");
 					while(donorIt.hasNext()) {
-						System.out.println(donorIt.next().toString());
+						System.out.println("   " + donorIt.next().getName() + " " + donorIt.next().getSurname());
 					}
 					System.out.println(" -List of donees: ");
 					while(doneeIt.hasNext()) {
-						System.out.println(doneeIt.next().toString());
+						System.out.println("   " + doneeIt.next().getName() + " " + doneeIt.next().getSurname());
 					}
 					break;
 				}
 				case 3: {
 					System.out.println("Change contract:");
-					
+					List<Contract> contracts = contractMan.getListOfContracts();
+					Iterator<Contract> it = contracts.iterator();
+					while(it.hasNext()) {
+						System.out.println("  Contract " + it.next().toString());
+					}
+					int contract_id = Utilities.readInteger("Choose a contract: ");
+					nurseMan.updateContract(contract_id, id);
 					break;
 				}
 				case 0: {

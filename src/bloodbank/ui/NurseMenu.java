@@ -193,7 +193,7 @@ public abstract class NurseMenu {
 		Integer id = Utilities.readInteger(" -Id: ");
 		checkDoneeInfo(id);
 	}
-		
+	
 	//OPTION 4: (DONEE MENU)
 	private static void checkDoneeInfo(int id) {
 			
@@ -240,30 +240,28 @@ public abstract class NurseMenu {
 	public static void stablishTransfusion(int donee_id) {
 		
 		System.out.println("Imput blood tranfusion data: ");
-		Integer retrivalAmount = Utilities.readInteger(" -Amount needed: ");
+		float retrivalAmount = Utilities.readInteger(" -Amount needed: ");
 		String bloodType = Utilities.askBloodType();
+		
 		float limit = retrievalMan.getBloodRetrievalLimit();
 		float totalStorage = bloodMan.getAmountOfBlood(bloodType);
 		
 		if(totalStorage>limit) {
-			float availableBlood = totalStorage - limit;
 			List<Float> amounts = bloodMan.getListOfAmounts(bloodType); 
 			List<Integer> ids = bloodMan.getListOfIds(bloodType);
 			
 			Iterator<Float> it_amount = amounts.iterator();
 			Iterator<Integer> it_id = ids.iterator();
-				
-			while(it_amount.hasNext()) {
+			
+			while(it_amount.hasNext() && retrivalAmount != 0) {
 				float amount = it_amount.next();
-				
 				if(retrivalAmount >= amount) {
 					retrivalAmount = retrivalAmount - amount;
-					bloodMan.deleteDonation(it_id.next());
-				} else {
-					bloodMan.updateDoneeInDonation(it_id.next(), donee_id);
+					bloodMan.updateBloodDoneeId(it_id.next(), donee_id);
 				}
+				doneeMan.updateDoneeBloodNeeded(donee_id, retrivalAmount);
 			}
-		}else {
+		} else {
 			System.out.println("Not allowed. The transfussion needed exceeds de blood limit.");
 		}
 	}
@@ -271,6 +269,11 @@ public abstract class NurseMenu {
 	//OPTION 4.2:
 	public static void showTransfusions(int id) {
 		
+		List<Blood> transfusions = bloodMan.getTransfusions(id);
+		Iterator<Blood> it = transfusions.iterator();
+		while(it.hasNext()) {
+			System.out.println(it.next().toString());
+		}
 	}
 
 	//OPTION 5:

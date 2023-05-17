@@ -30,7 +30,7 @@ public class JDBCDonorManager implements DonorManager{
 	public void insertDonor(Donor d) {
 		try {
 			Statement s = c.createStatement();
-			String sql = "INSERT INTO contract "
+			String sql = "INSERT INTO donor "
 					+ "(name, surname, blood_type, dob, ssn) "
 					+ "VALUES ('" +  d.getName()+ "','"
 					+ d.getSurname() + "'," + d.getBloodType() 

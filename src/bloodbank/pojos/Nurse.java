@@ -108,6 +108,9 @@ public class Nurse implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Nurse [id=" + id + ", name=" + name + ", surname=" + surname + ", contract=" + contract.toString() + "]";
+		return " -ID: " + id 
+			 + " -Name: " + name 
+			 + " -Surname: " + surname 
+			 + " -Contract " + contract.toString();
 	}
 }

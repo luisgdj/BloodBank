@@ -179,7 +179,7 @@ public class JDBCBloodManager implements BloodManager{
 	}
 	
 	@Override
-	public void updateBloodInDonation(int id, int donee_id) {
+	public void updateDoneeInDonation(int id, int donee_id) {
 		
 		try {
 			String sql = "UPDATE blood SET donee_id = ? WHERE id = ?";

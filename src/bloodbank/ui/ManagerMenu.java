@@ -30,7 +30,7 @@ public abstract class ManagerMenu {
 		
 		while (true) {
 			System.out.println("\nBlood bank storage unit (manager menu):" 
-					+ "\n 1. Register nurse" 
+					+ "\n 1. Register nurse"
 					+ "\n 2. Establish contract"
 					+ "\n 3. View blood storage" 
 					+ "\n 4. Access nurse information" 

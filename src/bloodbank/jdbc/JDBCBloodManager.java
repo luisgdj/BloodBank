@@ -179,12 +179,12 @@ public class JDBCBloodManager implements BloodManager{
 	}
 	
 	@Override
-	public void updateBloodInDonation(int id, float amount) {
+	public void updateBloodInDonation(int id, int donee_id) {
 		
 		try {
-			String sql = "UPDATE blood SET amount = ? WHERE id = ?";
+			String sql = "UPDATE blood SET donee_id = ? WHERE id = ?";
 			PreparedStatement p = c.prepareStatement(sql);
-			p.setFloat(1, amount);
+			p.setInt(1, donee_id);
 			p.setInt(2, id);
 			p.close();
 			

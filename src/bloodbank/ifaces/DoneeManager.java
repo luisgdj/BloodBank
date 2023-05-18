@@ -3,6 +3,7 @@ package bloodbank.ifaces;
 import java.util.List;
 
 import bloodbank.pojos.Donee;
+import bloodbank.pojos.Nurse;
 
 public interface DoneeManager {
 	

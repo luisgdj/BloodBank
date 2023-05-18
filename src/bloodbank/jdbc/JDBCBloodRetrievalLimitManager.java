@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import bloodbank.ifaces.BloodRetrievalLimitManager;
 
@@ -39,10 +38,11 @@ public class JDBCBloodRetrievalLimitManager implements BloodRetrievalLimitManage
 		try {
 			String sql = "SELECT blood_limit FROM blood_retrieval ";
 			PreparedStatement p = c.prepareStatement(sql);
-			
 			ResultSet rs = p.executeQuery();
-			float limit = rs.getFloat(1);//1 refers to the first column
+			p.close();
 			
+			float limit = rs.getFloat(1);
+			rs.close();
 			return limit;
 
 		} catch(SQLException e) {

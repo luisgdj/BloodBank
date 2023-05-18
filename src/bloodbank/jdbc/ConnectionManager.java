@@ -11,7 +11,6 @@ import bloodbank.ifaces.ContractManager;
 import bloodbank.ifaces.DoneeManager;
 import bloodbank.ifaces.DonorManager;
 import bloodbank.ifaces.NurseManager;
-import bloodbank.ifaces.UserManager;
 import bloodbank.pojos.Contract;
 
 public class ConnectionManager {
@@ -87,7 +86,7 @@ public class ConnectionManager {
 			s.executeUpdate(table);
 			
 			table = "CREATE TABLE nurse(" + "id INTEGER PRIMARY KEY AUTOINCREMENT," + "name TEXT NOT NULL,"
-					+ "surname TEXT NOT NULL," + "contract_id INTEGER REFERENCES contract(id));";
+					+ "surname TEXT NOT NULL," + "email TEXT NOT NULL," + "contract_id INTEGER REFERENCES contract(id));";
 			s.executeUpdate(table);
 			
 			table = "CREATE TABLE donor(" + "id INTEGER PRIMARY KEY AUTOINCREMENT," + "name TEXT NOT NULL,"

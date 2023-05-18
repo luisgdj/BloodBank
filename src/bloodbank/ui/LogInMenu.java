@@ -16,10 +16,10 @@ public abstract class LogInMenu {
 		
 		while (true) {
 			/*
-			String username = Utilities.readString(" -Username: ");
+			String email = Utilities.readString(" -Email: ");
 			String password = Utilities.readString(" -Password: ");
 			
-			User user = userMan.logIn(username, password);
+			User user = userMan.logIn(email, password);
 			*/ 
 			User user = userMan.logIn("manager@bloodBank.com", "default0");
 			
@@ -28,7 +28,7 @@ public abstract class LogInMenu {
 					ManagerMenu.menu(userMan);
 				}
 				if (user.getRole().getName().equals("nurse")) {
-					NurseMenu.menu(user.getId());
+					NurseMenu.menu(user.getEmail());
 				}
 			}else{
 				System.out.println("Error: Wrong username or password.");

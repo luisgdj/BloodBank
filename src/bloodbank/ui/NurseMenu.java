@@ -10,18 +10,23 @@ import bloodbank.pojos.*;
 
 public abstract class NurseMenu {
 
+	private static NurseManager nurseMan;
 	private static DonorManager donorMan;
 	private static DoneeManager doneeMan;
 	private static BloodManager bloodMan;
 	private static BloodRetrievalLimitManager retrievalMan;
+	
+	private static Nurse nurse;
 
-	public static void menu(int nurse_id) {
+	public static void menu(String email) {
 
 		ConnectionManager conMan = new ConnectionManager();
+		nurseMan = conMan.getNurseMan();
 		donorMan = conMan.getDonorMan();
 		doneeMan = conMan.getDoneeMan();
 		bloodMan = conMan.getBloodMan();
 		
+		nurse = nurseMan.getNurseByEmail(email);
 		float retrievalLimit = retrievalMan.getBloodRetrievalLimit();
 		
 		while(true) {
@@ -59,13 +64,6 @@ public abstract class NurseMenu {
 					System.out.println("Show all available blood:");
 					showAllAvailableBlood(retrievalLimit);
 					break;
-					/*
-					System.out.println("Retreive blood:");
-					String bloodType = Utilities.askBloodType();
-					float retrievalAmount = Utilities.readFloat(" -Retrieval amount: ");
-					retrievalBlood(retrievalAmount, bloodType, retrievalLimit);
-					break;
-					*/
 				}
 				case 0: {
 					System.out.println("Program terminated");
@@ -102,7 +100,7 @@ public abstract class NurseMenu {
 		int bloodNedeed = Utilities.readInteger(" -Blood needed: ");
 		Long ssn = Utilities.readLong(" -Social Security Number: ");
 		LocalDate dob = Utilities.askDate(" -Date of birth: ");
-
+		
 		Donee d = new Donee(name, surname, bloodType, bloodNedeed,  dob, ssn);
 		doneeMan.insertDonee(d);
 	}
@@ -130,7 +128,8 @@ public abstract class NurseMenu {
 					+ "\n 4. Remove donor"
 					+ "\n 0. Return to nurse menu");
 			int option = Utilities.readInteger("Choose an option: ");
-				switch (option) {
+			
+			switch (option) {
 				case 1: {
 					System.out.println("Stablish new donation:");
 					registerDonation(id);
@@ -143,7 +142,7 @@ public abstract class NurseMenu {
 				}
 				case 3: {
 					System.out.println("Check personal information:");
-					donorMan.getDonor(id).toString();
+					System.out.println(donorMan.getDonor(id).toString());
 					break;
 				}
 				case 4: {
@@ -168,10 +167,12 @@ public abstract class NurseMenu {
 		Integer amount = Utilities.readInteger(" -Amount: ");
 		LocalDate donationDate = LocalDate.now();
 		Donor donor = donorMan.getDonor(donor_id);
+		
 		Blood b = new Blood(amount, donationDate, donor);
 		bloodMan.insertBloodDonation(b);
+		donorMan.assignDonorToNurse(donor_id, nurse.getId());
 	}
-		
+	
 	//OPTION 3.2:
 	private static void showDonations(int donor_id) {
 		
@@ -218,7 +219,7 @@ public abstract class NurseMenu {
 				}
 				case 3: {
 					System.out.println("Check personal information:");
-					doneeMan.getDonee(id).toString();
+					System.out.println(doneeMan.getDonee(id).toString());
 					break;
 				}
 				case 4: {
@@ -261,6 +262,7 @@ public abstract class NurseMenu {
 				}
 				doneeMan.updateDoneeBloodNeeded(donee_id, retrivalAmount);
 			}
+			doneeMan.assignDoneeToNurse(donee_id, nurse.getId());
 		} else {
 			System.out.println("Not allowed. The transfussion needed exceeds de blood limit.");
 		}

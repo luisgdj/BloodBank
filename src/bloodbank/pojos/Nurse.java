@@ -28,6 +28,8 @@ public class Nurse implements Serializable {
 	private String name;
 	@XmlElement
 	private String surname;
+	@XmlElement
+	private String email;
     @XmlElementWrapper(name = "Contract")
 	private Contract contract;
 	@XmlTransient
@@ -39,18 +41,20 @@ public class Nurse implements Serializable {
 		super();
 	}
 	
-	public Nurse(String name, String surname, Contract contract) {
+	public Nurse(String name, String surname, String email, Contract contract) {
 		super();
 		this.name = name;
+		this.email = email;
 		this.surname = surname;
 		this.contract = contract;
 	}
 
-	public Nurse(int id, String name, String surname, Contract contract, List<Donor> donors, List<Donee> donees) {
+	public Nurse(int id, String name, String surname, String email, Contract contract, List<Donor> donors, List<Donee> donees) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.surname = surname;
+		this.email = email;
 		this.contract = contract;
 		this.donors = donors;
 		this.donees = donees;
@@ -78,6 +82,14 @@ public class Nurse implements Serializable {
 
 	public void setSurname(String surname) {
 		this.surname = surname;
+	}
+	
+	public String getEmail() {
+		return surname;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public Contract getContract() {
@@ -111,6 +123,7 @@ public class Nurse implements Serializable {
 		return " -ID: " + id 
 			 + " -Name: " + name 
 			 + " -Surname: " + surname 
+			 + " -Email: " + email
 			 + " -Contract " + contract.toString();
 	}
 }

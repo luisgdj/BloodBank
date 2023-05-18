@@ -6,7 +6,6 @@ import java.util.Objects;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -118,7 +117,6 @@ public class Blood implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Blood [id=" + id + ", amount=" + amount + ", fecha=" + fecha + ", donor=" + donor.toString() + ", donee="
-				+ donee.toString() + "]";
+		return " (" + id + ") " + fecha + ": " + amount + " mL";
 	}
 }

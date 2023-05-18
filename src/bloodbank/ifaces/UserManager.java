@@ -14,5 +14,4 @@ public interface UserManager {
 	
 	public Role getRole(String name);
 	public List<Role> getRoles();
-	
 }

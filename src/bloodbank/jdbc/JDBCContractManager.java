@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,12 +25,13 @@ public class JDBCContractManager implements ContractManager {
 	public void insertContract(Contract con) {
 		
 		try {
-			Statement s = c.createStatement();
-			String sql = "INSERT INTO contract (duration, salary) "
-					+ "VALUES (" + con.getDuration() + " , "
-					+ con.getSalary() + ")";
-			s.execute(sql);
-			s.close();
+			String sql = "INSERT INTO contract (duration, salary)"
+					+ " VALUES (?,?)";
+			PreparedStatement p = c.prepareStatement(sql);
+			p.setInt(1, con.getDuration());
+			p.setFloat(2, con.getSalary());
+			p.close();
+			
 		} catch (SQLException e) {
 			System.out.println("Database exception");
 			e.printStackTrace();
@@ -46,10 +46,12 @@ public class JDBCContractManager implements ContractManager {
 			PreparedStatement p = c.prepareStatement(sql);
 			p.setInt(1, id); 
 			ResultSet rs = p.executeQuery();
+			p.close();
 			
 			Integer duration = rs.getInt("duration");
 			Integer salary = rs.getInt("salary");
 			List<Nurse> nurses = conMan.getNurseMan().getListOfNursesOfContract(id);
+			
 			rs.close();
 			return new Contract(id, duration, salary, nurses);
 
@@ -69,6 +71,7 @@ public class JDBCContractManager implements ContractManager {
 			String sql = "SELECT * FROM contract ";
 			PreparedStatement p = c.prepareStatement(sql);
 			ResultSet rs = p.executeQuery();
+			p.close();
 			
 			while (rs.next()) {
 				Integer id = rs.getInt("id");
@@ -78,6 +81,7 @@ public class JDBCContractManager implements ContractManager {
 				Contract contract = new Contract(id,duration,salary,nurses);
 				contracts.add(contract);
 			}
+			rs.close();
 			return contracts;
 			
 		}catch(SQLException e) {
@@ -87,4 +91,3 @@ public class JDBCContractManager implements ContractManager {
 		}
 	}
 }
-

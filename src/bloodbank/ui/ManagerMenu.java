@@ -118,17 +118,17 @@ public abstract class ManagerMenu {
 		System.out.println("Input nurse data: ");
 		String name = Utilities.readString(" -Name: ");
 		String surname = Utilities.readString(" -Surname: ");
+		String email = Utilities.readString(" -Email: ");
 		System.out.println(" -Default contract stablished");
 		Contract contract = contractMan.getContract(1);
 		
-		Nurse n = new Nurse(name, surname, contract);
+		String password = Utilities.readString(" -Login password: ");
+		
+		Nurse n = new Nurse(name, surname, email, contract);
 		System.out.println(n.toString());
 		nurseMan.insertNurse(n); 
 		
-		String username = Utilities.readString(" -Username: ");
-		String password = Utilities.readString(" -Password: ");
-		
-		User user = new User(username, password);
+		User user = new User(email, password);
 		userMan.register(user);
 		Role role = userMan.getRole("nurse");
 		userMan.assignRole(user, role);
@@ -143,8 +143,7 @@ public abstract class ManagerMenu {
 		
 		Contract c = new Contract(duration, salary);
 		contractMan.insertContract(c);
-	}
-						
+	}				
 	
 	//OPTION 4:
 	private static void selectNurse() {

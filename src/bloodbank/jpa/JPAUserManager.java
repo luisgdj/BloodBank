@@ -78,10 +78,10 @@ public class JPAUserManager implements UserManager {
 	}
 
 	@Override
-	public User logIn(String name, String password) {
+	public User logIn(String email, String password) {
 		try {
-			Query q = em.createNativeQuery("SELECT * FROM users WHERE username = ? AND password = ?", User.class);
-			q.setParameter(1, name);
+			Query q = em.createNativeQuery("SELECT * FROM users WHERE email = ? AND password = ?", User.class);
+			q.setParameter(1, email);
 			q.setParameter(2, password);
 			User user = (User) q.getSingleResult();
 			return user;

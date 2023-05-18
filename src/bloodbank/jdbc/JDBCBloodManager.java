@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,12 +23,16 @@ public class JDBCBloodManager implements BloodManager{
 	
 	@Override
 	public void insertBloodDonation(Blood b) {
+		
 		try {
-			Statement s = c.createStatement(); //cuando haya una insert se usa statement 
-			String sql = "INSERT INTO blood (amount, fecha, donor, donee) VALUES ('" + b.getAmount() + "','"
-					+ b.getFecha() + "'," + b.getDonor()  + "'," + b.getDonee() + ")";
-			s.execute(sql);
-			s.close(); //las conexiones se cierran asi
+			String sql = "INSERT INTO blood (amount, fecha, donor_id, donee_id)"
+					+ " VALUES (?,?,?,?)";
+			PreparedStatement p = c.prepareStatement(sql);
+			p.setFloat(1, b.getAmount());
+			p.setObject(2, (LocalDate) b.getFecha());
+			p.setInt(3, b.getDonor().getId());
+			p.setInt(4, b.getDonee().getId());
+			p.close();
 			
 		} catch (SQLException e) { //poner siempre esta excepcion cuando creemos una sql
 			System.out.println("Database exception");
@@ -47,6 +50,7 @@ public class JDBCBloodManager implements BloodManager{
 			PreparedStatement p = c.prepareStatement(sql);
 			p.setString(1, "" + donorId);
 			ResultSet rs = p.executeQuery();
+			p.close();
 			
 			while (rs.next()) {
 				Integer id = rs.getInt("id");
@@ -60,7 +64,7 @@ public class JDBCBloodManager implements BloodManager{
 				Blood b = new Blood(id, amount, date, donor, donee);
 				list.add(b);
 			}
-			c.close();
+			rs.close();
 			return list;
 			
 		} catch (SQLException e) {
@@ -79,6 +83,7 @@ public class JDBCBloodManager implements BloodManager{
 			PreparedStatement p = c.prepareStatement(sql);
 			p.setString(1, "" + doneeId);
 			ResultSet rs = p.executeQuery();
+			p.close();
 			
 			while (rs.next()) {
 				Integer id = rs.getInt("id");
@@ -92,7 +97,7 @@ public class JDBCBloodManager implements BloodManager{
 				Blood b = new Blood(id, amount, date, donor, donee);
 				list.add(b);
 			}
-			c.close();
+			rs.close();
 			return list;
 			
 		} catch (SQLException e) {
@@ -109,10 +114,10 @@ public class JDBCBloodManager implements BloodManager{
 			String sql = "SELECT SUM(amount) FROM blood WHERE id = (SELECT id FROM donor WHERE blood_type = ?)";
 			PreparedStatement p = c.prepareStatement(sql);
 			p.setString(1, bloodType);
-			
+
 			ResultSet rs = p.executeQuery();
-			float amount = rs.getFloat(1);//1 refers to the first column
-			
+			float amount = rs.getFloat(1);
+			p.close();
 			return amount;
 
 		} catch(SQLException e) {
@@ -129,10 +134,11 @@ public class JDBCBloodManager implements BloodManager{
 			String sql = "SELECT COUNT(id) FROM blood WHERE id = (SELECT id FROM donor WHERE blood_type = ?)";
 			PreparedStatement p = c.prepareStatement(sql);
 			p.setString(1, bloodType);
-			
 			ResultSet rs = p.executeQuery();
-			int totalDonations = rs.getInt("id");
+			p.close();
 			
+			int totalDonations = rs.getInt("id");
+			rs.close();
 			return totalDonations;
 
 		}catch(SQLException e) {
@@ -150,14 +156,16 @@ public class JDBCBloodManager implements BloodManager{
 			String sql = "SELECT id FROM blood WHERE donor_id = (SELECT id FROM donor WHERE blood_type = ?)";
 			PreparedStatement p = c.prepareStatement(sql);
 			p.setString(1, type);
-			
 			ResultSet rs = p.executeQuery();
+			p.close();
+			
 			int cont = 0;
 			while (rs.next()) {
 				int id = rs.getInt(cont);
 				ids.add(id);
 				cont++;
 			}
+			rs.close();
 			return ids;
 			
 		}catch(SQLException e) {
@@ -175,14 +183,16 @@ public class JDBCBloodManager implements BloodManager{
 			String sql = "SELECT amount FROM blood WHERE donor_id = (SELECT id FROM donor WHERE blood_type = ?)";
 			PreparedStatement p = c.prepareStatement(sql);
 			p.setString(1, bloodType);
-			
 			ResultSet rs = p.executeQuery();
+			p.close();
+			
 			int cont = 0;
 			while (rs.next()) {
 				float amount = rs.getFloat(cont);
 				amounts.add(amount);
 				cont++;
 			}
+			rs.close();
 			return amounts;
 			
 		}catch(SQLException e) {

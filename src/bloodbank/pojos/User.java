@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Table(name = "users")
 public class User implements Serializable {
 
-private static final long serialVersionUID = 1852408272326099491L;
+	private static final long serialVersionUID = 1852408272326099491L;
 	
 	@Id
 	@GeneratedValue(generator = "users")
@@ -17,7 +17,7 @@ private static final long serialVersionUID = 1852408272326099491L;
 		pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "users")
 	private Integer id;
 	@Column(unique = true)
-	private String username;
+	private String email;
 	private String password;
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "roleId")
@@ -26,10 +26,10 @@ private static final long serialVersionUID = 1852408272326099491L;
 	public User() {
 		super();
 	}
-
-	public User(String username, String password) {
+	
+	public User(String email, String password) {
 		super();
-		this.username = username;
+		this.email = email;
 		this.password = password;
 	}
 
@@ -41,12 +41,12 @@ private static final long serialVersionUID = 1852408272326099491L;
 		this.id = id;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getPassword() {
@@ -84,7 +84,7 @@ private static final long serialVersionUID = 1852408272326099491L;
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", password=" + password + ", role="
+		return "User [id=" + id + ", email=" + email + ", password=" + password + ", role="
 				+ role + "]";
 	}
 }

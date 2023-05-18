@@ -123,7 +123,7 @@ public class JDBCDonorManager implements DonorManager{
 			List<Nurse> nurses = conMan.getNurseMan().getListOfNursesOfDonor(id);
 			
 			rs.close();
-			return new Donor(id,name,surname,bloodType,dob,ssn,donations,nurses);;
+			return new Donor(id,name,surname,bloodType,dob,ssn,donations,nurses);
 		
 		}catch(SQLException e) {
 			System.out.println("Databases error");

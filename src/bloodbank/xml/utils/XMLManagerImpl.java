@@ -20,7 +20,8 @@ public class XMLManagerImpl implements XMLManager {
 
 
 	@Override
-	public File blood2Xml(Blood blood) {
+	public File makeBloodXML (Blood blood) {
+		
 		try {
 			// Create the JAXBContext
 			JAXBContext jaxbContext = JAXBContext.newInstance(Blood.class);
@@ -38,20 +39,30 @@ public class XMLManagerImpl implements XMLManager {
 	}
 	
 	@Override
-	public Blood xml2Blood(File xml) throws JAXBException {
-		// Create the JAXBContext
-		JAXBContext jaxbContext = JAXBContext.newInstance(Blood.class);
-		// Get the unmarshaller
-		Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+	public Blood getBloodXML (File xml) {
+		
+		try {
+			// Create the JAXBContext
+			JAXBContext jaxbContext = JAXBContext.newInstance(Blood.class);
+		
+			// Get the unmarshaller
+			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
-		// Use the Unmarshaller to unmarshal the XML document from a file
-		Blood blood = (Blood) unmarshaller.unmarshal(xml);
-		return blood;
+			// Use the Unmarshaller to unmarshal the XML document from a file
+			Blood blood = (Blood) unmarshaller.unmarshal(xml);
+			return blood;
+			
+		} catch (JAXBException e) {
+			System.out.println("Error: unable to load the XML file");
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	@Override
-	public void blood2Html(Blood blood) {
-		File file = blood2Xml(blood);
+	public void makeBloodHTML (Blood blood) {
+		
+		File file = makeBloodXML(blood);
 		TransformerFactory tFactory = TransformerFactory.newInstance();
 		try {
 			Transformer transformer = tFactory.newTransformer(new StreamSource(new File("./xmls/Blood-Style.xslt")));

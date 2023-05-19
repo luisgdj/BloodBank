@@ -9,7 +9,7 @@ import bloodbank.pojos.*;
 
 public interface XMLManager {
 
-	public File blood2Xml(Blood blood);
-	public Blood xml2Blood(File xml)throws JAXBException;
-	public void blood2Html(Blood blood);
+	public File makeBloodXML(Blood blood);
+	public void makeBloodHTML(Blood blood);
+	public Blood getBloodXML(File xml);
 }

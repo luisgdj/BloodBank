@@ -33,10 +33,8 @@ public class Contract implements Serializable {
     @XmlElementWrapper(name = "Nurses")	
 	private List<Nurse> nurses;
 
-	public Contract() { //Deault contract
+	public Contract() {
 		super();
-		this.duration = 12;
-		this.salary = 2500;
 	}
 
 	public Contract(int duration, float salary) {

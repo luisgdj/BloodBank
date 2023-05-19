@@ -21,6 +21,7 @@ public abstract class NurseMenu {
 	public static void menu(String email) {
 
 		ConnectionManager conMan = new ConnectionManager();
+		
 		nurseMan = conMan.getNurseMan();
 		donorMan = conMan.getDonorMan();
 		doneeMan = conMan.getDoneeMan();

@@ -16,22 +16,6 @@ public class JDBCBloodRetrievalLimitManager implements BloodRetrievalLimitManage
 		this.conMan = conMan;
 		this.c = conMan.getConnection();
 	}
-	
-	@Override
-	public void setBloodRetrievalLimit(float limit) {
-		
-		try {
-			String sql = "INSERT INTO blood_retrieval(blood_limit) VALUES(?)";
-			PreparedStatement p = c.prepareStatement(sql);
-			p.setFloat(1, limit);
-			p.close();
-			
-		} catch (SQLException e) { //poner siempre esta excepcion cuando creemos una sql
-			System.out.println("Database exception");
-			e.printStackTrace();
-		}
-		
-	}
 
 	@Override
 	public float getBloodRetrievalLimit() {
@@ -53,7 +37,7 @@ public class JDBCBloodRetrievalLimitManager implements BloodRetrievalLimitManage
 	}
 
 	@Override
-	public void modifyBloodRetrievalLimit(float limit) {
+	public void updateBloodRetrievalLimit(float limit) {
 		try {
 			String sql = "UPDATE blood_retrieval SET blood_limit = ? ";
 			PreparedStatement p = c.prepareStatement(sql);

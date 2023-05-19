@@ -73,7 +73,7 @@ public abstract class ManagerMenu {
 				case 5: {
 					System.out.println("\nChange blood retreival limit: ");
 					float limit= Utilities.readFloat(" -Limit: ");
-					retrievalMan.modifyBloodRetrievalLimit(limit);
+					retrievalMan.updateBloodRetrievalLimit(limit);
 					break;
 				}
 				case 6: {
@@ -82,23 +82,18 @@ public abstract class ManagerMenu {
 					break;
 				}
 				case 7: {
-					System.out.println("Save blood information:");
-					xmlMan.blood2Xml(null);
+					System.out.println("Save blood information XML:");
+					File f = xmlMan.makeBloodXML(null);
 					break;
 				}
 				case 8: {
-					System.out.println("Save blood information:");
-					xmlMan.blood2Html(null);
+					System.out.println("Save blood information HTML:");
+					xmlMan.getBloodXML(null);
 					break;
 				}
 				case 9: {
 					System.out.println("Load blood information:");
-					try {
-						xmlMan.xml2Blood(null);
-					} catch (JAXBException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					Blood b = xmlMan.getBloodXML(null);
 					break;
 				}
 				case 0: {

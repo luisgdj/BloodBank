@@ -2,6 +2,7 @@ package bloodbank.jdbc;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -37,9 +38,6 @@ public class ConnectionManager {
 			this.donorMan = new JDBCDonorManager(this);
 			this.doneeMan = new JDBCDoneeManager(this);
 			this.retrievalMan = new JDBCBloodRetrievalLimitManager(this);
-			
-			retrievalMan.setBloodRetrievalLimit(0);
-			contractMan.insertContract(new Contract());
 			
 		} catch (Exception e) {
 			System.out.println("Database access error.");
@@ -111,8 +109,15 @@ public class ConnectionManager {
 					+ "donor_id INTEGER REFERENCES donor(id)," + "PRIMARY KEY(nurse_id, donor_id));";
 			s.executeUpdate(table);
 			
-			table= "CREATE TABLE blood_retrieval(" + "blood_limit FLOAT NOT NULL)";
+			table = "CREATE TABLE blood_retrieval(" + "blood_limit FLOAT NOT NULL)";
 			s.executeUpdate(table);
+			
+			//Default values:
+			String sql;
+			sql = "INSERT INTO blood_retrieval(blood_limit) VALUES(0)";
+			s.executeUpdate(sql);
+			sql = "INSERT INTO contract (duration, salary) VALUES (12,2500)";
+			s.executeUpdate(sql);
 			
 			s.close();
 			

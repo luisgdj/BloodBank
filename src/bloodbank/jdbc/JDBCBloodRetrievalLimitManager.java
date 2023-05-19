@@ -23,9 +23,9 @@ public class JDBCBloodRetrievalLimitManager implements BloodRetrievalLimitManage
 			String sql = "SELECT blood_limit FROM blood_retrieval ";
 			PreparedStatement p = c.prepareStatement(sql);
 			ResultSet rs = p.executeQuery();
-			p.close();
-			
 			float limit = rs.getFloat(1);
+			
+			p.close();
 			rs.close();
 			return limit;
 
@@ -42,6 +42,8 @@ public class JDBCBloodRetrievalLimitManager implements BloodRetrievalLimitManage
 			String sql = "UPDATE blood_retrieval SET blood_limit = ? ";
 			PreparedStatement p = c.prepareStatement(sql);
 			p.setFloat(1, limit);
+			
+			p.executeUpdate();
 			p.close();
 			
 		} catch (SQLException e) {

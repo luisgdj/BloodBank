@@ -44,8 +44,8 @@ public class Nurse implements Serializable {
 	public Nurse(String name, String surname, String email, Contract contract) {
 		super();
 		this.name = name;
-		this.email = email;
 		this.surname = surname;
+		this.email = email;
 		this.contract = contract;
 	}
 
@@ -85,7 +85,7 @@ public class Nurse implements Serializable {
 	}
 	
 	public String getEmail() {
-		return surname;
+		return email;
 	}
 
 	public void setEmail(String email) {
@@ -100,6 +100,22 @@ public class Nurse implements Serializable {
 		this.contract = contract;
 	}
 	
+
+	public List<Donor> getDonors() {
+		return donors;
+	}
+
+	public void setDonors(List<Donor> donors) {
+		this.donors = donors;
+	}
+
+	public List<Donee> getDonees() {
+		return donees;
+	}
+
+	public void setDonees(List<Donee> donees) {
+		this.donees = donees;
+	}
 
 	@Override
 	public int hashCode() {

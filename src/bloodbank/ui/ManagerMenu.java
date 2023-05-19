@@ -32,6 +32,7 @@ public abstract class ManagerMenu {
 		doneeMan = conMan.getDoneeMan();
 		bloodMan = conMan.getBloodMan();
 		retrievalMan = conMan.getRetrievalMan();
+		userMan = man;
 		
 		while (true) {
 			System.out.println("\nBlood bank storage unit (manager menu):" 
@@ -116,11 +117,11 @@ public abstract class ManagerMenu {
 		String email = Utilities.readString(" -Email: ");
 		System.out.println(" -Default contract stablished");
 		Contract contract = contractMan.getContract(1);
+		contract.setNurses(nurseMan.getListOfNursesOfContract(1));
 		
 		String password = Utilities.readString(" -Login password: ");
 		
 		Nurse n = new Nurse(name, surname, email, contract);
-		System.out.println(n.toString());
 		nurseMan.insertNurse(n); 
 		
 		User user = new User(email, password);
@@ -157,7 +158,7 @@ public abstract class ManagerMenu {
 	private static void checkNurseInfo(Integer id) {
 		
 		while (true) {
-			System.out.println("Check nurse info:" 
+			System.out.println("\nCheck nurse info:" 
 					+ "\n 1. Check personal information" 
 					+ "\n 2. Show patients"
 					+ "\n 3. Change contract" 

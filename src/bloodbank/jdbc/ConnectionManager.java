@@ -88,17 +88,18 @@ public class ConnectionManager {
 			s.executeUpdate(table);
 			
 			table = "CREATE TABLE donor(" + "id INTEGER PRIMARY KEY AUTOINCREMENT," + "name TEXT NOT NULL,"
-					+ "surname TEXT NOT NULL," + "blood_type TEXT NOT NULL," + "age INTEGER NOT NULL,"
-					+ "ssnn INTEGER NOT NULL);";
+					+ "surname TEXT NOT NULL," + "blood_type TEXT NOT NULL," + "dob DATE NOT NULL,"
+					+ "ssn INTEGER NOT NULL);";
 			s.executeUpdate(table);
 			
 			table = "CREATE TABLE blood(" + "id INTEGER PRIMARY KEY AUTOINCREMENT," + "amount INTEGER NOT NULL,"
-					+ "collection_date DATE NOT NULL," + "donor_id INTEGER REFERENCES donor(id));";
+					+ "collection_date DATE NOT NULL," + "donor_id INTEGER REFERENCES donor(id),"
+					+ "donee_id INTEGER REFERENCES donee(id));";
 			s.executeUpdate(table);
 			
 			table = "CREATE TABLE donee(" + "id INTEGER PRIMARY KEY AUTOINCREMENT," + "name TEXT NOT NULL,"
 					+ "surname TEXT NOT NULL," + "blood_type TEXT NOT NULL," + "blood_needed TEXT NOT NULL,"
-					+ "age INTEGER NOT NULL," + "ssnn INTEGER NOT NULL," + "blood_id INTEGER REFERENCES blood(id));";
+					+ "dob INTEGER NOT NULL," + "ssn INTEGER NOT NULL);";
 			s.executeUpdate(table);
 			
 			table = "CREATE TABLE nurse_donee(" + "nurse_id INTEGER REFERENCES nurse(id),"

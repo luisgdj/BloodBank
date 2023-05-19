@@ -1,5 +1,6 @@
 package bloodbank.ui;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Iterator;
 import java.util.List;
@@ -26,12 +27,13 @@ public abstract class NurseMenu {
 		donorMan = conMan.getDonorMan();
 		doneeMan = conMan.getDoneeMan();
 		bloodMan = conMan.getBloodMan();
+		retrievalMan = conMan.getRetrievalMan();
 		
 		nurse = nurseMan.getNurseByEmail(email);
 		float retrievalLimit = retrievalMan.getBloodRetrievalLimit();
 		
 		while(true) {
-			System.out.println("Blood bank storage unit:"
+			System.out.println("\nBlood bank storage unit (nurse menu: " + email + ")"
 					+ "\n 1. Register donor" 
 					+ "\n 2. Register donee"
 					+ "\n 3. Select donor" 
@@ -85,7 +87,7 @@ public abstract class NurseMenu {
 		String surname = Utilities.readString(" -Surname: ");
 		String bloodType = Utilities.askBloodType();
 		Long ssn = Utilities.readLong(" -Social Security Number: ");
-		LocalDate dob = Utilities.askDate(" -Date of birth: ");
+		Date dob = Utilities.askDate(" -Date of birth: ");
 
 		Donor d = new Donor(name, surname, bloodType, dob, ssn);
 		donorMan.insertDonor(d);
@@ -100,7 +102,7 @@ public abstract class NurseMenu {
 		String bloodType = Utilities.askBloodType();
 		int bloodNedeed = Utilities.readInteger(" -Blood needed: ");
 		Long ssn = Utilities.readLong(" -Social Security Number: ");
-		LocalDate dob = Utilities.askDate(" -Date of birth: ");
+		Date dob = Utilities.askDate(" -Date of birth: ");
 		
 		Donee d = new Donee(name, surname, bloodType, bloodNedeed,  dob, ssn);
 		doneeMan.insertDonee(d);
@@ -122,7 +124,7 @@ public abstract class NurseMenu {
 	private static void checkDonorInfo(int id) {
 			
 		while (true) {
-			System.out.println("Blood bank storage unit:"
+			System.out.println("\nCheck donor: (" + id + ")"
 					+ "\n 1. Donate blood" 
 					+ "\n 2. View donotations"
 					+ "\n 3. Show personal information" 
@@ -143,13 +145,17 @@ public abstract class NurseMenu {
 				}
 				case 3: {
 					System.out.println("Check personal information:");
-					System.out.println(donorMan.getDonor(id).toString());
+					Donor d = donorMan.getDonor(id);
+					d.setDonations(bloodMan.getDonations(id));
+					d.setNurses(nurseMan.getListOfNursesOfDonor(id));
+					System.out.println(d.toString());
 					break;
 				}
 				case 4: {
 					donorMan.removeDonor(id);
 					System.out.println("Donor removed from the data base");
-					break;
+					System.out.println("Returned to nurse menu");
+					return;
 				}
 				case 0: {
 					return;
@@ -166,8 +172,10 @@ public abstract class NurseMenu {
 			
 		System.out.println("Imput blood donation data: ");
 		Integer amount = Utilities.readInteger(" -Amount: ");
-		LocalDate donationDate = LocalDate.now();
+		Date donationDate = Date.valueOf(LocalDate.now());
 		Donor donor = donorMan.getDonor(donor_id);
+		donor.setDonations(bloodMan.getDonations(donor_id));
+		donor.setNurses(nurseMan.getListOfNursesOfDonor(donor_id));
 		
 		Blood b = new Blood(amount, donationDate, donor);
 		bloodMan.insertBloodDonation(b);
@@ -200,7 +208,7 @@ public abstract class NurseMenu {
 	private static void checkDoneeInfo(int id) {
 			
 		while (true) {
-			System.out.println("Blood bank storage unit:"
+			System.out.println("\nCheck donee: (" + id + ")"
 					+ "\n 1. Transfuse blood" 
 					+ "\n 2. View transfusions"
 					+ "\n 3. Show personal information" 
@@ -220,13 +228,17 @@ public abstract class NurseMenu {
 				}
 				case 3: {
 					System.out.println("Check personal information:");
-					System.out.println(doneeMan.getDonee(id).toString());
+					Donee d = doneeMan.getDonee(id);
+					d.setTransfusions(bloodMan.getTransfusions(id));
+					d.setNurses(nurseMan.getListOfNursesOfDonee(id));
+					System.out.println(d.toString());
 					break;
 				}
 				case 4: {
 					doneeMan.removeDonee(id);
 					System.out.println("Donee removed from the data base");
-					break;
+					System.out.println("Returned to nurse menu");
+					return;
 				}
 				case 0: {
 					return;

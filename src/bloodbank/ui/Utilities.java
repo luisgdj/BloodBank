@@ -3,6 +3,7 @@ package bloodbank.ui;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.sql.Date;
 import java.time.LocalDate;
 
 import bloodbank.ifaces.*;
@@ -90,14 +91,14 @@ public abstract class Utilities {
 		}
 	}
 	
-	public static LocalDate askDate(String question) {
+	public static Date askDate(String question) {
 		
 		while(true) {
 			System.out.println(question);
-			int dia = Utilities.readInteger("   Dia: ");
-			int mes = Utilities.readInteger("   Mes: ");
-			int ano = Utilities.readInteger("   Año: ");
-			return LocalDate.of(ano, mes, dia);
+			int day = Utilities.readInteger("   Day: ");
+			int month = Utilities.readInteger("   Month: ");
+			int year = Utilities.readInteger("   Year: ");
+			return new Date(year,month,day);
 		}
 	}
 	

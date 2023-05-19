@@ -34,9 +34,11 @@ public class JDBCNurseManager implements NurseManager {
 			p.setString(2, nurse.getSurname());
 			p.setString(3, nurse.getEmail());
 			p.setInt(4, nurse.getContract().getId());
+			
+			p.executeUpdate();
 			p.close();
 			
-		} catch (SQLException e) { //poner siempre esta excepcion cuando creemos una sql
+		} catch (SQLException e) {
 			System.out.println("Database exception");
 			e.printStackTrace();
 		}
@@ -49,10 +51,9 @@ public class JDBCNurseManager implements NurseManager {
 		
 		try {
 			String sql= "SELECT * FROM nurse WHERE name = ?";
-			PreparedStatement p = c.prepareStatement(sql);//cuando haya una slect se usa preparedStatement 
-			p.setString(1, "%"+name+ "%"); //el 1 apunta a la interrogacion y lo que va despues (name), apunta al parametro que se le pasa al metodo
+			PreparedStatement p = c.prepareStatement(sql);
+			p.setString(1, "%"+name+ "%");
 			ResultSet rs = p.executeQuery();
-			p.close();
 			
 			while(rs.next()) {
 				//Create a new nurse
@@ -68,6 +69,7 @@ public class JDBCNurseManager implements NurseManager {
 				Nurse nurse = new  Nurse(id,n,surname,email,contract,donors,donees);
 				list.add(nurse);				
 			}
+			p.close();
 			rs.close();
 			
 		}catch(SQLException e) {
@@ -82,9 +84,8 @@ public class JDBCNurseManager implements NurseManager {
 		try {
 			String sql = "SELECT * FROM nurse WHERE id = ?";
 			PreparedStatement p = c.prepareStatement(sql);
-			p.setInt(1, id); //ponemos 1 porque el primer atributo en la clase nurse es name que es por lo que lo queremos buscar
+			p.setInt(1, id);
 			ResultSet rs = p.executeQuery();
-			p.close();
 			
 			String name = rs.getString("name");
 			String surname = rs.getString("surname");
@@ -93,7 +94,8 @@ public class JDBCNurseManager implements NurseManager {
 			Contract contract = conMan.getContractMan().getContract(contract_id);
 			List<Donor> donors = conMan.getDonorMan().getListOfDonors(id);
 			List<Donee> donees = conMan.getDoneeMan().getListOfDonees(id);
-			
+
+			p.close();
 			rs.close();
 			return new Nurse(id,name,surname,email,contract,donors,donees);
 			
@@ -111,7 +113,6 @@ public class JDBCNurseManager implements NurseManager {
 			PreparedStatement p = c.prepareStatement(sql);
 			p.setString(1, email);
 			ResultSet rs = p.executeQuery();
-			p.close();
 
 			Integer id = rs.getInt("id");
 			String name = rs.getString("name");
@@ -120,7 +121,8 @@ public class JDBCNurseManager implements NurseManager {
 			Contract contract = conMan.getContractMan().getContract(contract_id);
 			List<Donor> donors = conMan.getDonorMan().getListOfDonors(id);
 			List<Donee> donees = conMan.getDoneeMan().getListOfDonees(id);
-			
+
+			p.close();
 			rs.close();
 			return new  Nurse(id,name,surname,email,contract,donors,donees);
 			
@@ -138,6 +140,8 @@ public class JDBCNurseManager implements NurseManager {
 			PreparedStatement p = c.prepareStatement(sql);
 			p.setInt(1, contractId);
 			p.setInt(2, nurseId);
+			
+			p.executeUpdate();
 			p.close();
 			
 		}catch(SQLException e) {
@@ -153,9 +157,8 @@ public class JDBCNurseManager implements NurseManager {
 		try {
 			String sql = "SELECT * FROM nurse WHERE contract_id = ? ";
 			PreparedStatement p = c.prepareStatement(sql);
-			p.setInt(1, contractId);	
+			p.setInt(1, contractId);
 			ResultSet rs = p.executeQuery();
-			p.close();
 			
 			while (rs.next()) {
 				Integer id = rs.getInt("id");
@@ -170,6 +173,7 @@ public class JDBCNurseManager implements NurseManager {
 				Nurse nurse = new Nurse(id,name,surname,email,contract,donors,donees);
 				nurses.add(nurse);
 			}
+			p.close();
 			rs.close();
 			return nurses;
 			
@@ -190,7 +194,6 @@ public class JDBCNurseManager implements NurseManager {
 			PreparedStatement p = c.prepareStatement(sql);
 			p.setInt(1, donorId);
 			ResultSet rs = p.executeQuery();
-			p.close();
 			
 			while (rs.next()) {
 				Integer id = rs.getInt("id");
@@ -205,6 +208,7 @@ public class JDBCNurseManager implements NurseManager {
 				Nurse nurse = new  Nurse(id,name,surname,email,contract,donors,donees);
 				nurses.add(nurse);
 			}
+			p.close();
 			rs.close();
 			return nurses;
 			
@@ -224,7 +228,6 @@ public class JDBCNurseManager implements NurseManager {
 			PreparedStatement p = c.prepareStatement(sql);
 			p.setInt(1, doneeId);
 			ResultSet rs = p.executeQuery();
-			p.close();
 			
 			while (rs.next()) {
 				Integer id = rs.getInt("id");
@@ -238,6 +241,7 @@ public class JDBCNurseManager implements NurseManager {
 				Nurse nurse = new Nurse(id,name,surname,email,contract,donors,donees);
 				nurses.add(nurse);
 			}
+			p.close();
 			rs.close();
 			return nurses;
 			

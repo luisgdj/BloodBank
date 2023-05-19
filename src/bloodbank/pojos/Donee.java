@@ -1,6 +1,7 @@
 package bloodbank.pojos;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
@@ -13,7 +14,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import bloodbank.xml.utils.LocalDateAdapter;
+import bloodbank.xml.utils.*;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "Donee")
@@ -36,8 +37,8 @@ public class Donee implements Serializable {
 	@XmlElement
 	private Float bloodNeeded;
 	@XmlElement
-	@XmlJavaTypeAdapter(LocalDateAdapter.class)
-	private LocalDate dob;
+	@XmlJavaTypeAdapter(SQLDateAdapter.class)
+	private Date dob;
 	@XmlElement
 	private Long ssn;
 	@XmlTransient
@@ -50,7 +51,7 @@ public class Donee implements Serializable {
 		super();
 	}
  
-	public Donee(String name, String surname, String bloodType, float bloodNeeded, LocalDate dob, long ssn) {
+	public Donee(String name, String surname, String bloodType, float bloodNeeded, Date dob, long ssn) {
 		super();
 		this.name = name;
 		this.surname = surname;
@@ -60,7 +61,7 @@ public class Donee implements Serializable {
 		this.ssn = ssn;
 	}
 	
-	public Donee(int id, String name, String surname, String bloodType, float bloodNeeded, LocalDate dob, long ssn, List<Blood> transfusions) {
+	public Donee(int id, String name, String surname, String bloodType, float bloodNeeded, Date dob, long ssn, List<Blood> transfusions, List<Nurse> nurses) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -70,6 +71,7 @@ public class Donee implements Serializable {
 		this.dob = dob;
 		this.ssn = ssn;
 		this.transfusions = transfusions;
+		this.nurses = nurses;
 	}
 
 	public int getId() {
@@ -112,11 +114,11 @@ public class Donee implements Serializable {
 		this.bloodNeeded = bloodNeeded;
 	}
 
-	public LocalDate getDob() {
+	public Date getDob() {
 		return dob;
 	}
 	
-	public void setDob(LocalDate dob) {
+	public void setDob(Date dob) {
 		this.dob = dob;
 	}
 
@@ -136,6 +138,22 @@ public class Donee implements Serializable {
 		this.transfusions = transfusions;
 	}
 
+
+	public List<Nurse> getNurses() {
+		return nurses;
+	}
+
+	public void setNurses(List<Nurse> nurses) {
+		this.nurses = nurses;
+	}
+
+	public void setBloodNeeded(Float bloodNeeded) {
+		this.bloodNeeded = bloodNeeded;
+	}
+
+	public void setSsn(Long ssn) {
+		this.ssn = ssn;
+	}
 
 	@Override
 	public int hashCode() {

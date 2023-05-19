@@ -1,16 +1,17 @@
 package bloodbank.jdbc;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import bloodbank.ifaces.DoneeManager;
 import bloodbank.pojos.Blood;
 import bloodbank.pojos.Donee;
+import bloodbank.pojos.Nurse;
 
 public class JDBCDoneeManager implements DoneeManager{
 
@@ -34,8 +35,10 @@ public class JDBCDoneeManager implements DoneeManager{
 			p.setString(2, d.getSurname());
 			p.setString(3, d.getBloodType());
 			p.setFloat(4, d.getBloodNeeded());
-			p.setObject(5, (LocalDate) d.getDob());
+			p.setDate(5, d.getDob());
 			p.setLong(6, d.getSsn());
+			
+			p.executeUpdate();
 			p.close();
 			
 		} catch (SQLException e) {
@@ -51,6 +54,8 @@ public class JDBCDoneeManager implements DoneeManager{
 			String sql = "DELETE FROM donee WHERE id = ?";
 			PreparedStatement p = c.prepareStatement(sql);
 			p.setInt(1, id);
+			
+			p.executeUpdate();
 			p.close();
 			
 		}catch(SQLException e) {
@@ -62,23 +67,23 @@ public class JDBCDoneeManager implements DoneeManager{
 	public Donee getDonee(int id) {
 		
 		try {
-			String sql =  "SELECT * FROM donee where id = ?";
+			String sql =  "SELECT * FROM donee WHERE id = ?";
 			PreparedStatement p = c.prepareStatement(sql);
 			p.setInt(1, id); 
 			ResultSet rs = p.executeQuery();
-			p.close();
 			
 			String name = rs.getString("name");
 			String surname= rs.getString("surname");
 			String bloodType = rs.getString("blood_type");
-			Integer bloodNeeded = rs.getInt("blood_needed");
-			LocalDate dob = (LocalDate) rs.getObject("dob");
+			Float bloodNeeded = rs.getFloat("blood_needed");
+			Date dob = rs.getDate("dob");
 			long ssn = rs.getLong("ssn");
 			List<Blood> transfusions = conMan.getBloodMan().getTransfusions(id);
+			List<Nurse> nurses = conMan.getNurseMan().getListOfNursesOfDonor(id);
 			
-			Donee d = new Donee(id,name,surname,bloodType,bloodNeeded,dob,ssn,transfusions);
+			p.close();
 			rs.close();
-			return d;
+			return new Donee(id,name,surname,bloodType,bloodNeeded,dob,ssn,transfusions,nurses);
 		
 		}catch(SQLException e) {
 			System.out.println("Databases error");
@@ -94,6 +99,7 @@ public class JDBCDoneeManager implements DoneeManager{
 			PreparedStatement p = c.prepareStatement(sql);
 			p.setInt(1, doneeId); 
 			p.setInt(2, nurseId);
+			
 			p.executeUpdate();
 			p.close();
 
@@ -112,21 +118,22 @@ public class JDBCDoneeManager implements DoneeManager{
 			PreparedStatement p = c.prepareStatement(sql);
 			p.setString(1, "" + nurseId);
 			ResultSet rs = p.executeQuery();
-			p.close();
 			
 			while (rs.next()) {
-				Integer id = rs.getInt("id");
-				String name = rs.getString("name");
-				String surname = rs.getString("surname");
-				String bloodType = rs.getString("blood_type");
-				float bloodNeeded = rs.getFloat("blood_needed");
-				LocalDate dob = (LocalDate) rs.getObject("dob");
-				Long ssn = rs.getLong("ssn");
+				Integer id = rs.getInt(8);
+				String name = rs.getString(9);
+				String surname = rs.getString(10);
+				String bloodType = rs.getString(11);
+				float bloodNeeded = rs.getFloat(12);
+				Date dob = rs.getDate(13);
+				Long ssn = rs.getLong(14);
 				List<Blood> transfussions = conMan.getBloodMan().getTransfusions(id);
+				List<Nurse> nurses = conMan.getNurseMan().getListOfNursesOfDonor(id);
 				
-				Donee donee = new Donee(id,name,surname,bloodType,bloodNeeded,dob,ssn,transfussions);
+				Donee donee = new Donee(id,name,surname,bloodType,bloodNeeded,dob,ssn,transfussions,nurses);
 				list.add(donee);
 			}
+			p.close();
 			rs.close();
 			return list;
 			
@@ -145,6 +152,8 @@ public class JDBCDoneeManager implements DoneeManager{
 			PreparedStatement p = c.prepareStatement(sql);
 			p.setFloat(1, amount);
 			p.setInt(2, donee_id);
+			
+			p.executeUpdate();
 			p.close();
 			
 		} catch (SQLException e) {

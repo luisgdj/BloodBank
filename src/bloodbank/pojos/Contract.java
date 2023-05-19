@@ -75,12 +75,12 @@ public class Contract implements Serializable {
 		this.salary = salary;
 	}
 
-	public Nurse getNurse() {
-		return (Nurse) nurses;
+	public List<Nurse> getNurses() {
+		return nurses;
 	}
 
-	public void setNurse(Nurse nurse) {
-		this.nurses = (List<Nurse>) nurses;
+	public void setNurses(List<Nurse> nurses) {
+		this.nurses = nurses;
 	}
 
 	@Override

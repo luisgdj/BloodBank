@@ -1,6 +1,7 @@
 package bloodbank.pojos;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
@@ -13,7 +14,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import bloodbank.xml.utils.LocalDateAdapter;
+import bloodbank.xml.utils.*;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "Donor")
@@ -34,8 +35,8 @@ public class Donor implements Serializable{
 	@XmlElement
 	private String bloodType;
 	@XmlElement
-	@XmlJavaTypeAdapter(LocalDateAdapter.class)
-	private LocalDate dob;
+	@XmlJavaTypeAdapter(SQLDateAdapter.class)
+	private Date dob;
 	@XmlElement
 	private long ssn;
 	@XmlTransient
@@ -48,7 +49,7 @@ public class Donor implements Serializable{
 		super();
 	}
 
-	public Donor(String name, String surname, String bloodType, LocalDate dob, long ssn) {
+	public Donor(String name, String surname, String bloodType, Date dob, long ssn) {
 		super();
 		this.name = name;
 		this.surname = surname;
@@ -57,7 +58,7 @@ public class Donor implements Serializable{
 		this.ssn = ssn;
 	}
 
-	public Donor(int id, String name, String surname, String bloodType, LocalDate dob, long ssn, List<Blood> donations, List<Nurse> nurses) {
+	public Donor(int id, String name, String surname, String bloodType, Date dob, long ssn, List<Blood> donations, List<Nurse> nurses) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -101,11 +102,11 @@ public class Donor implements Serializable{
 		this.bloodType = bloodType;
 	}
 	
-	public LocalDate getDob() {
+	public Date getDob() {
 		return dob;
 	}
 	
-	public void setDob(LocalDate dob) {
+	public void setDob(Date dob) {
 		this.dob = dob;
 	}
 	
@@ -125,6 +126,13 @@ public class Donor implements Serializable{
 		this.donations = donations;
 	}
 
+	public List<Nurse> getNurses() {
+		return nurses;
+	}
+
+	public void setNurses(List<Nurse> nurses) {
+		this.nurses = nurses;
+	}
 
 	@Override
 	public int hashCode() {

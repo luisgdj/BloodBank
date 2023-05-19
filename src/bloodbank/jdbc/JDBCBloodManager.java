@@ -1,6 +1,7 @@
  package bloodbank.jdbc;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,20 +26,26 @@ public class JDBCBloodManager implements BloodManager{
 	public void insertBloodDonation(Blood b) {
 		
 		try {
-			String sql = "INSERT INTO blood (amount, fecha, donor_id, donee_id)"
+			String sql = "INSERT INTO blood (amount, collection_date, donor_id, donee_id)"
 					+ " VALUES (?,?,?,?)";
 			PreparedStatement p = c.prepareStatement(sql);
 			p.setFloat(1, b.getAmount());
-			p.setObject(2, (LocalDate) b.getFecha());
+			p.setDate(2, b.getDate());
 			p.setInt(3, b.getDonor().getId());
-			p.setInt(4, b.getDonee().getId());
+			
+			if(b.getDonee() != null) {
+				p.setInt(4, b.getDonee().getId());
+			}else {
+				p.setObject(4, null);
+			}
+		
+			p.executeUpdate();
 			p.close();
 			
-		} catch (SQLException e) { //poner siempre esta excepcion cuando creemos una sql
+		} catch (SQLException e) { 
 			System.out.println("Database exception");
 			e.printStackTrace();
 		}
-		
 	}
 
 	@Override
@@ -48,22 +55,25 @@ public class JDBCBloodManager implements BloodManager{
 		try {
 			String sql = "SELECT * FROM blood WHERE donor_id = ?";
 			PreparedStatement p = c.prepareStatement(sql);
-			p.setString(1, "" + donorId);
+			p.setInt(1, donorId);
 			ResultSet rs = p.executeQuery();
-			p.close();
 			
 			while (rs.next()) {
 				Integer id = rs.getInt("id");
 				Integer amount = rs.getInt("amount");
-				LocalDate date = (LocalDate) rs.getObject("collection_date");
+				Date date = rs.getDate("collection_date");
 				Integer donor_id = rs.getInt("donor_id");
 				Donor donor = conMan.getDonorMan().getDonor(donor_id);
 				Integer donee_id = rs.getInt("donee_id");
-				Donee donee = conMan.getDoneeMan().getDonee(donee_id);
+				Donee donee = null;
+				if(conMan.getDoneeMan().getDonee(donee_id) != null) {
+					donee = conMan.getDoneeMan().getDonee(donee_id);
+				}
 				
 				Blood b = new Blood(id, amount, date, donor, donee);
 				list.add(b);
 			}
+			p.close();
 			rs.close();
 			return list;
 			
@@ -83,12 +93,11 @@ public class JDBCBloodManager implements BloodManager{
 			PreparedStatement p = c.prepareStatement(sql);
 			p.setString(1, "" + doneeId);
 			ResultSet rs = p.executeQuery();
-			p.close();
 			
 			while (rs.next()) {
 				Integer id = rs.getInt("id");
 				Integer amount = rs.getInt("amount");
-				LocalDate date = (LocalDate) rs.getObject("collection_date");
+				Date date = rs.getDate("collection_date");
 				Integer donor_id = rs.getInt("donor_id");
 				Donor donor = conMan.getDonorMan().getDonor(donor_id);
 				Integer donee_id = rs.getInt("donee_id");
@@ -97,6 +106,7 @@ public class JDBCBloodManager implements BloodManager{
 				Blood b = new Blood(id, amount, date, donor, donee);
 				list.add(b);
 			}
+			p.close();
 			rs.close();
 			return list;
 			
@@ -114,10 +124,11 @@ public class JDBCBloodManager implements BloodManager{
 			String sql = "SELECT SUM(amount) FROM blood WHERE id = (SELECT id FROM donor WHERE blood_type = ?)";
 			PreparedStatement p = c.prepareStatement(sql);
 			p.setString(1, bloodType);
-
 			ResultSet rs = p.executeQuery();
 			float amount = rs.getFloat(1);
+			
 			p.close();
+			rs.close();
 			return amount;
 
 		} catch(SQLException e) {
@@ -135,9 +146,9 @@ public class JDBCBloodManager implements BloodManager{
 			PreparedStatement p = c.prepareStatement(sql);
 			p.setString(1, bloodType);
 			ResultSet rs = p.executeQuery();
-			p.close();
 			
 			int totalDonations = rs.getInt("id");
+			p.close();
 			rs.close();
 			return totalDonations;
 
@@ -157,7 +168,6 @@ public class JDBCBloodManager implements BloodManager{
 			PreparedStatement p = c.prepareStatement(sql);
 			p.setString(1, type);
 			ResultSet rs = p.executeQuery();
-			p.close();
 			
 			int cont = 0;
 			while (rs.next()) {
@@ -165,6 +175,7 @@ public class JDBCBloodManager implements BloodManager{
 				ids.add(id);
 				cont++;
 			}
+			p.close();
 			rs.close();
 			return ids;
 			
@@ -184,7 +195,6 @@ public class JDBCBloodManager implements BloodManager{
 			PreparedStatement p = c.prepareStatement(sql);
 			p.setString(1, bloodType);
 			ResultSet rs = p.executeQuery();
-			p.close();
 			
 			int cont = 0;
 			while (rs.next()) {
@@ -192,6 +202,7 @@ public class JDBCBloodManager implements BloodManager{
 				amounts.add(amount);
 				cont++;
 			}
+			p.close();
 			rs.close();
 			return amounts;
 			
@@ -209,6 +220,7 @@ public class JDBCBloodManager implements BloodManager{
 			String sql = "DELETE FROM blood WHERE id = ? ";
 			PreparedStatement p = c.prepareStatement(sql);
 			p.setInt(1, id);
+			
 			p.executeUpdate();
 			p.close();	
 		
@@ -226,6 +238,8 @@ public class JDBCBloodManager implements BloodManager{
 			PreparedStatement p = c.prepareStatement(sql);
 			p.setInt(1, donee_id);
 			p.setInt(2, id);
+			
+			p.executeUpdate();
 			p.close();
 			
 		} catch (SQLException e) {

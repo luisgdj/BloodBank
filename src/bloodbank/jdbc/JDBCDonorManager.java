@@ -1,10 +1,10 @@
 package bloodbank.jdbc;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,13 +28,15 @@ public class JDBCDonorManager implements DonorManager{
 		try {
 			String sql = "INSERT INTO donor "
 					+ "(name, surname, blood_type, dob, ssn)"
-					+ " VALUES (?,?,?,?,?,?)";
+					+ " VALUES (?,?,?,?,?)";
 			PreparedStatement p = c.prepareStatement(sql);
 			p.setString(1, d.getName());
 			p.setString(2, d.getSurname());
 			p.setString(3, d.getBloodType());
-			p.setObject(4, (LocalDate) d.getDob());
+			p.setDate(4, d.getDob());
 			p.setLong(5, d.getSsn());
+			
+			p.executeUpdate();
 			p.close();
 			
 		} catch (SQLException e) {
@@ -50,6 +52,8 @@ public class JDBCDonorManager implements DonorManager{
 			String sql = "DELETE FROM donor WHERE id = ?";
 			PreparedStatement p = c.prepareStatement(sql);
 			p.setString(1, "" + id); 
+			
+			p.executeUpdate();
 			p.close();
 			
 		}catch(SQLException e) {
@@ -61,16 +65,17 @@ public class JDBCDonorManager implements DonorManager{
 	@Override
 	public void assignDonorToNurse(int donorId, int nurseId) {
 		try {
-			String sql = "INSERT INTO nurse_donor (donorId, nurseId) VALUES (?,?)";
+			String sql = "INSERT INTO nurse_donor (nurse_id, donor_id) VALUES (?,?)";
 			PreparedStatement p = c.prepareStatement(sql);
-			p.setInt(1, donorId); 
-			p.setInt(2, nurseId);
+			p.setInt(1, nurseId);
+			p.setInt(2, donorId); 
+			
 			p.executeUpdate();
 			p.close();
 
 		}catch(SQLException e) {
-			System.out.println("Databases error");
-			e.printStackTrace();	
+			System.out.println("( You have already attended this donor)");
+			e.printStackTrace();
 		}
 	}
 
@@ -83,19 +88,19 @@ public class JDBCDonorManager implements DonorManager{
 			PreparedStatement p = c.prepareStatement(sql);//cuando haya una slect se usa preparedStatement 
 			p.setString(1, "%"+ name +"%"); 
 			ResultSet rs = p.executeQuery();
-			p.close();
 			
 			while(rs.next()) {
 				//Create a new donor
 				String n= rs.getString("name");
 				String surname= rs.getString("surname");
 				String bloodType= rs.getString("bloodType");
-				LocalDate dob = (LocalDate)rs.getObject("dob");
+				Date dob = rs.getDate("dob");
 				Long ssn= rs.getLong("ssn");
 				
 				Donor donor = new Donor(name, surname, bloodType, dob, ssn);
 				list.add(donor);
 			}
+			p.close();
 			rs.close();
 			
 		}catch(SQLException e) {
@@ -108,22 +113,20 @@ public class JDBCDonorManager implements DonorManager{
 	public Donor getDonor(int id) {
 		
 		try {			
-			String sql =  "SELECT * FROM donee where id = ?";
+			String sql =  "SELECT * FROM donor WHERE id = ?";
 			PreparedStatement p = c.prepareStatement(sql);
-			p.setString(1, "" + id); //ponemos 1 porque el primer atributo en la clase nurse es name que es por lo que lo queremos buscar
+			p.setString(1, "" + id); 
 			ResultSet rs = p.executeQuery();
-			p.close();
 			
 			String name = rs.getString("name");
-			String surname= rs.getString("surname");
+			String surname = rs.getString("surname");
 			String bloodType = rs.getString("blood_type");
-			LocalDate dob = (LocalDate) rs.getObject("dob");
+			Date dob = rs.getDate("dob");
 			long ssn = rs.getLong("ssn");
-			List<Blood> donations = conMan.getBloodMan().getDonations(id);
-			List<Nurse> nurses = conMan.getNurseMan().getListOfNursesOfDonor(id);
 			
+			p.close();
 			rs.close();
-			return new Donor(id,name,surname,bloodType,dob,ssn,donations,nurses);
+			return new Donor(id,name,surname,bloodType,dob,ssn,null,null);
 		
 		}catch(SQLException e) {
 			System.out.println("Databases error");
@@ -139,23 +142,21 @@ public class JDBCDonorManager implements DonorManager{
 			String sql = "SELECT * FROM nurse AS n JOIN nurse_donor AS nd ON n.id = nd.nurse_id"
 					+ " JOIN donor AS d ON d.id = nd.donor_id WHERE n.id = ? ";
 			PreparedStatement p = c.prepareStatement(sql);
-			p.setString(1, "" + nurseId);
+			p.setInt(1, nurseId);
 			ResultSet rs = p.executeQuery();
-			p.close();
 			
 			while (rs.next()) {
-				Integer id = rs.getInt("id");
-				String name = rs.getString("name");
-				String surname = rs.getString("surname");
-				String bloodType = rs.getString("blood_type");
-				LocalDate dob = (LocalDate) rs.getObject("dob");
-				Long ssn = rs.getLong("ssn");
-				List<Blood> donations = conMan.getBloodMan().getDonations(id);
-				List<Nurse> nurses = conMan.getNurseMan().getListOfNursesOfDonor(id);
+				Integer id = rs.getInt(8);
+				String name = rs.getString(9);
+				String surname = rs.getString(10);
+				String bloodType = rs.getString(11);
+				Date dob = rs.getDate(12);
+				Long ssn = rs.getLong(13);
 				
-				Donor donor = new Donor(id,name,surname,bloodType,dob,ssn,donations,nurses);
+				Donor donor = new Donor(id,name,surname,bloodType,dob,ssn,null,null);
 				list.add(donor);
 			}
+			p.close();
 			rs.close();
 			return list;
 			

@@ -15,13 +15,12 @@ public abstract class LogInMenu {
 		System.out.println("\nWelcome to the blood bank!");
 		
 		while (true) {
-			/*
+			System.out.println("\nLog-In:");
 			String email = Utilities.readString(" -Email: ");
 			String password = Utilities.readString(" -Password: ");
 			
 			User user = userMan.logIn(email, password);
-			*/ 
-			User user = userMan.logIn("manager@bloodBank.com", "default0");
+			//User user = userMan.logIn("manager@bloodBank.com", "default0");
 			
 			if (user != null) {
 				if (user.getRole().getName().equals("manager")) {

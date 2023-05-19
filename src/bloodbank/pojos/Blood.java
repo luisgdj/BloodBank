@@ -1,6 +1,7 @@
 package bloodbank.pojos;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -12,12 +13,12 @@ import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import bloodbank.xml.utils.LocalDateAdapter;
+import bloodbank.xml.utils.*;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "Blood")
-@XmlType(propOrder = { "amount", "fecha", "donor", "donee" })
+@XmlType(propOrder = { "amount", "date", "donor", "donee" })
 public class Blood implements Serializable{
 	
 	
@@ -31,8 +32,8 @@ public class Blood implements Serializable{
 	@XmlElement
 	private Float amount;
 	@XmlElement
-	@XmlJavaTypeAdapter(LocalDateAdapter.class)
-	private LocalDate fecha;
+	@XmlJavaTypeAdapter(SQLDateAdapter.class)
+	private Date date;
 	@XmlElement(name = "Donor")
 	private Donor donor;
 	@XmlElement(name = "Donee")
@@ -42,18 +43,18 @@ public class Blood implements Serializable{
 		super();
 	}
  
-	public Blood(float amount, LocalDate fecha, Donor donor) {
+	public Blood(float amount, Date date, Donor donor) {
 		super();
 		this.amount = amount;
-		this.fecha = fecha;
+		this.date = date;
 		this.donor = donor;
 	}
 
-	public Blood(int id, float amount, LocalDate fecha, Donor donor, Donee donee) {
+	public Blood(int id, float amount, Date date, Donor donor, Donee donee) {
 		super();
 		this.id = id;
 		this.amount = amount;
-		this.fecha = fecha;
+		this.date = date;
 		this.donor = donor;
 		this.donee = donee;
 	}
@@ -74,12 +75,12 @@ public class Blood implements Serializable{
 		this.amount = amount;
 	}
 
-	public LocalDate getFecha() {
-		return fecha;
+	public Date getDate() {
+		return date;
 	}
 
-	public void setFecha(LocalDate fecha) {
-		this.fecha = fecha;
+	public void setDate(Date date) {
+		this.date = date;
 	}
 	
 	public Donor getDonor() {
@@ -117,6 +118,6 @@ public class Blood implements Serializable{
 
 	@Override
 	public String toString() {
-		return " (" + id + ") " + fecha + ": " + amount + " mL";
+		return " (" + id + ") " + date + ": " + amount + " mL";
 	}
 }

@@ -30,6 +30,8 @@ public class JDBCContractManager implements ContractManager {
 			PreparedStatement p = c.prepareStatement(sql);
 			p.setInt(1, con.getDuration());
 			p.setFloat(2, con.getSalary());
+			
+			p.executeUpdate();
 			p.close();
 			
 		} catch (SQLException e) {
@@ -46,14 +48,13 @@ public class JDBCContractManager implements ContractManager {
 			PreparedStatement p = c.prepareStatement(sql);
 			p.setInt(1, id); 
 			ResultSet rs = p.executeQuery();
-			p.close();
 			
 			Integer duration = rs.getInt("duration");
 			Integer salary = rs.getInt("salary");
-			List<Nurse> nurses = conMan.getNurseMan().getListOfNursesOfContract(id);
 			
+			p.close();
 			rs.close();
-			return new Contract(id, duration, salary, nurses);
+			return new Contract(id, duration, salary, null);
 
 		}catch(SQLException e) {
 			System.out.println("Databases error");
@@ -71,7 +72,6 @@ public class JDBCContractManager implements ContractManager {
 			String sql = "SELECT * FROM contract ";
 			PreparedStatement p = c.prepareStatement(sql);
 			ResultSet rs = p.executeQuery();
-			p.close();
 			
 			while (rs.next()) {
 				Integer id = rs.getInt("id");
@@ -81,6 +81,7 @@ public class JDBCContractManager implements ContractManager {
 				Contract contract = new Contract(id,duration,salary,nurses);
 				contracts.add(contract);
 			}
+			p.close();
 			rs.close();
 			return contracts;
 			

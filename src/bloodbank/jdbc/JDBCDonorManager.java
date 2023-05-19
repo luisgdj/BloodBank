@@ -9,9 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bloodbank.ifaces.DonorManager;
-import bloodbank.pojos.Blood;
 import bloodbank.pojos.Donor;
-import bloodbank.pojos.Nurse;
 
 public class JDBCDonorManager implements DonorManager{
 

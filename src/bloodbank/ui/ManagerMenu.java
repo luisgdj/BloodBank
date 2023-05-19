@@ -4,8 +4,6 @@ import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.xml.bind.JAXBException;
-
 import bloodbank.ifaces.*;
 import bloodbank.pojos.*;
 import bloodbank.jdbc.*;
@@ -119,12 +117,14 @@ public abstract class ManagerMenu {
 		Contract contract = contractMan.getContract(1);
 		contract.setNurses(nurseMan.getListOfNursesOfContract(1));
 		
-		String password = Utilities.readString(" -Login password: ");
+		System.out.println(" -Stablish login information: ");
+		String username = Utilities.readString("   Username: ");
+		String password = Utilities.readString("   Password: ");
 		
 		Nurse n = new Nurse(name, surname, email, contract);
 		nurseMan.insertNurse(n); 
 		
-		User user = new User(email, password);
+		User user = new User(username, password, email);
 		userMan.register(user);
 		Role role = userMan.getRole("nurse");
 		userMan.assignRole(user, role);

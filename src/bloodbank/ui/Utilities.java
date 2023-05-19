@@ -4,10 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Date;
-import java.time.LocalDate;
-
-import bloodbank.ifaces.*;
-import bloodbank.pojos.*;
 
 public abstract class Utilities {
 

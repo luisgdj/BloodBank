@@ -21,6 +21,7 @@ public class JPAUserManager implements UserManager {
 		em.getTransaction().begin();
 		em.createNativeQuery("PRAGMA foreign_keys=ON").executeUpdate();
 		em.getTransaction().commit();
+		
 		// Create the needed roles
 		if (this.getRoles().isEmpty()) {
 			Role manager = new Role("manager");
@@ -28,7 +29,7 @@ public class JPAUserManager implements UserManager {
 			this.createRole(manager);
 			this.createRole(nurse);
 			
-			User user =  new User("manager@bloodBank.com", "default0");
+			User user =  new User("manager", "default0", "manager@bloodBank.com");
 			register(user);
 			Role role = getRole("manager");
 			assignRole(user, role);
@@ -78,10 +79,10 @@ public class JPAUserManager implements UserManager {
 	}
 
 	@Override
-	public User logIn(String email, String password) {
+	public User logIn(String username, String password) {
 		try {
-			Query q = em.createNativeQuery("SELECT * FROM users WHERE email = ? AND password = ?", User.class);
-			q.setParameter(1, email);
+			Query q = em.createNativeQuery("SELECT * FROM users WHERE username = ? AND password = ?", User.class);
+			q.setParameter(1, username);
 			q.setParameter(2, password);
 			User user = (User) q.getSingleResult();
 			return user;

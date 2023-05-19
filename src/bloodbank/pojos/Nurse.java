@@ -137,9 +137,8 @@ public class Nurse implements Serializable {
 	@Override
 	public String toString() {
 		return " -ID: " + id 
-			 + " -Name: " + name 
-			 + " -Surname: " + surname 
-			 + " -Email: " + email
-			 + " -Contract " + contract.toString();
+		   + "\n -Name: " + name + " " + surname 
+		   + "\n -Email: " + email
+		   + "\n -Contract " + contract.toString();
 	}
 }

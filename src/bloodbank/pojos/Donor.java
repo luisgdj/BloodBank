@@ -2,7 +2,6 @@ package bloodbank.pojos;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
@@ -153,8 +152,11 @@ public class Donor implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Donor [id=" + id + ", name=" + name + ", surname=" + surname + ", bloodType=" + bloodType + ", age="
-				+ dob + ", ssn=" + ssn + "]";
+		return " -ID: " + id 
+		   + "\n -Name: " + name + " " + surname 
+		   + "\n -Blood type: " + bloodType
+		   + "\n -Birth date:" + dob 
+		   + "\n -SSN: " + ssn;
 	}
 	
 }

@@ -2,7 +2,6 @@ package bloodbank.jdbc;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -12,7 +11,6 @@ import bloodbank.ifaces.ContractManager;
 import bloodbank.ifaces.DoneeManager;
 import bloodbank.ifaces.DonorManager;
 import bloodbank.ifaces.NurseManager;
-import bloodbank.pojos.Contract;
 
 public class ConnectionManager {
 	

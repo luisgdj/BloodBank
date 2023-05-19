@@ -2,7 +2,6 @@ package bloodbank.pojos;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.time.LocalDate;
 import java.util.Objects;
 
 import javax.xml.bind.annotation.XmlAccessType;

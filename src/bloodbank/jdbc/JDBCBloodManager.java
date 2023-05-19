@@ -5,7 +5,6 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,7 +65,7 @@ public class JDBCBloodManager implements BloodManager{
 				Donor donor = conMan.getDonorMan().getDonor(donor_id);
 				Integer donee_id = rs.getInt("donee_id");
 				Donee donee = null;
-				if(conMan.getDoneeMan().getDonee(donee_id) != null) {
+				if(donee_id != 0) {
 					donee = conMan.getDoneeMan().getDonee(donee_id);
 				}
 				

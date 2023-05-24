@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Blood [
-<!ELEMENT Blood (amount, fecha, Donor, Donee)>
-<!ELEMENT amount (#PCDATA)>
-<!ELEMENT fecha (#PCDATA)>
-<!ELEMENT Donor (name, surname, bloodType, dob, ssn)>
-<!ELEMENT Donee (name, surname, bloodType, bloodNeeded, dob, ssn)>
-<!ELEMENT name (#PCDATA)>
-<!ELEMENT surname (#PCDATA)>
-<!ELEMENT bloodNeeded (#PCDATA)>
-<!ELEMENT bloodType (#PCDATA)>
-<!ELEMENT dob (#PCDATA)>
-<!ELEMENT ssn (#PCDATA)>
+	<!ELEMENT Blood (amount, fecha, Donor, Donee)>
+	<!ELEMENT amount (#PCDATA)>
+	<!ELEMENT fecha (#PCDATA)>
+	<!ELEMENT Donor (name, surname, bloodType, dob, ssn)>
+	<!ELEMENT Donee (name, surname, bloodType, bloodNeeded, dob, ssn)>
+	<!ELEMENT name (#PCDATA)>
+	<!ELEMENT surname (#PCDATA)>
+	<!ELEMENT bloodNeeded (#PCDATA)>
+	<!ELEMENT bloodType (#PCDATA)>
+	<!ELEMENT dob (#PCDATA)>
+	<!ELEMENT ssn (#PCDATA)>
 ]>
 
 <Blood>
-    <amount>500</amount>
-    <fecha>2023-05-16</fecha>
-    <Donor>
-        <name>John</name>
-        <surname>Doe</surname>
-        <bloodType>A+</bloodType>
-        <dob>1990-01-01</dob>
-        <ssn>123456789</ssn>
-    </Donor>
-    <Donee>
-        <name>Jane</name>
-        <surname>Smith</surname>
-        <bloodType>O-</bloodType>
-        <bloodNeeded>2.5</bloodNeeded>
-        <dob>1995-05-10</dob>
-        <ssn>987654321</ssn>
-    </Donee>
+	<amount>500</amount>
+	<fecha>2023-05-16</fecha>
+	<Donor>
+		<name>John</name>
+		<surname>Doe</surname>
+		<bloodType>A+</bloodType>
+		<dob>1990-01-01</dob>
+		<ssn>123456789</ssn>
+	</Donor>
+	<Donee>
+		<name>Jane</name>
+		<surname>Smith</surname>
+		<bloodType>O-</bloodType>
+		<bloodNeeded>2.5</bloodNeeded>
+		<dob>1995-05-10</dob>
+		<ssn>987654321</ssn>
+	</Donee>
 </Blood>

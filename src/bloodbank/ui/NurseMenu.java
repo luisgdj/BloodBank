@@ -33,9 +33,13 @@ public abstract class NurseMenu {
 		float retrievalLimit = retrievalMan.getBloodRetrievalLimit();
 
 		while (true) {
-			System.out.println("\nBlood bank storage unit (nurse menu: " + email + ")" + "\n 1. Register donor"
-					+ "\n 2. Register donee" + "\n 3. Select donor" + "\n 4. Select donee"
-					+ "\n 5. Show avaliable blood" + "\n 0. Log out");
+			System.out.println("\nBlood bank storage unit (nurse menu: " + email + ")" 
+					+ "\n 1. Register donor"
+					+ "\n 2. Register donee" 
+					+ "\n 3. Select donor" 
+					+ "\n 4. Select donee"
+					+ "\n 5. Show avaliable blood" 
+					+ "\n 0. Log out");
 			int option = Utilities.readInteger("Choose an option: ");
 
 			switch (option) {

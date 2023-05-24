@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Nurse [
+	<!ELEMENT Nurse (name, surname, email, Contract)>
+	<!ELEMENT name (#PCDATA)>
+	<!ELEMENT surname (#PCDATA)>
+	<!ELEMENT email (#PCDATA)>
+	<!ELEMENT Contract (duration, salary)>
+	<!ELEMENT duration (#PCDATA)>
+	<!ELEMENT salary (#PCDATA)>
+]>
+
+<Nurse>
+	<name>John</name>
+	<surname>Doe</surname>
+	<email>johndoe@example.es</email>
+	<Contract>
+		<duration>12</duration>
+		<salary>5000.0</salary>
+	</Contract>
+</Nurse>

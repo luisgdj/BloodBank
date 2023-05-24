@@ -30,4 +30,27 @@ public interface XMLManager {
 	 * @return Blood object converted
 	 */
 	public Blood getBloodXML(File xml);
+
+	/**
+	 * Convert the Nurse object to a xml file
+	 *
+	 * @param Nurse object to convert
+	 * @return XML File containing a nurse object
+	 */
+	File makeNurseXML(Nurse nurse);
+
+	/**
+	 * Convert the XML file to a Nurse object
+	 *
+	 * @param XML File containing a nurse object
+	 * @return Blood object converted
+	 */
+	Nurse getNurseXML(File xml);
+
+	/**
+	 * Convert the Nurse object to a HTML file
+	 *
+	 * @param Nurse object to convert
+	 */
+	void makeNurseHTML(Nurse nurse);
 }

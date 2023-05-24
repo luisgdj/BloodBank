@@ -10,11 +10,10 @@ import javax.persistence.*;
 public class User implements Serializable {
 
 	private static final long serialVersionUID = 1852408272326099491L;
-	
+
 	@Id
 	@GeneratedValue(generator = "users")
-	@TableGenerator(name = "users", table = "sqlite_sequence",
-		pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "users")
+	@TableGenerator(name = "users", table = "sqlite_sequence", pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "users")
 	private Integer id;
 	@Column(unique = true)
 	private String username;
@@ -23,11 +22,11 @@ public class User implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "roleId")
 	private Role role;
-	
+
 	public User() {
 		super();
 	}
-	
+
 	public User(String username, String password, String email) {
 		super();
 		this.username = username;
@@ -58,7 +57,7 @@ public class User implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
 	public String getEmail() {
 		return email;
 	}
@@ -94,7 +93,6 @@ public class User implements Serializable {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", email=" + email + ", password=" + password + ", role="
-				+ role + "]";
+		return "User [id=" + id + ", email=" + email + ", password=" + password + ", role=" + role + "]";
 	}
 }

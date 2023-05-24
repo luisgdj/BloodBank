@@ -1,4 +1,4 @@
- package bloodbank.pojos;
+package bloodbank.pojos;
 
 import java.io.Serializable;
 import java.util.List;
@@ -21,7 +21,7 @@ public class Nurse implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	@XmlTransient
 	private Integer id;
 	@XmlElement
@@ -30,7 +30,7 @@ public class Nurse implements Serializable {
 	private String surname;
 	@XmlElement
 	private String email;
-    @XmlElementWrapper(name = "Contract")
+	@XmlElementWrapper(name = "Contract")
 	private Contract contract;
 	@XmlTransient
 	private List<Donor> donors;
@@ -40,7 +40,7 @@ public class Nurse implements Serializable {
 	public Nurse() {
 		super();
 	}
-	
+
 	public Nurse(String name, String surname, String email, Contract contract) {
 		super();
 		this.name = name;
@@ -49,7 +49,8 @@ public class Nurse implements Serializable {
 		this.contract = contract;
 	}
 
-	public Nurse(int id, String name, String surname, String email, Contract contract, List<Donor> donors, List<Donee> donees) {
+	public Nurse(int id, String name, String surname, String email, Contract contract, List<Donor> donors,
+			List<Donee> donees) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -83,7 +84,7 @@ public class Nurse implements Serializable {
 	public void setSurname(String surname) {
 		this.surname = surname;
 	}
-	
+
 	public String getEmail() {
 		return email;
 	}
@@ -99,7 +100,6 @@ public class Nurse implements Serializable {
 	public void setContract(Contract contract) {
 		this.contract = contract;
 	}
-	
 
 	public List<Donor> getDonors() {
 		return donors;
@@ -136,9 +136,7 @@ public class Nurse implements Serializable {
 
 	@Override
 	public String toString() {
-		return " -ID: " + id 
-		   + "\n -Name: " + name + " " + surname 
-		   + "\n -Email: " + email
-		   + "\n -Contract " + contract.toString();
+		return " -ID: " + id + "\n -Name: " + name + " " + surname + "\n -Email: " + email + "\n -Contract "
+				+ contract.toString();
 	}
 }

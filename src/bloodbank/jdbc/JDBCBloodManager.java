@@ -161,7 +161,7 @@ public class JDBCBloodManager implements BloodManager {
 	 * Create the donor id list with the entered blood type
 	 * 
 	 * @param type of blood
-	 * @return  donor id ArrayList with the entered blood type
+	 * @return donor id ArrayList with the entered blood type
 	 */
 	@Override
 	public List<Integer> getListOfIds(String type) {
@@ -197,7 +197,7 @@ public class JDBCBloodManager implements BloodManager {
 	 */
 	@Override
 	public List<Blood> getBloods() {
-		
+
 		List<Blood> list = new ArrayList<>();
 		try {
 			String sql = "SELECT * FROM blood ";
@@ -229,7 +229,6 @@ public class JDBCBloodManager implements BloodManager {
 		}
 		return list;
 	}
-	
 
 	@Override
 	public List<Float> getListOfAmounts(String bloodType) {

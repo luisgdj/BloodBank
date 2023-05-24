@@ -7,11 +7,11 @@ import java.sql.SQLException;
 
 import bloodbank.ifaces.BloodRetrievalLimitManager;
 
-public class JDBCBloodRetrievalLimitManager implements BloodRetrievalLimitManager{
+public class JDBCBloodRetrievalLimitManager implements BloodRetrievalLimitManager {
 
 	private ConnectionManager conMan;
 	private Connection c;
-	
+
 	public JDBCBloodRetrievalLimitManager(ConnectionManager conMan) {
 		this.conMan = conMan;
 		this.c = conMan.getConnection();
@@ -24,12 +24,12 @@ public class JDBCBloodRetrievalLimitManager implements BloodRetrievalLimitManage
 			PreparedStatement p = c.prepareStatement(sql);
 			ResultSet rs = p.executeQuery();
 			float limit = rs.getFloat(1);
-			
+
 			p.close();
 			rs.close();
 			return limit;
 
-		} catch(SQLException e) {
+		} catch (SQLException e) {
 			System.out.println("Databases error");
 			e.printStackTrace();
 			return 0;
@@ -42,10 +42,10 @@ public class JDBCBloodRetrievalLimitManager implements BloodRetrievalLimitManage
 			String sql = "UPDATE blood_retrieval SET blood_limit = ? ";
 			PreparedStatement p = c.prepareStatement(sql);
 			p.setFloat(1, limit);
-			
+
 			p.executeUpdate();
 			p.close();
-			
+
 		} catch (SQLException e) {
 			System.out.println("Database error.");
 			e.printStackTrace();

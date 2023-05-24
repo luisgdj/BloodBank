@@ -17,14 +17,14 @@ import bloodbank.xml.utils.*;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "Donee")
-@XmlType(propOrder = { "name", "surname", "bloodType", "bloodNeeded","dob","ssn", "transfusions" })
+@XmlType(propOrder = { "name", "surname", "bloodType", "bloodNeeded", "dob", "ssn", "transfusions" })
 public class Donee implements Serializable {
 
 	/**
 	 *  
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	@XmlTransient
 	private Integer id;
 	@XmlElement
@@ -44,12 +44,11 @@ public class Donee implements Serializable {
 	private List<Blood> transfusions;
 	@XmlTransient
 	private List<Nurse> nurses;
-	
-	
+
 	public Donee() {
 		super();
 	}
- 
+
 	public Donee(String name, String surname, String bloodType, float bloodNeeded, Date dob, long ssn) {
 		super();
 		this.name = name;
@@ -59,8 +58,9 @@ public class Donee implements Serializable {
 		this.dob = dob;
 		this.ssn = ssn;
 	}
-	
-	public Donee(int id, String name, String surname, String bloodType, float bloodNeeded, Date dob, long ssn, List<Blood> transfusions, List<Nurse> nurses) {
+
+	public Donee(int id, String name, String surname, String bloodType, float bloodNeeded, Date dob, long ssn,
+			List<Blood> transfusions, List<Nurse> nurses) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -116,7 +116,7 @@ public class Donee implements Serializable {
 	public Date getDob() {
 		return dob;
 	}
-	
+
 	public void setDob(Date dob) {
 		this.dob = dob;
 	}
@@ -136,7 +136,6 @@ public class Donee implements Serializable {
 	public void setTransfusions(List<Blood> transfusions) {
 		this.transfusions = transfusions;
 	}
-
 
 	public List<Nurse> getNurses() {
 		return nurses;
@@ -173,11 +172,7 @@ public class Donee implements Serializable {
 
 	@Override
 	public String toString() {
-		return " -ID: " + id 
-		   + "\n -Name: " + name + " " + surname 
-		   + "\n -Blood type: " + bloodType
-		   + "\n -Blood needed: " + bloodNeeded 
-		   + "\n -Birth date:" + dob 
-		   + "\n -SSN: " + ssn;
+		return " -ID: " + id + "\n -Name: " + name + " " + surname + "\n -Blood type: " + bloodType
+				+ "\n -Blood needed: " + bloodNeeded + "\n -Birth date:" + dob + "\n -SSN: " + ssn;
 	}
 }

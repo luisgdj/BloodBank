@@ -7,7 +7,7 @@ import java.sql.Date;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 public class SQLDateAdapter extends XmlAdapter<String, Date> {
-	
+
 	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
 	@Override

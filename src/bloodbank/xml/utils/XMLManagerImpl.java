@@ -14,14 +14,11 @@ import javax.xml.transform.stream.StreamSource;
 import bloodbank.ifaces.XMLManager;
 import bloodbank.pojos.Blood;
 
-
-
 public class XMLManagerImpl implements XMLManager {
 
-
 	@Override
-	public File makeBloodXML (Blood blood) {
-		
+	public File makeBloodXML(Blood blood) {
+
 		try {
 			// Create the JAXBContext
 			JAXBContext jaxbContext = JAXBContext.newInstance(Blood.class);
@@ -34,24 +31,24 @@ public class XMLManagerImpl implements XMLManager {
 			return file;
 		} catch (Exception e) {
 			e.printStackTrace();
-		}		
+		}
 		return null;
 	}
-	
+
 	@Override
-	public Blood getBloodXML (File xml) {
-		
+	public Blood getBloodXML(File xml) {
+
 		try {
 			// Create the JAXBContext
 			JAXBContext jaxbContext = JAXBContext.newInstance(Blood.class);
-		
+
 			// Get the unmarshaller
 			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
 			// Use the Unmarshaller to unmarshal the XML document from a file
 			Blood blood = (Blood) unmarshaller.unmarshal(xml);
 			return blood;
-			
+
 		} catch (JAXBException e) {
 			System.out.println("Error: unable to load the XML file");
 			e.printStackTrace();
@@ -60,19 +57,16 @@ public class XMLManagerImpl implements XMLManager {
 	}
 
 	@Override
-	public void makeBloodHTML (Blood blood) {
-		
+	public void makeBloodHTML(Blood blood) {
+
 		File file = makeBloodXML(blood);
 		TransformerFactory tFactory = TransformerFactory.newInstance();
 		try {
 			Transformer transformer = tFactory.newTransformer(new StreamSource(new File("./xmls/Blood-Style.xslt")));
-			transformer.transform(new StreamSource(file),new StreamResult(new File("./xmls/External-Blood.html")));
+			transformer.transform(new StreamSource(file), new StreamResult(new File("./xmls/External-Blood.html")));
 		} catch (Exception e) {
 			e.printStackTrace();
-		}		
+		}
 	}
-	
-	
-
 
 }

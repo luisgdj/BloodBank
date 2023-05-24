@@ -17,7 +17,7 @@ public class JDBCNurseManager implements NurseManager {
 
 	private ConnectionManager conMan;
 	private Connection c;
-	
+
 	public JDBCNurseManager(ConnectionManager conMan) {
 		this.conMan = conMan;
 		this.c = conMan.getConnection();
@@ -25,39 +25,38 @@ public class JDBCNurseManager implements NurseManager {
 
 	@Override
 	public void insertNurse(Nurse nurse) {
-		
+
 		try {
-			String sql = "INSERT INTO nurse (name, surname, email, contract_id)"
-					+ " VALUES (?,?,?,?)";
+			String sql = "INSERT INTO nurse (name, surname, email, contract_id)" + " VALUES (?,?,?,?)";
 			PreparedStatement p = c.prepareStatement(sql);
 			p.setString(1, nurse.getName());
 			p.setString(2, nurse.getSurname());
 			p.setString(3, nurse.getEmail());
 			p.setInt(4, nurse.getContract().getId());
-			
+
 			p.executeUpdate();
 			p.close();
-			
+
 		} catch (SQLException e) {
 			System.out.println("Database exception");
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
-	public List<Nurse> searchNurseByName(String name){
-		
-		List<Nurse> list= new ArrayList<Nurse>();
-		
+	public List<Nurse> searchNurseByName(String name) {
+
+		List<Nurse> list = new ArrayList<Nurse>();
+
 		try {
-			String sql= "SELECT * FROM nurse WHERE name = ?";
+			String sql = "SELECT * FROM nurse WHERE name = ?";
 			PreparedStatement p = c.prepareStatement(sql);
-			p.setString(1, "%"+name+ "%");
+			p.setString(1, "%" + name + "%");
 			ResultSet rs = p.executeQuery();
-			
-			while(rs.next()) {
-				//Create a new nurse
-				Integer id= rs.getInt("id");
+
+			while (rs.next()) {
+				// Create a new nurse
+				Integer id = rs.getInt("id");
 				String n = rs.getString("name");
 				String surname = rs.getString("surname");
 				String email = rs.getString("surname");
@@ -65,28 +64,28 @@ public class JDBCNurseManager implements NurseManager {
 				Contract contract = conMan.getContractMan().getContract(contract_id);
 				List<Donor> donors = conMan.getDonorMan().getListOfDonors(id);
 				List<Donee> donees = conMan.getDoneeMan().getListOfDonees(id);
-				
-				Nurse nurse = new  Nurse(id,n,surname,email,contract,donors,donees);
-				list.add(nurse);				
+
+				Nurse nurse = new Nurse(id, n, surname, email, contract, donors, donees);
+				list.add(nurse);
 			}
 			p.close();
 			rs.close();
-			
-		}catch(SQLException e) {
+
+		} catch (SQLException e) {
 			System.out.println("Databases error");
 			e.printStackTrace();
 		}
 		return list;
 	}
-	
-	public Nurse getNurse(int id) { //show personal information  (check nurse info)
-		
+
+	public Nurse getNurse(int id) { // show personal information (check nurse info)
+
 		try {
 			String sql = "SELECT * FROM nurse WHERE id = ?";
 			PreparedStatement p = c.prepareStatement(sql);
 			p.setInt(1, id);
 			ResultSet rs = p.executeQuery();
-			
+
 			String name = rs.getString("name");
 			String surname = rs.getString("surname");
 			String email = rs.getString("email");
@@ -97,9 +96,9 @@ public class JDBCNurseManager implements NurseManager {
 
 			p.close();
 			rs.close();
-			return new Nurse(id,name,surname,email,contract,donors,donees);
-			
-		}catch(SQLException e) {
+			return new Nurse(id, name, surname, email, contract, donors, donees);
+
+		} catch (SQLException e) {
 			System.out.println("Databases error");
 			e.printStackTrace();
 			return null;
@@ -107,7 +106,7 @@ public class JDBCNurseManager implements NurseManager {
 	}
 
 	public Nurse getNurseByEmail(String email) {
-		
+
 		try {
 			String sql = "SELECT * FROM nurse WHERE email = ?";
 			PreparedStatement p = c.prepareStatement(sql);
@@ -124,8 +123,8 @@ public class JDBCNurseManager implements NurseManager {
 
 			p.close();
 			rs.close();
-			return new  Nurse(id,name,surname,email,contract,donors,donees);
-			
+			return new Nurse(id, name, surname, email, contract, donors, donees);
+
 		} catch (SQLException e) {
 			System.out.println("Database error.");
 			e.printStackTrace();
@@ -140,11 +139,11 @@ public class JDBCNurseManager implements NurseManager {
 			PreparedStatement p = c.prepareStatement(sql);
 			p.setInt(1, contractId);
 			p.setInt(2, nurseId);
-			
+
 			p.executeUpdate();
 			p.close();
-			
-		}catch(SQLException e) {
+
+		} catch (SQLException e) {
 			System.out.println("Databases error");
 			e.printStackTrace();
 		}
@@ -152,14 +151,14 @@ public class JDBCNurseManager implements NurseManager {
 
 	@Override
 	public List<Nurse> getListOfNursesOfContract(int contractId) {
-		
+
 		List<Nurse> nurses = new ArrayList<Nurse>();
 		try {
 			String sql = "SELECT * FROM nurse WHERE contract_id = ? ";
 			PreparedStatement p = c.prepareStatement(sql);
 			p.setInt(1, contractId);
 			ResultSet rs = p.executeQuery();
-			
+
 			while (rs.next()) {
 				Integer id = rs.getInt("id");
 				String name = rs.getString("name");
@@ -169,15 +168,15 @@ public class JDBCNurseManager implements NurseManager {
 				Contract contract = conMan.getContractMan().getContract(contract_id);
 				List<Donor> donors = conMan.getDonorMan().getListOfDonors(id);
 				List<Donee> donees = conMan.getDoneeMan().getListOfDonees(id);
-				
-				Nurse nurse = new Nurse(id,name,surname,email,contract,donors,donees);
+
+				Nurse nurse = new Nurse(id, name, surname, email, contract, donors, donees);
 				nurses.add(nurse);
 			}
 			p.close();
 			rs.close();
 			return nurses;
-			
-		}catch(SQLException e) {
+
+		} catch (SQLException e) {
 			System.out.println("Databases error");
 			e.printStackTrace();
 			return null;
@@ -188,13 +187,13 @@ public class JDBCNurseManager implements NurseManager {
 	public List<Nurse> getListOfNursesOfDonor(int donorId) {
 
 		List<Nurse> nurses = new ArrayList<Nurse>();
-		
+
 		try {
 			String sql = "SELECT * FROM nurse AS n JOIN nurse_donor AS nd ON n.id = nd.nurse_id WHERE nd.donor_id = ? ";
 			PreparedStatement p = c.prepareStatement(sql);
 			p.setInt(1, donorId);
 			ResultSet rs = p.executeQuery();
-			
+
 			while (rs.next()) {
 				Integer id = rs.getInt("id");
 				String name = rs.getString("name");
@@ -204,15 +203,15 @@ public class JDBCNurseManager implements NurseManager {
 				Contract contract = conMan.getContractMan().getContract(contract_id);
 				List<Donor> donors = conMan.getDonorMan().getListOfDonors(id);
 				List<Donee> donees = conMan.getDoneeMan().getListOfDonees(id);
-				
-				Nurse nurse = new  Nurse(id,name,surname,email,contract,donors,donees);
+
+				Nurse nurse = new Nurse(id, name, surname, email, contract, donors, donees);
 				nurses.add(nurse);
 			}
 			p.close();
 			rs.close();
 			return nurses;
-			
-		} catch(SQLException e) {
+
+		} catch (SQLException e) {
 			System.out.println("Databases error");
 			e.printStackTrace();
 			return null;
@@ -228,7 +227,7 @@ public class JDBCNurseManager implements NurseManager {
 			PreparedStatement p = c.prepareStatement(sql);
 			p.setInt(1, doneeId);
 			ResultSet rs = p.executeQuery();
-			
+
 			while (rs.next()) {
 				Integer id = rs.getInt("id");
 				String name = rs.getString("name");
@@ -238,14 +237,14 @@ public class JDBCNurseManager implements NurseManager {
 				Contract contract = conMan.getContractMan().getContract(contract_id);
 				List<Donor> donors = conMan.getDonorMan().getListOfDonors(id);
 				List<Donee> donees = conMan.getDoneeMan().getListOfDonees(id);
-				Nurse nurse = new Nurse(id,name,surname,email,contract,donors,donees);
+				Nurse nurse = new Nurse(id, name, surname, email, contract, donors, donees);
 				nurses.add(nurse);
 			}
 			p.close();
 			rs.close();
 			return nurses;
-			
-		} catch(SQLException e) {
+
+		} catch (SQLException e) {
 			System.out.println("Databases error");
 			e.printStackTrace();
 			return null;

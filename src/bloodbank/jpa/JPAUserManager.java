@@ -12,37 +12,37 @@ import bloodbank.pojos.Role;
 import bloodbank.pojos.User;
 
 public class JPAUserManager implements UserManager {
-	
+
 	EntityManager em;
 
 	public JPAUserManager() {
-		
+
 		em = Persistence.createEntityManagerFactory("bloodbank-provider").createEntityManager();
 		em.getTransaction().begin();
 		em.createNativeQuery("PRAGMA foreign_keys=ON").executeUpdate();
 		em.getTransaction().commit();
-		
+
 		// Create the needed roles
 		if (this.getRoles().isEmpty()) {
 			Role manager = new Role("manager");
 			Role nurse = new Role("nurse");
 			this.createRole(manager);
 			this.createRole(nurse);
-			
-			User user =  new User("manager", "default0", "manager@bloodBank.com");
+
+			User user = new User("manager", "default0", "manager@bloodBank.com");
 			register(user);
 			Role role = getRole("manager");
 			assignRole(user, role);
 		}
 	}
-	
+
 	@Override
 	public List<Role> getRoles() {
 		Query q = em.createNativeQuery("SELECT * FROM roles", Role.class);
 		List<Role> roles = (List<Role>) q.getResultList();
 		return roles;
 	}
-	
+
 	@Override
 	public void createRole(Role role) {
 		em.getTransaction().begin();
@@ -50,7 +50,6 @@ public class JPAUserManager implements UserManager {
 		em.getTransaction().commit();
 	}
 
-	
 	@Override
 	public Role getRole(String name) {
 		Query q = em.createNativeQuery("SELECT * FROM roles WHERE name LIKE ?", Role.class);
@@ -58,7 +57,7 @@ public class JPAUserManager implements UserManager {
 		Role r = (Role) q.getSingleResult();
 		return r;
 	}
-	
+
 	public void close() {
 		em.close();
 	}

@@ -30,7 +30,7 @@ public class Contract implements Serializable {
 	@XmlElement
 	private float salary;
 	@XmlElement(name = "Nurse")
-    @XmlElementWrapper(name = "Nurses")	
+	@XmlElementWrapper(name = "Nurses")
 	private List<Nurse> nurses;
 
 	public Contract() {

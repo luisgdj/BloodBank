@@ -14,16 +14,15 @@ public class Role implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -1904630609495702971L;
-	
+
 	@Id
 	@GeneratedValue(generator = "roles")
-	@TableGenerator(name = "roles", table = "sqlite_sequence",
-		pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "roles")
+	@TableGenerator(name = "roles", table = "sqlite_sequence", pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "roles")
 	private Integer id;
 	private String name;
-	@OneToMany(mappedBy="role", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
 	private List<User> users;
-	
+
 	public Role() {
 		super();
 		this.users = new ArrayList<User>();
@@ -58,7 +57,7 @@ public class Role implements Serializable {
 	public void setUsers(List<User> users) {
 		this.users = users;
 	}
-	
+
 	public void addUser(User user) {
 		if (!users.contains(user)) {
 			users.add(user);
@@ -86,5 +85,5 @@ public class Role implements Serializable {
 	public String toString() {
 		return "Role [id=" + id + ", name=" + name + "]";
 	}
-	
+
 }

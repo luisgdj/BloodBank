@@ -17,14 +17,14 @@ import bloodbank.xml.utils.*;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "Donor")
-@XmlType(propOrder = { "name", "surname", "bloodType","dob","ssn", "donations" })
-public class Donor implements Serializable{
-	
+@XmlType(propOrder = { "name", "surname", "bloodType", "dob", "ssn", "donations" })
+public class Donor implements Serializable {
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	@XmlTransient
 	private Integer id;
 	@XmlElement
@@ -42,8 +42,7 @@ public class Donor implements Serializable{
 	private List<Blood> donations;
 	@XmlTransient
 	private List<Nurse> nurses;
-	
-	 
+
 	public Donor() {
 		super();
 	}
@@ -57,7 +56,8 @@ public class Donor implements Serializable{
 		this.ssn = ssn;
 	}
 
-	public Donor(int id, String name, String surname, String bloodType, Date dob, long ssn, List<Blood> donations, List<Nurse> nurses) {
+	public Donor(int id, String name, String surname, String bloodType, Date dob, long ssn, List<Blood> donations,
+			List<Nurse> nurses) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -72,47 +72,47 @@ public class Donor implements Serializable{
 	public int getId() {
 		return id;
 	}
-	
+
 	public void setId(int id) {
 		this.id = id;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public String getSurname() {
 		return surname;
 	}
-	
+
 	public void setSurname(String surname) {
 		this.surname = surname;
 	}
-	
+
 	public String getBloodType() {
 		return bloodType;
 	}
-	
+
 	public void setBloodType(String bloodType) {
 		this.bloodType = bloodType;
 	}
-	
+
 	public Date getDob() {
 		return dob;
 	}
-	
+
 	public void setDob(Date dob) {
 		this.dob = dob;
 	}
-	
+
 	public long getSsn() {
 		return ssn;
 	}
-	
+
 	public void setSsn(long ssn) {
 		this.ssn = ssn;
 	}
@@ -152,11 +152,8 @@ public class Donor implements Serializable{
 
 	@Override
 	public String toString() {
-		return " -ID: " + id 
-		   + "\n -Name: " + name + " " + surname 
-		   + "\n -Blood type: " + bloodType
-		   + "\n -Birth date:" + dob 
-		   + "\n -SSN: " + ssn;
+		return " -ID: " + id + "\n -Name: " + name + " " + surname + "\n -Blood type: " + bloodType + "\n -Birth date:"
+				+ dob + "\n -SSN: " + ssn;
 	}
-	
+
 }

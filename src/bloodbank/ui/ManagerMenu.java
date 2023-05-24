@@ -34,11 +34,17 @@ public abstract class ManagerMenu {
 		userMan = man;
 
 		while (true) {
-			System.out.println("\nBlood bank storage unit (manager menu):" + "\n 1. Register nurse"
-					+ "\n 2. Establish contract" + "\n 3. View blood storage" + "\n 4. Access nurse information"
-					+ "\n 5. Change blood retreival limit" + "\n 6. Change password"
-					+ "\n 7. Save blood information in an XML file" + "\n 8. Save blood information in an HTML file"
-					+ "\n 8. Load blood information" + "\n 0. Log out");
+			System.out.println("\nBlood bank storage unit (manager menu):" 
+					+ "\n 1. Register nurse"
+					+ "\n 2. Establish contract" 
+					+ "\n 3. View blood storage" 
+					+ "\n 4. Access nurse information"
+					+ "\n 5. Change blood retreival limit" 
+					+ "\n 6. Change password"
+					+ "\n 7. Save blood information in an XML file" 
+					+ "\n 8. Save blood information in an HTML file"
+					+ "\n 9. Load blood information from an XML file" 
+					+ "\n 0. Log out");
 			int option = Utilities.readInteger("Choose an option: ");
 
 			switch (option) {
@@ -85,10 +91,9 @@ public abstract class ManagerMenu {
 
 				// search blood id
 				Blood blood = null;
-				for (Blood b : bloods) 
+				for (Blood b : bloods)
 					if (b.getId() == option7)
 						blood = b;
-				
 
 				// create xml file
 				File f = null;
@@ -101,23 +106,48 @@ public abstract class ManagerMenu {
 				// ask witch blood wants to convert in HTML and print all bloods
 				ArrayList<Blood> bloods = (ArrayList<Blood>) bloodMan.getBloods();
 				System.out.println("Witch blood do you want to convert in HTML: \n" + bloodArrayToString(bloods));
-				int option7 = Utilities.readInteger("Insert the ID: ");
+				int option8 = Utilities.readInteger("Insert the ID: ");
 
 				// search blood id
 				Blood blood = null;
-				for (Blood b : bloods) 
-					if (b.getId() == option7)
+				for (Blood b : bloods)
+					if (b.getId() == option8)
 						blood = b;
 
-				// create html file
+				// create HTML file
 				File f = null;
 				if (blood != null)
 					xmlMan.makeBloodHTML(blood);
 				break;
 			}
 			case 9: {
+				// create the .xml file folder
+				File folder = new File("./xmls");
+				ArrayList<String> fileNames = (ArrayList<String>) getXMLFilenamesInFolder(folder);
+
+				// check if there aren't file .xml
+				if (fileNames.size() == 0) {
+					System.out.println("You don't have XML file available");
+					break;
+				}
+
+				// print all the file .xml out
 				System.out.println("Load blood information:");
-				Blood b = xmlMan.getBloodXML(null);
+				System.out.println("Witch file do you want to convert:" + formatArrayList(fileNames));
+				int option9 = Utilities.readInteger("Insert the number: ") - 1;
+
+				// if the option is not
+				if (option9 < 0 || option9 >= fileNames.size()) {
+					System.out.println("Incorrect number");
+					break;
+				}
+
+				// extract the name from the list and create the file
+				File fileName = new File(fileNames.get(option9));
+				Blood b = xmlMan.getBloodXML(fileName);
+
+				// add the new blood to the database
+				bloodMan.insertBloodDonation(b);
 				break;
 			}
 			case 0: {
@@ -242,5 +272,48 @@ public abstract class ManagerMenu {
 			result += blood.toString();
 		}
 		return result;
+	}
+
+	/**
+	 * Retrieves the names of all XML files present in a given folder.
+	 *
+	 * @param folder The folder for which XML file names are to be retrieved.
+	 * @return A List of String containing the names of XML files in the folder.
+	 */
+	public static List<String> getXMLFilenamesInFolder(File folder) {
+		List<String> xmlFileNames = new ArrayList<>();
+
+		if (folder.isDirectory()) {
+			File[] files = folder.listFiles();
+
+			if (files != null) {
+				for (File file : files) {
+					if (file.isFile() && file.getName().toLowerCase().endsWith(".xml")) {
+						xmlFileNames.add(file.getName());
+					}
+				}
+			}
+		}
+
+		return xmlFileNames;
+	}
+
+	/**
+	 * Formats an ArrayList of strings into a single formatted string with a hyphen
+	 * "-" prefix for each string.
+	 *
+	 * @param strings The ArrayList of strings to be formatted.
+	 * @return A formatted string with each string preceded by a hyphen and new line
+	 *         character.
+	 */
+	public static String formatArrayList(ArrayList<String> strings) {
+		StringBuilder sb = new StringBuilder();
+		int count = 1;
+
+		for (String s : strings) {
+			sb.append(count++).append(" - ").append(s).append(System.lineSeparator());
+		}
+
+		return sb.toString();
 	}
 }

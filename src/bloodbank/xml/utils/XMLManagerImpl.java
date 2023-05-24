@@ -16,6 +16,12 @@ import bloodbank.pojos.Blood;
 
 public class XMLManagerImpl implements XMLManager {
 
+	/**
+	 * Convert the Blood object to a xml file
+	 *
+	 * @param Blood object to convert
+	 * @return XML File containing a blood object
+	 */
 	@Override
 	public File makeBloodXML(Blood blood) {
 
@@ -35,6 +41,12 @@ public class XMLManagerImpl implements XMLManager {
 		return null;
 	}
 
+	/**
+	 * Convert the XML file to a Blood object
+	 *
+	 * @param XML File containing a blood object
+	 * @return Blood object converted
+	 */
 	@Override
 	public Blood getBloodXML(File xml) {
 
@@ -56,6 +68,11 @@ public class XMLManagerImpl implements XMLManager {
 		}
 	}
 
+	/**
+	 * Convert the Blood object to a HTML file
+	 *
+	 * @param Blood object to convert
+	 */
 	@Override
 	public void makeBloodHTML(Blood blood) {
 

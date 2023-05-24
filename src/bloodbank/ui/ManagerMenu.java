@@ -85,10 +85,10 @@ public abstract class ManagerMenu {
 
 				// search blood id
 				Blood blood = null;
-				for (int i = 0; i < bloods.size(); i++) {
-					if (bloods.get(i).getId() == option7)
-						blood = bloods.get(i);
-				}
+				for (Blood b : bloods) 
+					if (b.getId() == option7)
+						blood = b;
+				
 
 				// create xml file
 				File f = null;
@@ -98,7 +98,21 @@ public abstract class ManagerMenu {
 			}
 			case 8: {
 				System.out.println("Save blood information HTML:");
-				xmlMan.makeBloodHTML(null);
+				// ask witch blood wants to convert in HTML and print all bloods
+				ArrayList<Blood> bloods = (ArrayList<Blood>) bloodMan.getBloods();
+				System.out.println("Witch blood do you want to convert in HTML: \n" + bloodArrayToString(bloods));
+				int option7 = Utilities.readInteger("Insert the ID: ");
+
+				// search blood id
+				Blood blood = null;
+				for (Blood b : bloods) 
+					if (b.getId() == option7)
+						blood = b;
+
+				// create html file
+				File f = null;
+				if (blood != null)
+					xmlMan.makeBloodHTML(blood);
 				break;
 			}
 			case 9: {

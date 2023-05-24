@@ -44,6 +44,9 @@ public abstract class ManagerMenu {
 					+ "\n 7. Save blood information in an XML file" 
 					+ "\n 8. Save blood information in an HTML file"
 					+ "\n 9. Load blood information from an XML file" 
+					+ "\n 10. Save nurse information in an XML file" 
+					+ "\n 11. Save nurse information in an HTML file"
+					+ "\n 12. Load nurse information from an XML file" 
 					+ "\n 0. Log out");
 			int option = Utilities.readInteger("Choose an option: ");
 
@@ -148,6 +151,76 @@ public abstract class ManagerMenu {
 
 				// add the new blood to the database
 				bloodMan.insertBloodDonation(b);
+				break;
+			}			
+			case 10: {
+				System.out.println("Save nurse information XML:");
+
+				// ask witch nurse wants to convert in xml and print all the nurses
+				ArrayList<Nurse> nurses = (ArrayList<Nurse>) nurseMan.getNurses();
+				System.out.println("Witch nurse do you want to convert in xml: \n" + nurseArrayToString(nurses));
+				int option10 = Utilities.readInteger("Insert the ID: ");
+
+				// search nurse id
+				Nurse nurse = null;
+				for (Nurse n : nurses)
+					if (n.getId() == option10)
+						nurse = n;
+
+				// create xml file
+				File f = null;
+				if (nurse != null)
+					f = xmlMan.makeNurseXML(nurse);
+				break;
+			}
+			case 11: {
+				System.out.println("Save nurse information HTML:");
+				
+				// ask witch nurse wants to convert in HTML and print all nurses
+				ArrayList<Nurse> nurses = (ArrayList<Nurse>) nurseMan.getNurses();
+				System.out.println("Witch nurse do you want to convert in HTML: \n" + nurseArrayToString(nurses));
+				int option11 = Utilities.readInteger("Insert the ID: ");
+
+				// search nurse id
+				Nurse nurse = null;
+				for (Nurse n : nurses)
+					if (n.getId() == option11)
+						nurse = n;
+
+				// create HTML file
+				File f = null;
+				if (nurse != null)
+					xmlMan.makeNurseHTML(nurse);
+				break;
+			}
+			case 12: {
+				// create the .xml file folder
+				File folder = new File("./xmls");
+				ArrayList<String> fileNames = (ArrayList<String>) getXMLFilenamesInFolder(folder);
+
+				// check if there aren't file .xml
+				if (fileNames.size() == 0) {
+					System.out.println("You don't have XML file available");
+					break;
+				}
+
+				// print all the file .xml name out
+				System.out.println("Load nurse information:");
+				System.out.println("Witch file do you want to convert:" + formatArrayList(fileNames));
+				int option9 = Utilities.readInteger("Insert the number: ") - 1;
+
+				// if the option is not
+				if (option9 < 0 || option9 >= fileNames.size()) {
+					System.out.println("Incorrect number.");
+					break;
+				}
+
+				// extract the name from the list and create the file
+				File fileName = new File(fileNames.get(option9));
+				Nurse n = xmlMan.getNurseXML(fileName);
+
+				// add the new nurse to the database
+				nurseMan.insertNurse(n);
 				break;
 			}
 			case 0: {
@@ -270,6 +343,20 @@ public abstract class ManagerMenu {
 		String result = "";
 		for (Blood blood : bloods) {
 			result += blood.toString();
+		}
+		return result;
+	}	
+	
+	/**
+	 * Convert an ArrayList of nurses to a string
+	 * 
+	 * @param ArrayList of nurses to print
+	 * @return String of nurses created
+	 */
+	private static String nurseArrayToString(ArrayList<Nurse> nurses) {
+		String result = "";
+		for (Nurse nurse : nurses) {
+			result += nurse.toString();
 		}
 		return result;
 	}

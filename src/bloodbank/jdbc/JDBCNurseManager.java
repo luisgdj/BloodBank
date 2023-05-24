@@ -1,6 +1,7 @@
 package bloodbank.jdbc;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bloodbank.ifaces.NurseManager;
+import bloodbank.pojos.Blood;
 import bloodbank.pojos.Contract;
 import bloodbank.pojos.Donee;
 import bloodbank.pojos.Donor;
@@ -249,5 +251,42 @@ public class JDBCNurseManager implements NurseManager {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	/**
+	 * Create the list of all nurse objects
+	 * 
+	 * @return ArrayList of all nurse objects
+	 */
+	@Override
+	public List<Nurse> getNurses() {
+
+		List<Nurse> list = new ArrayList<>();
+		try {
+			String sql = "SELECT * FROM nurse ";
+			PreparedStatement p = c.prepareStatement(sql);
+			ResultSet rs = p.executeQuery();
+
+			while (rs.next()) {
+				Integer id = rs.getInt("id");
+				String name = rs.getString("name");
+				String surname = rs.getString("surname");
+				String email = rs.getString("email");
+				Integer contract_id = rs.getInt("contract_id");
+				Contract contract = conMan.getContractMan().getContract(contract_id);
+				List<Donor> donors = conMan.getDonorMan().getListOfDonors(id);
+				List<Donee> donees = conMan.getDoneeMan().getListOfDonees(id);
+				Nurse nurse = new Nurse(id, name, surname, email, contract, donors, donees);
+				list.add(nurse);
+			}
+			p.close();
+			rs.close();
+
+		} catch (SQLException e) {
+			System.out.println("Databases error");
+			e.printStackTrace();
+			return null;
+		}
+		return list;
 	}
 }

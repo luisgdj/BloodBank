@@ -16,6 +16,12 @@ public interface NurseManager {
 	public List<Nurse> getListOfNursesOfContract(int contractId);
 	public List<Nurse> getListOfNursesOfDonor(int donorId);
 	public List<Nurse> getListOfNursesOfDonee(int doneId);
+	/**
+	 * Create the list of all nurse objects
+	 * 
+	 * @return ArrayList of all nurse objects
+	 */
+	List<Nurse> getNurses();
 	
 }
 

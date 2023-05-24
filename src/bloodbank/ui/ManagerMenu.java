@@ -1,6 +1,7 @@
 package bloodbank.ui;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -82,12 +83,28 @@ public abstract class ManagerMenu {
 				}
 				case 7: {
 					System.out.println("Save blood information XML:");
-					File f = xmlMan.makeBloodXML(null);
+					
+					//ask witch blood wants to convert in xml and print all bloods
+					ArrayList<Blood> bloods = (ArrayList<Blood>) bloodMan.getBloods();
+					System.out.println("Witch blood do you want to convert in xml: \n" + bloodArrayToString(bloods));
+					int option7 = Utilities.readInteger("Insert the ID: ");
+					
+					//search blood id
+					Blood blood = null;
+					for(int i = 0;i<bloods.size();i++) {
+						if(bloods.get(i).getId()==option7)
+							blood=bloods.get(i);
+					}
+					
+					//create xml file
+					File f=null;
+					if(blood!=null)
+						f = xmlMan.makeBloodXML(blood);
 					break;
 				}
 				case 8: {
 					System.out.println("Save blood information HTML:");
-					xmlMan.getBloodXML(null);
+					xmlMan.makeBloodHTML(null);
 					break;
 				}
 				case 9: {
@@ -206,5 +223,19 @@ public abstract class ManagerMenu {
 				}
 			} 
 		}
+	}
+	
+	/**
+	 * Convert an ArrayList of bloods to a string 
+	 * 
+	 * @param ArrayList of bloods to print
+	 * @return	String of bloods created
+	 */
+	private static String bloodArrayToString(ArrayList<Blood> bloods) {
+		String result="";
+        for (Blood blood : bloods) {
+        	result += blood.toString(); 
+        }
+		return result;
 	}
 }

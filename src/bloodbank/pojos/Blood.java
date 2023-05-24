@@ -14,18 +14,16 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import bloodbank.xml.utils.*;
 
-
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "Blood")
 @XmlType(propOrder = { "amount", "date", "donor", "donee" })
-public class Blood implements Serializable{
-	
-	
+public class Blood implements Serializable {
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	@XmlTransient
 	private Integer id;
 	@XmlElement
@@ -37,11 +35,11 @@ public class Blood implements Serializable{
 	private Donor donor;
 	@XmlElement(name = "Donee")
 	private Donee donee;
-	
+
 	public Blood() {
 		super();
 	}
- 
+
 	public Blood(float amount, Date date, Donor donor) {
 		super();
 		this.amount = amount;
@@ -81,7 +79,7 @@ public class Blood implements Serializable{
 	public void setDate(Date date) {
 		this.date = date;
 	}
-	
+
 	public Donor getDonor() {
 		return donor;
 	}

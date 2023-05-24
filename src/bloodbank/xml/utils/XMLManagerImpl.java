@@ -71,6 +71,8 @@ public class XMLManagerImpl implements XMLManager {
 			e.printStackTrace();
 		}		
 	}
+	
+	
 
 
 }

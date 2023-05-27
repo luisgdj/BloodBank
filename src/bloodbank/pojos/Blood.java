@@ -32,11 +32,10 @@ public class Blood implements Serializable {
 	@XmlElement
 	@XmlJavaTypeAdapter(SQLDateAdapter.class)
 	private Date date;
-	@XmlElement
-	@XmlElementWrapper(name = "Donor")
+	
+	@XmlElement(name = "Donor")
 	private Donor donor;
-	@XmlElement
-	@XmlElementWrapper(name = "Donee")
+	@XmlElement(name = "Donee")
 	private Donee donee;
 
 	public Blood() {

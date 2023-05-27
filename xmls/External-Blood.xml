@@ -1,11 +1,8 @@
-<<<<<<< HEAD
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-=======
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Blood [
-	<!ELEMENT Blood (amount, date, Donor, Donee)>
+	<!ELEMENT Blood (amount, fecha, Donor, Donee)>
 	<!ELEMENT amount (#PCDATA)>
-	<!ELEMENT date (#PCDATA)>
+	<!ELEMENT fecha (#PCDATA)>
 	<!ELEMENT Donor (name, surname, bloodType, dob, ssn)>
 	<!ELEMENT Donee (name, surname, bloodType, bloodNeeded, dob, ssn)>
 	<!ELEMENT name (#PCDATA)>
@@ -16,21 +13,9 @@
 	<!ELEMENT ssn (#PCDATA)>
 ]>
 
->>>>>>> branch 'master' of https://github.com/luisgdj/BloodBank.git
 <Blood>
-<<<<<<< HEAD
-    <amount>800.0</amount>
-    <date>2023-05-19</date>
-    <Donor>
-        <name>alex</name>
-        <surname>gimenez</surname>
-        <bloodType>B+</bloodType>
-        <dob>3902-05-06</dob>
-        <ssn>28382920</ssn>
-    </Donor>
-=======
 	<amount>500</amount>
-	<date>2023-05-16</date>
+	<fecha>2023-05-16</fecha>
 	<Donor>
 		<name>John</name>
 		<surname>Doe</surname>
@@ -46,5 +31,4 @@
 		<dob>1995-05-10</dob>
 		<ssn>987654321</ssn>
 	</Donee>
->>>>>>> branch 'master' of https://github.com/luisgdj/BloodBank.git
 </Blood>

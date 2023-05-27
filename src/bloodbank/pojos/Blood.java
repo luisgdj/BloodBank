@@ -7,6 +7,7 @@ import java.util.Objects;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
@@ -31,9 +32,11 @@ public class Blood implements Serializable {
 	@XmlElement
 	@XmlJavaTypeAdapter(SQLDateAdapter.class)
 	private Date date;
-	@XmlElement(name = "Donor")
+	@XmlElement
+	@XmlElementWrapper(name = "Donor")
 	private Donor donor;
-	@XmlElement(name = "Donee")
+	@XmlElement
+	@XmlElementWrapper(name = "Donee")
 	private Donee donee;
 
 	public Blood() {

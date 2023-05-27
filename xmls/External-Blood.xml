@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Blood [
-	<!ELEMENT Blood (amount, fecha, Donor, Donee)>
+	<!ELEMENT Blood (amount, date, Donor, Donee)>
 	<!ELEMENT amount (#PCDATA)>
-	<!ELEMENT fecha (#PCDATA)>
+	<!ELEMENT date (#PCDATA)>
 	<!ELEMENT Donor (name, surname, bloodType, dob, ssn)>
 	<!ELEMENT Donee (name, surname, bloodType, bloodNeeded, dob, ssn)>
 	<!ELEMENT name (#PCDATA)>
@@ -15,7 +15,7 @@
 
 <Blood>
 	<amount>500</amount>
-	<fecha>2023-05-16</fecha>
+	<date>2023-05-16</date>
 	<Donor>
 		<name>John</name>
 		<surname>Doe</surname>

@@ -17,7 +17,7 @@ import bloodbank.xml.utils.*;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "Donor")
-@XmlType(propOrder = { "name", "surname", "bloodType", "dob", "ssn", "donations" })
+@XmlType(propOrder = { "name", "surname", "bloodType", "dob", "ssn"})
 public class Donor implements Serializable {
 
 	/**

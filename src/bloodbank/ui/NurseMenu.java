@@ -85,7 +85,7 @@ public abstract class NurseMenu {
 		System.out.println("Imput donor data: ");
 		String name = Utilities.readString(" -Name: ");
 		String surname = Utilities.readString(" -Surname: ");
-		String bloodType = Utilities.askBloodType();
+		String bloodType = Utilities.askBloodType(" -Choose blood type: ");
 		Long ssn = Utilities.readLong(" -Social Security Number: ");
 		Date dob = Utilities.askDate(" -Date of birth: ");
 
@@ -99,7 +99,7 @@ public abstract class NurseMenu {
 		System.out.println("Imput donor data: ");
 		String name = Utilities.readString(" -Name: ");
 		String surname = Utilities.readString(" -Surname: ");
-		String bloodType = Utilities.askBloodType();
+		String bloodType = Utilities.askBloodType(" -Choose blood type: ");
 		int bloodNedeed = Utilities.readInteger(" -Blood needed: ");
 		Long ssn = Utilities.readLong(" -Social Security Number: ");
 		Date dob = Utilities.askDate(" -Date of birth: ");
@@ -247,7 +247,7 @@ public abstract class NurseMenu {
 
 		System.out.println("Imput blood tranfusion data: ");
 		float retrivalAmount = Utilities.readInteger(" -Amount needed: ");
-		String bloodType = Utilities.askBloodType();
+		String bloodType = Utilities.askBloodType(" -Choose blood type: ");
 
 		float limit = retrievalMan.getBloodRetrievalLimit();
 		float totalStorage = bloodMan.getAmountOfBlood(bloodType);

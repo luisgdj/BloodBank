@@ -9,19 +9,13 @@ public interface NurseManager {
 
 	public void insertNurse(Nurse nurse);
 	public void updateContract(int contractId, int nurseId);
-	public List<Nurse> searchNurseByName(String name);
 	
 	public Nurse getNurse(int id);
 	public Nurse getNurseByEmail(String email);
+	
+	public List<Nurse> getNursesByName(String name);
 	public List<Nurse> getListOfNursesOfContract(int contractId);
 	public List<Nurse> getListOfNursesOfDonor(int donorId);
 	public List<Nurse> getListOfNursesOfDonee(int doneId);
-	/**
-	 * Create the list of all nurse objects
-	 * 
-	 * @return ArrayList of all nurse objects
-	 */
-	List<Nurse> getNurses();
-	
 }
 

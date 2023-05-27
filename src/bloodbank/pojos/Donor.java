@@ -17,7 +17,7 @@ import bloodbank.xml.utils.*;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "Donor")
-@XmlType(propOrder = { "name", "surname", "bloodType", "dob", "ssn", "donations" })
+@XmlType(propOrder = { "name", "surname", "bloodType", "dob", "ssn"})
 public class Donor implements Serializable {
 
 	/**
@@ -38,6 +38,7 @@ public class Donor implements Serializable {
 	private Date dob;
 	@XmlElement
 	private long ssn;
+	
 	@XmlTransient
 	private List<Blood> donations;
 	@XmlTransient
@@ -152,7 +153,7 @@ public class Donor implements Serializable {
 
 	@Override
 	public String toString() {
-		return " -ID: " + id + "\n -Name: " + name + " " + surname + "\n -Blood type: " + bloodType + "\n -Birth date:"
+		return " -ID: " + id + "\n -Name: " + name + " " + surname + "\n -Blood type: " + bloodType + "\n -Birth date: "
 				+ dob + "\n -SSN: " + ssn;
 	}
 

@@ -18,7 +18,7 @@ public interface XMLManager {
 
 	/**
 	 * Convert the Blood object to a HTML file
-	 *
+	 * 
 	 * @param Blood object to convert
 	 */
 	public void makeBloodHTML(Blood blood);

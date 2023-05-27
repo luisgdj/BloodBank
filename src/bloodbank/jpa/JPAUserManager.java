@@ -1,5 +1,7 @@
 package bloodbank.jpa;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -75,6 +77,22 @@ public class JPAUserManager implements UserManager {
 		user.setRole(role);
 		role.addUser(user);
 		em.getTransaction().commit();
+	}
+	
+	@Override
+	public User changePassword(User user, String newPassword) {
+		
+		try {
+			Query sql = em.createNativeQuery("UPDATE users SET password = ? WHERE username = ? AND password = ?", User.class);
+			sql.setParameter(1, newPassword);
+			sql.setParameter(2, user.getUsername());
+			sql.setParameter(3, user.getPassword());
+			user = (User) sql.getSingleResult();
+			return user;
+		}catch(NoResultException e) {
+			return null;
+		}
+		//sql.executeUpdate();
 	}
 
 	@Override

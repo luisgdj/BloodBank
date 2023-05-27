@@ -32,7 +32,7 @@ public class XMLManagerImpl implements XMLManager {
 			Marshaller marshaller = jaxbContext.createMarshaller();
 			// Pretty formatting
 			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-			File file = new File("./xmls/Blood.xml");
+			File file = new File("./xmls/External-Blood.xml");
 			marshaller.marshal(blood, file);
 			return file;
 		} catch (Exception e) {
@@ -57,7 +57,7 @@ public class XMLManagerImpl implements XMLManager {
 			Marshaller marshaller = jaxbContext.createMarshaller();
 			// Pretty formatting
 			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-			File file = new File("./xmls/Nurse.xml");
+			File file = new File("./xmls/External-Nurse.xml");
 			marshaller.marshal(nurse, file);
 			return file;
 		} catch (Exception e) {

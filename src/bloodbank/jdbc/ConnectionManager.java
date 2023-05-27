@@ -11,6 +11,8 @@ import bloodbank.ifaces.ContractManager;
 import bloodbank.ifaces.DoneeManager;
 import bloodbank.ifaces.DonorManager;
 import bloodbank.ifaces.NurseManager;
+import bloodbank.ifaces.XMLManager;
+import bloodbank.xml.utils.XMLManagerImpl;
 
 public class ConnectionManager {
 
@@ -21,6 +23,7 @@ public class ConnectionManager {
 	private static DonorManager donorMan;
 	private static DoneeManager doneeMan;
 	private static BloodRetrievalLimitManager retrievalMan;
+	private static XMLManager xmlMan;
 
 	public ConnectionManager() {
 		try {
@@ -36,6 +39,7 @@ public class ConnectionManager {
 			this.donorMan = new JDBCDonorManager(this);
 			this.doneeMan = new JDBCDoneeManager(this);
 			this.retrievalMan = new JDBCBloodRetrievalLimitManager(this);
+			this.xmlMan = new XMLManagerImpl();
 
 		} catch (Exception e) {
 			System.out.println("Database access error.");
@@ -69,6 +73,10 @@ public class ConnectionManager {
 
 	public static BloodRetrievalLimitManager getRetrievalMan() {
 		return retrievalMan;
+	}
+	
+	public static XMLManager getXmlMan() {
+		return xmlMan;
 	}
 
 	private void createTables() {

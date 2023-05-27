@@ -101,10 +101,10 @@ public abstract class Utilities {
 		}
 	}
 
-	public static String askBloodType() {
+	public static String askBloodType(String question) {
 
 		while (true) {
-			System.out.println(" -Choose blood type:" + "\n   1. A+" + "\n   2. A-" + "\n   3. B+" + "\n   4. B-"
+			System.out.println(question + "\n   1. A+" + "\n   2. A-" + "\n   3. B+" + "\n   4. B-"
 					+ "\n   5. AB+" + "\n   6. AB-" + "\n   7. 0+" + "\n   8. 0-");
 			int option = Utilities.readInteger("  Option: ");
 

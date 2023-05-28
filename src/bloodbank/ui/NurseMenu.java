@@ -43,38 +43,44 @@ public abstract class NurseMenu {
 			int option = Utilities.readInteger("Choose an option: ");
 
 			switch (option) {
-			case 1: {
-				System.out.println("Register donor:");
-				registerDonor();
-				break;
-			}
-			case 2: {
-				System.out.println("Register donee:");
-				registerDonee();
-				break;
-			}
-			case 3: {
-				System.out.println("Access donor menu:");
-				selectDonor();
-				break;
-			}
-			case 4: {
-				System.out.println("Access donee menu:");
-				selectDonee();
-				break;
-			}
-			case 5: {
-				System.out.println("Show all available blood:");
-				showAllAvailableBlood(retrievalLimit);
-				break;
-			}
-			case 0: {
-				System.out.println("Program terminated");
-				return;
-			}
-			default: {
-				System.out.println("ERROR: Invalid option");
-			}
+				case 1: {
+					System.out.println("Register donor:");
+					registerDonor();
+					break;
+				}
+				case 2: {
+					System.out.println("Register donee:");
+					registerDonee();
+					break;
+				}
+				case 3: {
+					System.out.println("Access donor menu:");
+					Integer id = selectDonor();
+					if(id != null) {
+						checkDonorInfo(id);
+					}
+					break;
+				}
+				case 4: {
+					System.out.println("Access donee menu:");
+					Integer id = selectDonee();
+					if(id != null) {
+						checkDoneeInfo(id);
+					}
+					break;
+				}
+				case 5: {
+					System.out.println("Show all available blood:");
+					showAllAvailableBlood(retrievalLimit);
+					break;
+				}
+				case 0: {
+					System.out.println("Program terminated");
+					return;
+				}
+				default: {
+					System.out.println("ERROR: Invalid option");
+				}
 			}
 		}
 	}
@@ -109,15 +115,21 @@ public abstract class NurseMenu {
 	}
 
 	// OPTION 3:
-	private static void selectDonor() {
-
-		System.out.println("Search donor by name: ");
-		String name = Utilities.readString(" -Name: ");
-		List<Donor> listDon = donorMan.searchDonorByName(name);
-		System.out.println(listDon);
-		System.out.println("Please choose a Donor.");
-		Integer id = Utilities.readInteger(" -Id: ");
-		checkDonorInfo(id);
+	private static Integer selectDonor() {
+		
+		String name = Utilities.readString(" -Search donor by name: ");
+		List<Donor> list = donorMan.getDonorsByName(name);
+		Iterator<Donor> it = list.iterator();
+		while(it.hasNext()) {
+			Donor d = it.next();
+			System.out.println("   (" + d.getId() + ") "+ d.getName() + " " + d.getSurname());
+		}
+		
+		Integer id = Utilities.readInteger(" -Choose an id: ");
+		if (donorMan.getDonor(id) != null){
+			return id;
+		}
+		return null;
 	}
 
 	// OPTION 3: (DONOR MENU)
@@ -129,36 +141,36 @@ public abstract class NurseMenu {
 			int option = Utilities.readInteger("Choose an option: ");
 
 			switch (option) {
-			case 1: {
-				System.out.println("Stablish new donation:");
-				registerDonation(id);
-				break;
-			}
-			case 2: {
-				System.out.println("Show all donations:");
-				showDonations(id);
-				break;
-			}
-			case 3: {
-				System.out.println("Check personal information:");
-				Donor d = donorMan.getDonor(id);
-				d.setDonations(bloodMan.getDonations(id));
-				d.setNurses(nurseMan.getListOfNursesOfDonor(id));
-				System.out.println(d.toString());
-				break;
-			}
-			case 4: {
-				donorMan.removeDonor(id);
-				System.out.println("Donor removed from the data base");
-				System.out.println("Returned to nurse menu");
-				return;
-			}
-			case 0: {
-				return;
-			}
-			default: {
-				System.out.println("ERROR: Invalid option");
-			}
+				case 1: {
+					System.out.println("Stablish new donation:");
+					registerDonation(id);
+					break;
+				}
+				case 2: {
+					System.out.println("Show all donations:");
+					showDonations(id);
+					break;
+				}
+				case 3: {
+					System.out.println("Check personal information:");
+					Donor d = donorMan.getDonor(id);
+					d.setDonations(bloodMan.getDonations(id));
+					d.setNurses(nurseMan.getListOfNursesOfDonor(id));
+					System.out.println(d.toString());
+					break;
+				}
+				case 4: {
+					donorMan.removeDonor(id);
+					System.out.println("Donor removed from the data base");
+					System.out.println("Returned to nurse menu");
+					return;
+				}
+				case 0: {
+					return;
+				}
+				default: {
+					System.out.println("ERROR: Invalid option");
+				}
 			}
 		}
 	}
@@ -189,15 +201,21 @@ public abstract class NurseMenu {
 	}
 
 	// OPTION 4:
-	private static void selectDonee() {
+	private static Integer selectDonee() {
 
-		System.out.println("Search donor by name: ");
-		String name = Utilities.readString(" -Name: ");
-		List<Donor> listDon = donorMan.searchDonorByName(name);
-		System.out.println(listDon);
-		System.out.println("Please choose a Donor.");
-		Integer id = Utilities.readInteger(" -Id: ");
-		checkDoneeInfo(id);
+		String name = Utilities.readString(" -Search donee by name: ");
+		List<Donee> list = doneeMan.getDoneesByName(name);
+		Iterator<Donee> it = list.iterator();
+		while(it.hasNext()) {
+			Donee d = it.next();
+			System.out.println("   (" + d.getId() + ") "+ d.getName() + " " + d.getSurname());
+		}
+		
+		Integer id = Utilities.readInteger(" -Choose an id: ");
+		if (doneeMan.getDonee(id) != null){
+			return id;
+		}
+		return null;
 	}
 
 	// OPTION 4: (DONEE MENU)
@@ -208,36 +226,36 @@ public abstract class NurseMenu {
 					+ "\n 3. Show personal information" + "\n 4. Remove donee" + "\n 0. Return to nurse menu");
 			int option = Utilities.readInteger("Choose an option: ");
 			switch (option) {
-			case 1: {
-				System.out.println("Stablish new transfusion:");
-				stablishTransfusion(id);
-				break;
-			}
-			case 2: {
-				System.out.println("Show all tranfusions:");
-				showTransfusions(id);
-				break;
-			}
-			case 3: {
-				System.out.println("Check personal information:");
-				Donee d = doneeMan.getDonee(id);
-				d.setTransfusions(bloodMan.getTransfusions(id));
-				d.setNurses(nurseMan.getListOfNursesOfDonee(id));
-				System.out.println(d.toString());
-				break;
-			}
-			case 4: {
-				doneeMan.removeDonee(id);
-				System.out.println("Donee removed from the data base");
-				System.out.println("Returned to nurse menu");
-				return;
-			}
-			case 0: {
-				return;
-			}
-			default: {
-				System.out.println("ERROR: Invalid option");
-			}
+				case 1: {
+					System.out.println("Stablish new transfusion:");
+					stablishTransfusion(id);
+					break;
+				}
+				case 2: {
+					System.out.println("Show all tranfusions:");
+					showTransfusions(id);
+					break;
+				}
+				case 3: {
+					System.out.println("Check personal information:");
+					Donee d = doneeMan.getDonee(id);
+					d.setTransfusions(bloodMan.getTransfusions(id));
+					d.setNurses(nurseMan.getListOfNursesOfDonee(id));
+					System.out.println(d.toString());
+					break;
+				}
+				case 4: {
+					doneeMan.removeDonee(id);
+					System.out.println("Donee removed from the data base");
+					System.out.println("Returned to nurse menu");
+					return;
+				}
+				case 0: {
+					return;
+				}
+				default: {
+					System.out.println("ERROR: Invalid option");
+				}
 			}
 		}
 	}

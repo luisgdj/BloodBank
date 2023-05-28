@@ -13,6 +13,7 @@ public interface NurseManager {
 	public Nurse getNurse(int id);
 	public Nurse getNurseByEmail(String email);
 	
+	public List<Nurse> getAllNurses();
 	public List<Nurse> getNursesByName(String name);
 	public List<Nurse> getListOfNursesOfContract(int contractId);
 	public List<Nurse> getListOfNursesOfDonor(int donorId);

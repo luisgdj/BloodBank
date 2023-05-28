@@ -47,7 +47,7 @@ public class JDBCDonorManager implements DonorManager {
 		try {
 			String sql = "DELETE FROM donor WHERE id = ?";
 			PreparedStatement p = c.prepareStatement(sql);
-			p.setString(1, "" + id);
+			p.setInt(1, id);
 
 			p.executeUpdate();
 			p.close();
@@ -70,23 +70,22 @@ public class JDBCDonorManager implements DonorManager {
 			p.close();
 
 		} catch (SQLException e) {
-			System.out.println("( You have already attended this donor)");
+			System.out.println("( ou have already attended this donor)");
 			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public List<Donor> searchDonorByName(String name) {
+	public List<Donor> getDonorsByName(String name) {
 
 		List<Donor> list = new ArrayList<Donor>();
 		try {
-			String sql = "SELECT * FROM donor WHERE name = ?";
-			PreparedStatement p = c.prepareStatement(sql);// cuando haya una slect se usa preparedStatement
+			String sql = "SELECT * FROM donor WHERE name LIKE ?";
+			PreparedStatement p = c.prepareStatement(sql);
 			p.setString(1, "%" + name + "%");
 			ResultSet rs = p.executeQuery();
 
 			while (rs.next()) {
-				// Create a new donor
 				String n = rs.getString("name");
 				String surname = rs.getString("surname");
 				String bloodType = rs.getString("bloodType");
@@ -126,8 +125,7 @@ public class JDBCDonorManager implements DonorManager {
 			return new Donor(id, name, surname, bloodType, dob, ssn, null, null);
 
 		} catch (SQLException e) {
-			System.out.println("Databases error");
-			e.printStackTrace();
+			System.out.println(" ERROR: donor does not exist.");
 			return null;
 		}
 	}

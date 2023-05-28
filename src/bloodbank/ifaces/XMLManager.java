@@ -2,8 +2,6 @@ package bloodbank.ifaces;
 
 import java.io.File;
 
-import javax.xml.bind.JAXBException;
-
 import bloodbank.pojos.*;
 
 public interface XMLManager {

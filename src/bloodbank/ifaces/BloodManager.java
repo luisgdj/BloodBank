@@ -19,10 +19,11 @@ public interface BloodManager {
 	public List<Integer> getListOfIds(String type);
 	public List<Float> getListOfAmounts(String bloodType);
 	
-	public Blood getBlood(int id);
 	public Float getAmountOfBlood(String bloodType); 
 	public Integer getNumberOfDonations(String bloodType);
+	public Blood getBlood(int id);
 	
+	public List<Blood> getAllBlood();
 	public List<Blood> getDonations (int donorId); //view donations (donor menu)
 	public List<Blood> getTransfusions(int doneeId);
 	public List<Blood> getBloodsByBloodType(String bloodType);

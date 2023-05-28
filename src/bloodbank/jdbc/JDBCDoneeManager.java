@@ -11,6 +11,7 @@ import java.util.List;
 import bloodbank.ifaces.DoneeManager;
 import bloodbank.pojos.Blood;
 import bloodbank.pojos.Donee;
+import bloodbank.pojos.Donor;
 import bloodbank.pojos.Nurse;
 
 public class JDBCDoneeManager implements DoneeManager {
@@ -85,10 +86,40 @@ public class JDBCDoneeManager implements DoneeManager {
 			return new Donee(id, name, surname, bloodType, bloodNeeded, dob, ssn, transfusions, nurses);
 
 		} catch (SQLException e) {
-			System.out.println("Databases error");
-			e.printStackTrace();
+			System.out.println(" ERROR: donee does not exist.");
 			return null;
 		}
+	}
+	
+	@Override
+	public List<Donee> getDoneesByName(String name) {
+
+		List<Donee> list = new ArrayList<Donee>();
+		try {
+			String sql = "SELECT * FROM donee WHERE name LIKE ?";
+			PreparedStatement p = c.prepareStatement(sql);
+			p.setString(1, "%" + name + "%");
+			ResultSet rs = p.executeQuery();
+
+			while (rs.next()) {
+				String n = rs.getString("name");
+				String surname = rs.getString("surname");
+				String bloodType = rs.getString("blood_type");
+				Float bloodNeeded = rs.getFloat("blood_needed");
+				Date dob = rs.getDate("dob");
+				Long ssn = rs.getLong("ssn");
+
+				Donee donee = new Donee(name, surname, bloodType, bloodNeeded, dob, ssn);
+				list.add(donee);
+			}
+			p.close();
+			rs.close();
+
+		} catch (SQLException e) {
+			System.out.println("Databases error");
+			e.printStackTrace();
+		}
+		return list;
 	}
 
 	@Override

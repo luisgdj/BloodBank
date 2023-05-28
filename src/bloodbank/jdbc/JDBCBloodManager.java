@@ -227,6 +227,40 @@ public class JDBCBloodManager implements BloodManager {
 	}
 	
 	@Override
+	public List<Blood> getAllBlood() {
+
+		List<Blood> list = new ArrayList<>();
+		try {
+			String sql = "SELECT * FROM blood";
+			PreparedStatement p = c.prepareStatement(sql);
+			ResultSet rs = p.executeQuery();
+			
+			while(rs.next()) {
+				Integer id = rs.getInt("id");
+				Float amount = rs.getFloat("amount");
+				Date date = rs.getDate("collection_date");
+				Integer donor_id = rs.getInt("donor_id");
+				Donor donor = conMan.getDonorMan().getDonor(donor_id);
+					Integer donee_id = rs.getInt("donee_id");
+				Donee donee = null;
+				if (donee_id != 0) {
+					donee = conMan.getDoneeMan().getDonee(donee_id);
+				}
+				
+				Blood b = new Blood(id, amount, date, donor, donee);
+				list.add(b);
+			}
+			p.close();
+			rs.close();
+
+		} catch (SQLException e) {
+			System.out.println("Databases error");
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	@Override
 	public Blood getBlood(int id) {
 
 		try {
@@ -234,19 +268,18 @@ public class JDBCBloodManager implements BloodManager {
 			PreparedStatement p = c.prepareStatement(sql);
 			p.setInt(1, id);
 			ResultSet rs = p.executeQuery();
-
+			
 			Float amount = rs.getFloat("amount");
 			Date date = rs.getDate("collection_date");
 			Integer donor_id = rs.getInt("donor_id");
 			Donor donor = conMan.getDonorMan().getDonor(donor_id);
-				Integer donee_id = rs.getInt("donee_id");
+			Integer donee_id = rs.getInt("donee_id");
 			Donee donee = null;
 			if (donee_id != 0) {
 				donee = conMan.getDoneeMan().getDonee(donee_id);
 			}
-			
+				
 			Blood b = new Blood(id, amount, date, donor, donee);
-			
 			p.close();
 			rs.close();
 			return b;
@@ -254,7 +287,6 @@ public class JDBCBloodManager implements BloodManager {
 		} catch (SQLException e) {
 			System.out.println("Databases error");
 			e.printStackTrace();
-			System.out.println(" ERROR: nurse does not exist.");
 			return null;
 		}
 	}

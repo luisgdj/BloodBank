@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.xml.bind.JAXBException;
-
 import bloodbank.ifaces.*;
 import bloodbank.pojos.*;
 import bloodbank.jdbc.*;
@@ -45,8 +43,8 @@ public abstract class ManagerMenu {
 					+ "\n 5. Change blood retreival limit" 
 					+ "\n 6. Change password"
 					+ "\n 7. Save blood information to file" 
-					+ "\n 8. Save nurse information to file" 
-					+ "\n 9. Load information from XML file" 
+					+ "\n 8. Save nurse information to file"
+					+ "\n 9. Load information from XML file"
 					+ "\n 0. Log out");
 			int option = Utilities.readInteger("Choose an option: ");
 
@@ -65,7 +63,7 @@ public abstract class ManagerMenu {
 					System.out.println("\nCheck blood storage:");
 					String bloodType = Utilities.askBloodType(" -Choose blood type: ");
 					float amount = bloodMan.getAmountOfBlood(bloodType);
-					System.out.println(" Amount of " + bloodType + " blood: " + amount);
+					System.out.println(" -Total amount of " + bloodType + " blood: " + amount);
 					break;
 				}
 				case 4: {
@@ -80,26 +78,28 @@ public abstract class ManagerMenu {
 					System.out.println("\nChange blood retreival limit: ");
 					float limit = Utilities.readFloat(" -Limit: ");
 					retrievalMan.updateBloodRetrievalLimit(limit);
+					System.out.println(" -Blood retreival limit changed to " + limit + " mL");
 					break;
 				}
 				case 6: {
-					System.out.println("Change password:");
+					System.out.println("\nChange password:");
 					String password = Utilities.readString(" -Type new password: ");
 					user = man.changePassword(user, password);
+					System.out.println(" -Password changed correctly to " + user.getPassword());
 					break;
 				}
 				case 7: {
-					System.out.println("Save blood information to file:");
+					System.out.println("\nSave blood information to file:");
 					saveBloodToFile();
 					break;
 				}
 				case 8: {
-					System.out.println("Save nurse information to file:");
+					System.out.println("\nSave nurse information to file:");
 					saveNurseToFile();
 					break;
 				}
 				case 9: {
-					System.out.println("Load information from XML file: ");
+					System.out.println("\nLoad information from XML file: ");
 					List<String> fileNames = getXMLFilenamesInFolder();
 					if (fileNames.size() != 0) {
 						loadFileFromXml(fileNames);
@@ -109,11 +109,11 @@ public abstract class ManagerMenu {
 					break;
 				}
 				case 0: {
-					System.out.println("Program terminated");
+					System.out.println("\nProgram terminated.");
 					return;
 				}
 				default: {
-					System.out.println("ERROR: Invalid option");
+					System.out.println("ERROR: Invalid option.");
 				}
 			}
 		}
@@ -159,11 +159,13 @@ public abstract class ManagerMenu {
 
 		String name = Utilities.readString(" -Search nurse by name: ");
 		List<Nurse> list = nurseMan.getNursesByName(name);
-		for (Nurse n : list) {
-			System.out.println("   (" + n.getId() + ") " + n.getName() + " " + n.getSurname());
+		Iterator<Nurse> it = list.iterator();
+		while(it.hasNext()) {
+			Nurse n = it.next();
+			System.out.println("   (" + n.getId() + ") "+ n.getName() + " " + n.getSurname());
 		}
 		
-		Integer id = Utilities.readInteger(" -Choose a Nurse: ");
+		Integer id = Utilities.readInteger(" -Choose an id: ");
 		if (nurseMan.getNurse(id) != null){
 			return id;
 		}
@@ -190,13 +192,15 @@ public abstract class ManagerMenu {
 					Iterator<Donor> donorIt = donorMan.getListOfDonors(id).iterator();
 					Iterator<Donee> doneeIt = doneeMan.getListOfDonees(id).iterator();
 	
-					System.out.println(" -List of donors: ");
+					System.out.println(" -Donors attended: ");
 					while (donorIt.hasNext()) {
-						System.out.println("   " + donorIt.next().getName() + " " + donorIt.next().getSurname());
+						Donor donor = donorIt.next();
+						System.out.println("   (" + donor.getId() + ")   " + donor.getName() + " " + donor.getSurname());
 					}
-					System.out.println(" -List of donees: ");
+					System.out.println(" -Donees attended: ");
 					while (doneeIt.hasNext()) {
-						System.out.println("   " + doneeIt.next().getName() + " " + doneeIt.next().getSurname());
+						Donee donee = doneeIt.next();
+						System.out.println("   (" + donee.getId() + ")   " + donee.getName() + " " + donee.getSurname());
 					}
 					break;
 				}
@@ -204,8 +208,9 @@ public abstract class ManagerMenu {
 					System.out.println("Change contract:");
 					List<Contract> contracts = contractMan.getListOfContracts();
 					Iterator<Contract> it = contracts.iterator();
+					System.out.println("List of contracts: ");
 					while (it.hasNext()) {
-						System.out.println("  Contract " + it.next().toString());
+						System.out.println(" -Contract " + it.next().toString());
 					}
 					int contract_id = Utilities.readInteger("Choose a contract: ");
 					nurseMan.updateContract(contract_id, id);
@@ -270,11 +275,13 @@ public abstract class ManagerMenu {
 
 		String bloodType = Utilities.askBloodType(" -Search blood by type: ");
 		List<Blood> list = bloodMan.getBloodsByBloodType(bloodType);
-		for (Blood b : list) {
-			System.out.println("   " + b.toString());
+		Iterator<Blood> it = list.iterator();
+		while(it.hasNext()) {
+			Blood b = it.next();
+			System.out.println("  " + b.toString());
 		}
 		
-		Integer id = Utilities.readInteger(" -Choose a Blood: ");
+		Integer id = Utilities.readInteger(" -Choose an id: ");
 		if (bloodMan.getBlood(id) != null){
 			return id;
 		}
@@ -350,10 +357,12 @@ public abstract class ManagerMenu {
 		
 		if(fileNames.get(option).endsWith("-Nurse.xml")) {
 			Nurse n = xmlMan.getNurseXML(fileName);
+			//ERROR: NO ESTAMOS GUARDANDO EL ID DE LOS CONTRACTS (LO NECESITAMOS)
 			nurseMan.insertNurse(n);		
 		} 
 		if(fileNames.get(option).endsWith("-Blood.xml")){
 			Blood b = xmlMan.getBloodXML(fileName);
+			//ERROR: NO ESTAMOS GUARDANDO LOS IDS DE LOS DONORS Y DONEES (LOS NECESITAMOS)
 			bloodMan.insertBloodDonation(b);
 		}				
 	}

@@ -62,7 +62,7 @@ public abstract class ManagerMenu {
 				case 3: {
 					System.out.println("\nCheck blood storage:");
 					String bloodType = Utilities.askBloodType(" -Choose blood type: ");
-					float amount = bloodMan.getAmountOfBlood(bloodType);
+					float amount = bloodMan.getTotalAmountOfBlood(bloodType);
 					System.out.println(" -Total amount of " + bloodType + " blood: " + amount);
 					break;
 				}
@@ -109,11 +109,11 @@ public abstract class ManagerMenu {
 					break;
 				}
 				case 0: {
-					System.out.println("\nProgram terminated.");
+					System.out.println("Program terminated.");
 					return;
 				}
 				default: {
-					System.out.println("ERROR: Invalid option.");
+					System.out.println(" ERROR: Invalid option.");
 				}
 			}
 		}
@@ -182,13 +182,13 @@ public abstract class ManagerMenu {
 
 			switch (option) {
 				case 1: {
-					System.out.println("Check personal information");
+					System.out.println("\nCheck personal information");
 					Nurse n = nurseMan.getNurse(id);
 					System.out.println(n.toString());
 					break;
 				}
 				case 2: {
-					System.out.println("Show patients:");
+					System.out.println("\nShow patients:");
 					Iterator<Donor> donorIt = donorMan.getListOfDonors(id).iterator();
 					Iterator<Donee> doneeIt = doneeMan.getListOfDonees(id).iterator();
 	
@@ -205,22 +205,24 @@ public abstract class ManagerMenu {
 					break;
 				}
 				case 3: {
-					System.out.println("Change contract:");
+					System.out.println("\nChange contract:");
 					List<Contract> contracts = contractMan.getListOfContracts();
 					Iterator<Contract> it = contracts.iterator();
-					System.out.println("List of contracts: ");
+					System.out.println(" -List of contracts: ");
 					while (it.hasNext()) {
-						System.out.println(" -Contract " + it.next().toString());
+						System.out.println("  Contract " + it.next().toString());
 					}
-					int contract_id = Utilities.readInteger("Choose a contract: ");
-					nurseMan.updateContract(contract_id, id);
+					int contract_id = Utilities.readInteger(" -Choose a contract: ");
+					nurseMan.assignContractToNurse(contract_id, option);
+					System.out.println(" -Updated correctly to contract " + contract_id);
 					break;
 				}
 				case 0: {
+					System.out.println("Return to manager menu.");
 					return;
 				}
 				default: {
-					System.out.println("ERROR: Invalid option");
+					System.out.println(" ERROR: Invalid option.");
 				}
 			}
 		}
@@ -274,7 +276,7 @@ public abstract class ManagerMenu {
 	private static Integer selectBlood() {
 
 		String bloodType = Utilities.askBloodType(" -Search blood by type: ");
-		List<Blood> list = bloodMan.getBloodsByBloodType(bloodType);
+		List<Blood> list = bloodMan.getBloodByBloodType(bloodType);
 		Iterator<Blood> it = list.iterator();
 		while(it.hasNext()) {
 			Blood b = it.next();
@@ -306,7 +308,7 @@ public abstract class ManagerMenu {
 				saveNurseToHtml();
 				break;
 			default:
-				System.out.println(" ERROR: invalid option.");
+				System.out.println(" ERROR: Invalid option.");
 		}
 	}
 	
@@ -348,9 +350,9 @@ public abstract class ManagerMenu {
 		do {
 			option = Utilities.readInteger(" -Choose file: ") - 1;
 			if(option < 0 || option >= fileNames.size()) {
-				System.out.println(" ERROR: invalid file");
+				System.out.println(" ERROR: Invalid option.");
 			}
-		}while(option < 0 || option >= fileNames.size());
+		} while(option < 0 || option >= fileNames.size());
 		
 		// extract the name from the list and create the file
 		File fileName = new File("./xmls/" + fileNames.get(option));

@@ -9,7 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bloodbank.ifaces.DonorManager;
+import bloodbank.pojos.Blood;
 import bloodbank.pojos.Donor;
+import bloodbank.pojos.Nurse;
 
 public class JDBCDonorManager implements DonorManager {
 
@@ -40,71 +42,7 @@ public class JDBCDonorManager implements DonorManager {
 			e.printStackTrace();
 		}
 	}
-
-	@Override
-	public void removeDonor(int id) {
-
-		try {
-			String sql = "DELETE FROM donor WHERE id = ?";
-			PreparedStatement p = c.prepareStatement(sql);
-			p.setInt(1, id);
-
-			p.executeUpdate();
-			p.close();
-
-		} catch (SQLException e) {
-			System.out.println("Databases error");
-			e.printStackTrace();
-		}
-	}
-
-	@Override
-	public void assignDonorToNurse(int donorId, int nurseId) {
-		try {
-			String sql = "INSERT INTO nurse_donor (nurse_id, donor_id) VALUES (?,?)";
-			PreparedStatement p = c.prepareStatement(sql);
-			p.setInt(1, nurseId);
-			p.setInt(2, donorId);
-
-			p.executeUpdate();
-			p.close();
-
-		} catch (SQLException e) {
-			System.out.println("( ou have already attended this donor)");
-			e.printStackTrace();
-		}
-	}
-
-	@Override
-	public List<Donor> getDonorsByName(String name) {
-
-		List<Donor> list = new ArrayList<Donor>();
-		try {
-			String sql = "SELECT * FROM donor WHERE name LIKE ?";
-			PreparedStatement p = c.prepareStatement(sql);
-			p.setString(1, "%" + name + "%");
-			ResultSet rs = p.executeQuery();
-
-			while (rs.next()) {
-				String n = rs.getString("name");
-				String surname = rs.getString("surname");
-				String bloodType = rs.getString("bloodType");
-				Date dob = rs.getDate("dob");
-				Long ssn = rs.getLong("ssn");
-
-				Donor donor = new Donor(name, surname, bloodType, dob, ssn);
-				list.add(donor);
-			}
-			p.close();
-			rs.close();
-
-		} catch (SQLException e) {
-			System.out.println("Databases error");
-			e.printStackTrace();
-		}
-		return list;
-	}
-
+	
 	@Override
 	public Donor getDonor(int id) {
 
@@ -128,6 +66,55 @@ public class JDBCDonorManager implements DonorManager {
 			System.out.println(" ERROR: donor does not exist.");
 			return null;
 		}
+	}
+
+	@Override
+	public void assignDonorToNurse(int donorId, int nurseId) {
+		try {
+			String sql = "INSERT INTO nurse_donor (nurse_id, donor_id) VALUES (?,?)";
+			PreparedStatement p = c.prepareStatement(sql);
+			p.setInt(1, nurseId);
+			p.setInt(2, donorId);
+
+			p.executeUpdate();
+			p.close();
+
+		} catch (SQLException e) {
+			System.out.println("  (WARNING: You have already attended this donor)");
+		}
+	}
+
+	@Override
+	public List<Donor> getDonorsByName(String name) {
+
+		List<Donor> list = new ArrayList<Donor>();
+		try {
+			String sql = "SELECT * FROM donor WHERE name LIKE ?";
+			PreparedStatement p = c.prepareStatement(sql);
+			p.setString(1, "%" + name + "%");
+			ResultSet rs = p.executeQuery();
+
+			while (rs.next()) {
+				Integer id = rs.getInt("id");
+				String n = rs.getString("name");
+				String surname = rs.getString("surname");
+				String bloodType = rs.getString("blood_type");
+				Date dob = rs.getDate("dob");
+				Long ssn = rs.getLong("ssn");
+				List<Blood> donations = conMan.getBloodMan().getDonations(id);
+				List<Nurse> nurses = conMan.getNurseMan().getListOfNursesOfDonor(id);
+
+				Donor donor = new Donor(id, n, surname, bloodType, dob, ssn, donations, nurses);
+				list.add(donor);
+			}
+			p.close();
+			rs.close();
+
+		} catch (SQLException e) {
+			System.out.println("Databases error");
+			e.printStackTrace();
+		}
+		return list;
 	}
 
 	@Override
@@ -160,6 +147,23 @@ public class JDBCDonorManager implements DonorManager {
 			System.out.println("Databases error");
 			e.printStackTrace();
 			return null;
+		}
+	}
+	
+	@Override
+	public void removeDonor(int id) {
+
+		try {
+			String sql = "DELETE FROM donor WHERE id = ?";
+			PreparedStatement p = c.prepareStatement(sql);
+			p.setInt(1, id);
+
+			p.executeUpdate();
+			p.close();
+
+		} catch (SQLException e) {
+			System.out.println("Databases error");
+			e.printStackTrace();
 		}
 	}
 }

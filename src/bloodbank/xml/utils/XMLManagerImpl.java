@@ -40,31 +40,6 @@ public class XMLManagerImpl implements XMLManager {
 		}
 		return null;
 	}
-	
-	/**
-	 * Convert the Nurse object to a xml file
-	 *
-	 * @param Nurse object to convert
-	 * @return XML File containing a nurse object
-	 */
-	@Override
-	public File makeNurseXML(Nurse nurse) {
-
-		try {
-			// Create the JAXBContext
-			JAXBContext jaxbContext = JAXBContext.newInstance(Nurse.class);
-			// Get the marshaller
-			Marshaller marshaller = jaxbContext.createMarshaller();
-			// Pretty formatting
-			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-			File file = new File("./xmls/External-Nurse.xml");
-			marshaller.marshal(nurse, file);
-			return file;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
 
 	/**
 	 * Convert the XML file to a Blood object
@@ -94,6 +69,50 @@ public class XMLManagerImpl implements XMLManager {
 	}
 	
 	/**
+	 * Convert the Blood object to a HTML file
+	 *
+	 * @param Blood object to convert
+	 */
+	@Override
+	public void makeBloodHTML(Blood blood) {
+
+		File file = makeBloodXML(blood);
+		TransformerFactory tFactory = TransformerFactory.newInstance();
+		try {
+			Transformer transformer = tFactory.newTransformer(new StreamSource(new File("./xmls/Blood-Style.xslt")));
+			transformer.transform(new StreamSource(file), new StreamResult(new File("./xmls/External-Blood.html")));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	/**
+	 * Convert the Nurse object to a xml file
+	 *
+	 * @param Nurse object to convert
+	 * @return XML File containing a nurse object
+	 */
+	@Override
+	public File makeNurseXML(Nurse nurse) {
+
+		try {
+			// Create the JAXBContext
+			JAXBContext jaxbContext = JAXBContext.newInstance(Nurse.class);
+			// Get the marshaller
+			Marshaller marshaller = jaxbContext.createMarshaller();
+			// Pretty formatting
+			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+			File file = new File("./xmls/External-Nurse.xml");
+			marshaller.marshal(nurse, file);
+			return file;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
 	 * Convert the XML file to a Nurse object
 	 *
 	 * @param XML File containing a nurse object
@@ -117,24 +136,6 @@ public class XMLManagerImpl implements XMLManager {
 			System.out.println("Error: unable to load the XML file");
 			e.printStackTrace();
 			return null;
-		}
-	}
-
-	/**
-	 * Convert the Blood object to a HTML file
-	 *
-	 * @param Blood object to convert
-	 */
-	@Override
-	public void makeBloodHTML(Blood blood) {
-
-		File file = makeBloodXML(blood);
-		TransformerFactory tFactory = TransformerFactory.newInstance();
-		try {
-			Transformer transformer = tFactory.newTransformer(new StreamSource(new File("./xmls/Blood-Style.xslt")));
-			transformer.transform(new StreamSource(file), new StreamResult(new File("./xmls/External-Blood.html")));
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 	

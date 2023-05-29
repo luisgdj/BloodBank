@@ -11,7 +11,6 @@ import java.util.List;
 import bloodbank.ifaces.DoneeManager;
 import bloodbank.pojos.Blood;
 import bloodbank.pojos.Donee;
-import bloodbank.pojos.Donor;
 import bloodbank.pojos.Nurse;
 
 public class JDBCDoneeManager implements DoneeManager {
@@ -47,23 +46,6 @@ public class JDBCDoneeManager implements DoneeManager {
 		}
 	}
 
-	@Override
-	public void removeDonee(int id) {
-
-		try {
-			String sql = "DELETE FROM donee WHERE id = ?";
-			PreparedStatement p = c.prepareStatement(sql);
-			p.setInt(1, id);
-
-			p.executeUpdate();
-			p.close();
-
-		} catch (SQLException e) {
-			System.out.println("Databases error");
-			e.printStackTrace();
-		}
-	}
-
 	public Donee getDonee(int id) {
 
 		try {
@@ -78,16 +60,30 @@ public class JDBCDoneeManager implements DoneeManager {
 			Float bloodNeeded = rs.getFloat("blood_needed");
 			Date dob = rs.getDate("dob");
 			long ssn = rs.getLong("ssn");
-			List<Blood> transfusions = conMan.getBloodMan().getTransfusions(id);
-			List<Nurse> nurses = conMan.getNurseMan().getListOfNursesOfDonor(id);
 
 			p.close();
 			rs.close();
-			return new Donee(id, name, surname, bloodType, bloodNeeded, dob, ssn, transfusions, nurses);
+			return new Donee(id, name, surname, bloodType, bloodNeeded, dob, ssn, null, null);
 
 		} catch (SQLException e) {
 			System.out.println(" ERROR: donee does not exist.");
 			return null;
+		}
+	}
+	
+	@Override
+	public void assignDoneeToNurse(int doneeId, int nurseId) {
+		try {
+			String sql = "INSERT INTO nurse_donee (nurse_id, donee_id) VALUES (?,?)";
+			PreparedStatement p = c.prepareStatement(sql);
+			p.setInt(1, nurseId);
+			p.setInt(2, doneeId);
+
+			p.executeUpdate();
+			p.close();
+
+		} catch (SQLException e) {
+			System.out.println("  (WARNING: You have already attended this donee)");
 		}
 	}
 	
@@ -102,14 +98,17 @@ public class JDBCDoneeManager implements DoneeManager {
 			ResultSet rs = p.executeQuery();
 
 			while (rs.next()) {
+				Integer id = rs.getInt("id");
 				String n = rs.getString("name");
 				String surname = rs.getString("surname");
 				String bloodType = rs.getString("blood_type");
 				Float bloodNeeded = rs.getFloat("blood_needed");
 				Date dob = rs.getDate("dob");
 				Long ssn = rs.getLong("ssn");
+				List<Blood> transfusions = conMan.getBloodMan().getTransfusions(id);
+				List<Nurse> nurses = conMan.getNurseMan().getListOfNursesOfDonor(id);
 
-				Donee donee = new Donee(name, surname, bloodType, bloodNeeded, dob, ssn);
+				Donee donee = new Donee(id, n , surname, bloodType, bloodNeeded, dob, ssn, transfusions, nurses);
 				list.add(donee);
 			}
 			p.close();
@@ -120,23 +119,6 @@ public class JDBCDoneeManager implements DoneeManager {
 			e.printStackTrace();
 		}
 		return list;
-	}
-
-	@Override
-	public void assignDoneeToNurse(int doneeId, int nurseId) {
-		try {
-			String sql = "INSERT INTO nurse_donee (doneeId, nurseId) VALUES (?,?)";
-			PreparedStatement p = c.prepareStatement(sql);
-			p.setInt(1, doneeId);
-			p.setInt(2, nurseId);
-
-			p.executeUpdate();
-			p.close();
-
-		} catch (SQLException e) {
-			System.out.println("Databases error");
-			e.printStackTrace();
-		}
 	}
 
 	public List<Donee> getListOfDonees(int nurseId) {
@@ -188,6 +170,23 @@ public class JDBCDoneeManager implements DoneeManager {
 
 		} catch (SQLException e) {
 			System.out.println("Database error.");
+			e.printStackTrace();
+		}
+	}
+	
+	@Override
+	public void removeDonee(int id) {
+
+		try {
+			String sql = "DELETE FROM donee WHERE id = ?";
+			PreparedStatement p = c.prepareStatement(sql);
+			p.setInt(1, id);
+
+			p.executeUpdate();
+			p.close();
+
+		} catch (SQLException e) {
+			System.out.println("Databases error");
 			e.printStackTrace();
 		}
 	}

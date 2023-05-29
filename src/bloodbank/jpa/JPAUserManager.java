@@ -1,7 +1,5 @@
 package bloodbank.jpa;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -39,35 +37,16 @@ public class JPAUserManager implements UserManager {
 	}
 
 	@Override
-	public List<Role> getRoles() {
-		Query q = em.createNativeQuery("SELECT * FROM roles", Role.class);
-		List<Role> roles = (List<Role>) q.getResultList();
-		return roles;
+	public void register(User user) {
+		em.getTransaction().begin();
+		em.persist(user);
+		em.getTransaction().commit();
 	}
-
+	
 	@Override
 	public void createRole(Role role) {
 		em.getTransaction().begin();
 		em.persist(role);
-		em.getTransaction().commit();
-	}
-
-	@Override
-	public Role getRole(String name) {
-		Query q = em.createNativeQuery("SELECT * FROM roles WHERE name LIKE ?", Role.class);
-		q.setParameter(1, name);
-		Role r = (Role) q.getSingleResult();
-		return r;
-	}
-
-	public void close() {
-		em.close();
-	}
-
-	@Override
-	public void register(User user) {
-		em.getTransaction().begin();
-		em.persist(user);
 		em.getTransaction().commit();
 	}
 
@@ -77,6 +56,35 @@ public class JPAUserManager implements UserManager {
 		user.setRole(role);
 		role.addUser(user);
 		em.getTransaction().commit();
+	}
+	
+	@Override
+	public Role getRole(String name) {
+		Query q = em.createNativeQuery("SELECT * FROM roles WHERE name LIKE ?", Role.class);
+		q.setParameter(1, name);
+		Role r = (Role) q.getSingleResult();
+		return r;
+	}
+	
+	@Override
+	public List<Role> getRoles() {
+		Query q = em.createNativeQuery("SELECT * FROM roles", Role.class);
+		List<Role> roles = (List<Role>) q.getResultList();
+		return roles;
+	}
+	
+	@Override
+	public User logIn(String username, String password) {
+		try {
+			Query q = em.createNativeQuery("SELECT * FROM users WHERE username = ? AND password = ?", User.class);
+			q.setParameter(1, username);
+			q.setParameter(2, password);
+			User user = (User) q.getSingleResult();
+			return user;
+			
+		} catch (NoResultException e) {
+			return null;
+		}
 	}
 	
 	@Override
@@ -96,20 +104,9 @@ public class JPAUserManager implements UserManager {
 		}catch(NoResultException e) {
 			return null;
 		}
-		//sql.executeUpdate();
 	}
 
-	@Override
-	public User logIn(String username, String password) {
-		try {
-			Query q = em.createNativeQuery("SELECT * FROM users WHERE username = ? AND password = ?", User.class);
-			q.setParameter(1, username);
-			q.setParameter(2, password);
-			User user = (User) q.getSingleResult();
-			return user;
-			
-		} catch (NoResultException e) {
-			return null;
-		}
+	public void close() {
+		em.close();
 	}
 }

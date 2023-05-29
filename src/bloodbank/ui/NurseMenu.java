@@ -44,17 +44,17 @@ public abstract class NurseMenu {
 
 			switch (option) {
 				case 1: {
-					System.out.println("Register donor:");
+					System.out.println("\nRegister donor:");
 					registerDonor();
 					break;
 				}
 				case 2: {
-					System.out.println("Register donee:");
+					System.out.println("\nRegister donee:");
 					registerDonee();
 					break;
 				}
 				case 3: {
-					System.out.println("Access donor menu:");
+					System.out.println("\nAccess donor menu:");
 					Integer id = selectDonor();
 					if(id != null) {
 						checkDonorInfo(id);
@@ -62,7 +62,7 @@ public abstract class NurseMenu {
 					break;
 				}
 				case 4: {
-					System.out.println("Access donee menu:");
+					System.out.println("\nAccess donee menu:");
 					Integer id = selectDonee();
 					if(id != null) {
 						checkDoneeInfo(id);
@@ -70,16 +70,23 @@ public abstract class NurseMenu {
 					break;
 				}
 				case 5: {
-					System.out.println("Show all available blood:");
-					showAllAvailableBlood(retrievalLimit);
+					System.out.println("\nShow all available blood:");
+					showAllAvailableBlood(retrievalLimit, "A+");
+					showAllAvailableBlood(retrievalLimit, "A-");
+					showAllAvailableBlood(retrievalLimit, "B+");
+					showAllAvailableBlood(retrievalLimit, "B-");
+					showAllAvailableBlood(retrievalLimit, "AB+");
+					showAllAvailableBlood(retrievalLimit, "AB-");
+					showAllAvailableBlood(retrievalLimit, "0+");
+					showAllAvailableBlood(retrievalLimit, "0-");
 					break;
 				}
 				case 0: {
-					System.out.println("Program terminated");
+					System.out.println("Program terminated.");
 					return;
 				}
 				default: {
-					System.out.println("ERROR: Invalid option");
+					System.out.println("ERROR: Invalid option.");
 				}
 			}
 		}
@@ -102,7 +109,7 @@ public abstract class NurseMenu {
 	// OPTION 2:
 	private static void registerDonee() {
 
-		System.out.println("Imput donor data: ");
+		System.out.println("Imput donee data: ");
 		String name = Utilities.readString(" -Name: ");
 		String surname = Utilities.readString(" -Surname: ");
 		String bloodType = Utilities.askBloodType(" -Choose blood type: ");
@@ -142,17 +149,17 @@ public abstract class NurseMenu {
 
 			switch (option) {
 				case 1: {
-					System.out.println("Stablish new donation:");
+					System.out.println("\nStablish new donation:");
 					registerDonation(id);
 					break;
 				}
 				case 2: {
-					System.out.println("Show all donations:");
+					System.out.println("\nShow all donations:");
 					showDonations(id);
 					break;
 				}
 				case 3: {
-					System.out.println("Check personal information:");
+					System.out.println("\nCheck personal information:");
 					Donor d = donorMan.getDonor(id);
 					d.setDonations(bloodMan.getDonations(id));
 					d.setNurses(nurseMan.getListOfNursesOfDonor(id));
@@ -161,11 +168,12 @@ public abstract class NurseMenu {
 				}
 				case 4: {
 					donorMan.removeDonor(id);
-					System.out.println("Donor removed from the data base");
+					System.out.println("\nDonor removed from the data base");
 					System.out.println("Returned to nurse menu");
 					return;
 				}
 				case 0: {
+					System.out.println("Return to nurse menu.");
 					return;
 				}
 				default: {
@@ -178,8 +186,7 @@ public abstract class NurseMenu {
 	// OPTION 3.1:
 	private static void registerDonation(int donor_id) {
 
-		System.out.println("Imput blood donation data: ");
-		Integer amount = Utilities.readInteger(" -Amount: ");
+		Float amount = Utilities.readFloat(" -Amount of blood donated: ");
 		Date donationDate = Date.valueOf(LocalDate.now());
 		Donor donor = donorMan.getDonor(donor_id);
 		donor.setDonations(bloodMan.getDonations(donor_id));
@@ -188,6 +195,8 @@ public abstract class NurseMenu {
 		Blood b = new Blood(amount, donationDate, donor);
 		bloodMan.insertBloodDonation(b);
 		donorMan.assignDonorToNurse(donor_id, nurse.getId());
+		
+		System.out.println(" -Donation of " + amount + " mL of blood has been registered.");
 	}
 
 	// OPTION 3.2:
@@ -227,17 +236,17 @@ public abstract class NurseMenu {
 			int option = Utilities.readInteger("Choose an option: ");
 			switch (option) {
 				case 1: {
-					System.out.println("Stablish new transfusion:");
+					System.out.println("\nStablish new transfusion:");
 					stablishTransfusion(id);
 					break;
 				}
 				case 2: {
-					System.out.println("Show all tranfusions:");
+					System.out.println("\nShow all tranfusions:");
 					showTransfusions(id);
 					break;
 				}
 				case 3: {
-					System.out.println("Check personal information:");
+					System.out.println("\nCheck personal information:");
 					Donee d = doneeMan.getDonee(id);
 					d.setTransfusions(bloodMan.getTransfusions(id));
 					d.setNurses(nurseMan.getListOfNursesOfDonee(id));
@@ -246,15 +255,16 @@ public abstract class NurseMenu {
 				}
 				case 4: {
 					doneeMan.removeDonee(id);
-					System.out.println("Donee removed from the data base");
-					System.out.println("Returned to nurse menu");
+					System.out.println("\nDonee removed from the data base.");
+					System.out.println("Returned to nurse menu.");
 					return;
 				}
 				case 0: {
+					System.out.println("Return to nurse menu.");
 					return;
 				}
 				default: {
-					System.out.println("ERROR: Invalid option");
+					System.out.println(" ERROR: Invalid option.");
 				}
 			}
 		}
@@ -262,32 +272,35 @@ public abstract class NurseMenu {
 
 	// OPTION 4.1:
 	public static void stablishTransfusion(int donee_id) {
-
-		System.out.println("Imput blood tranfusion data: ");
-		float retrivalAmount = Utilities.readInteger(" -Amount needed: ");
-		String bloodType = Utilities.askBloodType(" -Choose blood type: ");
-
+		//NO FUNCIONA CORRECTAMENTE
+		Donee donee = doneeMan.getDonee(donee_id);
+		float amountNeeded = donee.getBloodNeeded();
+		String bloodType = donee.getBloodType();
+		System.out.println(" -Blood needed for transussion:"
+				+ "\n   Amount: " + amountNeeded + " mL"
+				+ "\n   Blood type: " + bloodType);
+		
 		float limit = retrievalMan.getBloodRetrievalLimit();
-		float totalStorage = bloodMan.getAmountOfBlood(bloodType);
-
+		float totalStorage = bloodMan.getTotalAmountOfBlood(bloodType);
+		
 		if (totalStorage > limit) {
-			List<Float> amounts = bloodMan.getListOfAmounts(bloodType);
-			List<Integer> ids = bloodMan.getListOfIds(bloodType);
-
-			Iterator<Float> it_amount = amounts.iterator();
-			Iterator<Integer> it_id = ids.iterator();
-
-			while (it_amount.hasNext() && retrivalAmount != 0) {
-				float amount = it_amount.next();
-				if (retrivalAmount >= amount) {
-					retrivalAmount = retrivalAmount - amount;
-					bloodMan.updateBloodDoneeId(it_id.next(), donee_id);
+			List<Blood> donations = bloodMan.getBloodByBloodType(bloodType);
+			
+			Iterator<Blood> it = donations.iterator();
+			while(it.hasNext()) {
+				Blood b = it.next();
+				if(amountNeeded >= b.getAmount()) {
+					amountNeeded = amountNeeded - b.getAmount();
+					bloodMan.assignBloodToDonee(b.getId(), donee_id);
 				}
-				doneeMan.updateDoneeBloodNeeded(donee_id, retrivalAmount);
+				doneeMan.updateDoneeBloodNeeded(donee_id, amountNeeded);
 			}
+			
 			doneeMan.assignDoneeToNurse(donee_id, nurse.getId());
+			System.out.println(" -Transfussion of " + donee.getBloodNeeded() + " mL of blood has been registered.");
+		
 		} else {
-			System.out.println("Not allowed. The transfussion needed exceeds de blood limit.");
+			System.out.println(" -Transfussion not allowed.\n  (The amount of blood needed exceeds de stablished limit)");
 		}
 	}
 
@@ -302,15 +315,12 @@ public abstract class NurseMenu {
 	}
 
 	// OPTION 5:
-	public static void showAllAvailableBlood(float limit) {
-
-		System.out.println(" -Type A+: " + (bloodMan.getAmountOfBlood("A+") - limit));
-		System.out.println(" -Type A-: " + (bloodMan.getAmountOfBlood("A-") - limit));
-		System.out.println(" -Type B+: " + (bloodMan.getAmountOfBlood("B+") - limit));
-		System.out.println(" -Type B-: " + (bloodMan.getAmountOfBlood("B-") - limit));
-		System.out.println(" -Type AB+: " + (bloodMan.getAmountOfBlood("AB+") - limit));
-		System.out.println(" -Type AB-: " + (bloodMan.getAmountOfBlood("AB-") - limit));
-		System.out.println(" -Type O+: " + (bloodMan.getAmountOfBlood("O+") - limit));
-		System.out.println(" -Type O-: " + (bloodMan.getAmountOfBlood("O-") - limit));
+	public static void showAllAvailableBlood(float limit, String type) {
+		
+		float amount = bloodMan.getTotalAmountOfBlood(type) - limit;
+		if(amount < 0) {
+			amount = 0;
+		}
+		System.out.println(" -Type " + type + ": " + amount);
 	}
 }

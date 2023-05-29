@@ -5,13 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import bloodbank.ifaces.BloodManager;
-import bloodbank.ifaces.BloodRetrievalLimitManager;
-import bloodbank.ifaces.ContractManager;
-import bloodbank.ifaces.DoneeManager;
-import bloodbank.ifaces.DonorManager;
-import bloodbank.ifaces.NurseManager;
-import bloodbank.ifaces.XMLManager;
+import bloodbank.ifaces.*;
 import bloodbank.xml.utils.XMLManagerImpl;
 
 public class ConnectionManager {
@@ -83,40 +77,70 @@ public class ConnectionManager {
 
 		try {
 			Statement s = c.createStatement();
-
-			String table = "CREATE TABLE contract(" + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-					+ "duration TEXT NOT NULL," + "salary INTEGER);";
+			String table;
+			
+			table = "CREATE TABLE contract(" 
+						+ "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+						+ "duration TEXT NOT NULL," 
+						+ "salary INTEGER);";
 			s.executeUpdate(table);
 
-			table = "CREATE TABLE nurse(" + "id INTEGER PRIMARY KEY AUTOINCREMENT," + "name TEXT NOT NULL,"
-					+ "surname TEXT NOT NULL," + "email TEXT NOT NULL,"
-					+ "contract_id INTEGER REFERENCES contract(id));";
+			table = "CREATE TABLE nurse(" 
+						+ "id INTEGER PRIMARY KEY AUTOINCREMENT," 
+						+ "name TEXT NOT NULL,"
+						+ "surname TEXT NOT NULL," 
+						+ "email TEXT NOT NULL,"
+						+ "contract_id INTEGER,"
+						+ "FOREIGN KEY (contract_id) REFERENCES contract(id) ON DELETE SET NULL);";
 			s.executeUpdate(table);
 
-			table = "CREATE TABLE donor(" + "id INTEGER PRIMARY KEY AUTOINCREMENT," + "name TEXT NOT NULL,"
-					+ "surname TEXT NOT NULL," + "blood_type TEXT NOT NULL," + "dob DATE NOT NULL,"
-					+ "ssn INTEGER NOT NULL);";
+			table = "CREATE TABLE donor(" 
+						+ "id INTEGER PRIMARY KEY AUTOINCREMENT," 
+						+ "name TEXT NOT NULL,"
+						+ "surname TEXT NOT NULL," 
+						+ "blood_type TEXT NOT NULL," 
+						+ "dob DATE NOT NULL,"
+						+ "ssn INTEGER NOT NULL);";
 			s.executeUpdate(table);
 
-			table = "CREATE TABLE blood(" + "id INTEGER PRIMARY KEY AUTOINCREMENT," + "amount INTEGER NOT NULL,"
-					+ "collection_date DATE NOT NULL," + "donor_id INTEGER REFERENCES donor(id),"
-					+ "donee_id INTEGER REFERENCES donee(id));";
+			table = "CREATE TABLE blood(" 
+						+ "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+						+ "amount INTEGER NOT NULL,"
+						+ "collection_date DATE NOT NULL," 
+						+ "donor_id INTEGER,"
+						+ "donee_id INTEGER,"
+						+ "FOREIGN KEY (donor_id) REFERENCES donor(id) ON DELETE SET NULL,"
+						+ "FOREIGN KEY (donee_id) REFERENCES donee(id) ON DELETE SET NULL);";
 			s.executeUpdate(table);
 
-			table = "CREATE TABLE donee(" + "id INTEGER PRIMARY KEY AUTOINCREMENT," + "name TEXT NOT NULL,"
-					+ "surname TEXT NOT NULL," + "blood_type TEXT NOT NULL," + "blood_needed TEXT NOT NULL,"
-					+ "dob INTEGER NOT NULL," + "ssn INTEGER NOT NULL);";
+			table = "CREATE TABLE donee(" 
+						+ "id INTEGER PRIMARY KEY AUTOINCREMENT," 
+						+ "name TEXT NOT NULL,"
+						+ "surname TEXT NOT NULL," 
+						+ "blood_type TEXT NOT NULL," 
+						+ "blood_needed TEXT NOT NULL,"
+						+ "dob INTEGER NOT NULL," 
+						+ "ssn INTEGER NOT NULL);";
 			s.executeUpdate(table);
 
-			table = "CREATE TABLE nurse_donee(" + "nurse_id INTEGER REFERENCES nurse(id),"
-					+ "donee_id INTEGER REFERENCES donee(id)," + "PRIMARY KEY(nurse_id, donee_id));";
+			table = "CREATE TABLE nurse_donee(" 
+						+ "nurse_id INTEGER,"
+						+ "donee_id INTEGER,"
+						+ "FOREIGN KEY (nurse_id) REFERENCES nurse(id) ON DELETE CASCADE,"
+						+ "FOREIGN KEY (donee_id) REFERENCES donee(id) ON DELETE CASCADE," 
+						+ "PRIMARY KEY(nurse_id, donee_id));";
 			s.executeUpdate(table);
 
-			table = "CREATE TABLE nurse_donor(" + "nurse_id INTEGER REFERENCES nurse(id),"
-					+ "donor_id INTEGER REFERENCES donor(id)," + "PRIMARY KEY(nurse_id, donor_id));";
+			table = "CREATE TABLE nurse_donor(" 
+						+ "nurse_id INTEGER,"
+						+ "donor_id INTEGER,"
+						+ "FOREIGN KEY (nurse_id) REFERENCES nurse(id) ON DELETE CASCADE,"
+						+ "FOREIGN KEY (donor_id) REFERENCES donor(id) ON DELETE CASCADE," 
+						+ "PRIMARY KEY(nurse_id, donor_id));";
 			s.executeUpdate(table);
 
-			table = "CREATE TABLE blood_retrieval(" + "blood_limit FLOAT NOT NULL)";
+			table = "CREATE TABLE blood_retrieval(" 
+						+ "blood_limit FLOAT NOT NULL)";
 			s.executeUpdate(table);
 
 			// Default values:

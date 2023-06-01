@@ -106,7 +106,7 @@ public class JDBCDoneeManager implements DoneeManager {
 				Date dob = rs.getDate("dob");
 				Long ssn = rs.getLong("ssn");
 				List<Blood> transfusions = conMan.getBloodMan().getTransfusions(id);
-				List<Nurse> nurses = conMan.getNurseMan().getListOfNursesOfDonor(id);
+				List<Nurse> nurses = conMan.getNurseMan().getListOfNursesOfDonee(id);
 
 				Donee donee = new Donee(id, n , surname, bloodType, bloodNeeded, dob, ssn, transfusions, nurses);
 				list.add(donee);
@@ -139,10 +139,8 @@ public class JDBCDoneeManager implements DoneeManager {
 				float bloodNeeded = rs.getFloat(12);
 				Date dob = rs.getDate(13);
 				Long ssn = rs.getLong(14);
-				List<Blood> transfussions = conMan.getBloodMan().getTransfusions(id);
-				List<Nurse> nurses = conMan.getNurseMan().getListOfNursesOfDonor(id);
 
-				Donee donee = new Donee(id, name, surname, bloodType, bloodNeeded, dob, ssn, transfussions, nurses);
+				Donee donee = new Donee(id, name, surname, bloodType, bloodNeeded, dob, ssn, null, null);
 				list.add(donee);
 			}
 			p.close();

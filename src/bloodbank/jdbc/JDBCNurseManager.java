@@ -94,38 +94,6 @@ public class JDBCNurseManager implements NurseManager {
 			return null;
 		}
 	}
-	
-	@Override
-	public List<Nurse> getAllNurses() {
-
-		List<Nurse> list = new ArrayList<>();
-		try {
-			String sql = "SELECT * FROM nurse";
-			PreparedStatement p = c.prepareStatement(sql);
-			ResultSet rs = p.executeQuery();
-			
-			while (rs.next()) {
-				Integer id = rs.getInt("id");
-				String name = rs.getString("name");
-				String surname = rs.getString("surname");
-				String email = rs.getString("email");
-				Integer contract_id = rs.getInt("contract_id");
-				Contract contract = conMan.getContractMan().getContract(contract_id);
-				List<Donor> donors = conMan.getDonorMan().getListOfDonors(id);
-				List<Donee> donees = conMan.getDoneeMan().getListOfDonees(id);
-				
-				Nurse nurse = new Nurse(id, name, surname, email, contract, donors, donees);
-				list.add(nurse);
-			}
-			p.close();
-			rs.close();
-
-		} catch (SQLException e) {
-			System.out.println("Databases error");
-			e.printStackTrace();
-		}
-		return list;
-	}
 
 	@Override
 	public List<Nurse> getNursesByName(String name) {

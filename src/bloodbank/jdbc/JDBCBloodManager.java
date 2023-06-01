@@ -76,42 +76,6 @@ public class JDBCBloodManager implements BloodManager {
 			return null;
 		}
 	}
-	
-
-	@Override
-	public List<Blood> getAllBlood() {
-
-		List<Blood> list = new ArrayList<>();
-		try {
-			String sql = "SELECT * FROM blood";
-			PreparedStatement p = c.prepareStatement(sql);
-			ResultSet rs = p.executeQuery();
-			
-			while(rs.next()) {
-				Integer id = rs.getInt("id");
-				Float amount = rs.getFloat("amount");
-				Date date = rs.getDate("collection_date");
-				Integer donor_id = rs.getInt("donor_id");
-				Donor donor = conMan.getDonorMan().getDonor(donor_id);
-					Integer donee_id = rs.getInt("donee_id");
-				Donee donee = null;
-				if (donee_id != 0) {
-					donee = conMan.getDoneeMan().getDonee(donee_id);
-				}
-				
-				Blood b = new Blood(id, amount, date, donor, donee);
-				list.add(b);
-			}
-			p.close();
-			rs.close();
-
-		} catch (SQLException e) {
-			System.out.println("Databases error");
-			e.printStackTrace();
-		}
-		return list;
-	}
-
 
 	@Override
 	public List<Blood> getDonations(int donorId) {
@@ -187,13 +151,13 @@ public class JDBCBloodManager implements BloodManager {
 
 		List<Blood> list = new ArrayList<>();
 		try {
-			String sql = "SELECT * FROM blood WHERE donor_id = (SELECT id FROM donor WHERE blood_type = ?)";
+			String sql = "SELECT * FROM blood AS b JOIN donor AS d WHERE donor_id = d.id AND blood_type = ? AND donee_id IS NULL";
 			PreparedStatement p = c.prepareStatement(sql);
 			p.setString(1, bloodType);
 			ResultSet rs = p.executeQuery();
 
 			while (rs.next()) {
-				Integer id = rs.getInt("id");
+				Integer id = rs.getInt(1);
 				Float amount = rs.getFloat("amount");
 				Date date = rs.getDate("collection_date");
 				Integer donor_id = rs.getInt("donor_id");
@@ -222,7 +186,7 @@ public class JDBCBloodManager implements BloodManager {
 	public Float getTotalAmountOfBlood(String bloodType) {
 
 		try {
-			String sql = "SELECT SUM(amount) FROM blood WHERE donor_id = (SELECT id FROM donor WHERE blood_type = ?)";
+			String sql = "SELECT SUM(amount) FROM blood AS b JOIN donor AS d WHERE donor_id = d.id AND blood_type = ? AND donee_id IS NULL";
 			PreparedStatement p = c.prepareStatement(sql);
 			p.setString(1, bloodType);
 			ResultSet rs = p.executeQuery();
@@ -238,30 +202,9 @@ public class JDBCBloodManager implements BloodManager {
 			return null;
 		}
 	}
-
-	@Override
-	public Integer getNumberOfDonations(String bloodType) {
-
-		try {
-			String sql = "SELECT COUNT(id) FROM blood WHERE id = (SELECT id FROM donor WHERE blood_type = ?)";
-			PreparedStatement p = c.prepareStatement(sql);
-			p.setString(1, bloodType);
-			ResultSet rs = p.executeQuery();
-
-			int totalDonations = rs.getInt("id");
-			p.close();
-			rs.close();
-			return totalDonations;
-
-		} catch (SQLException e) {
-			System.out.println("Databases error");
-			e.printStackTrace();
-			return null;
-		}
-	}
 	
 	@Override
-	public void assignBloodToDonee(int id, int donee_id) {
+	public void assignDoneeToBlood(int id, int donee_id) {
 
 		try {
 			String sql = "UPDATE blood SET donee_id = ? WHERE id = ?";
@@ -286,7 +229,7 @@ public class JDBCBloodManager implements BloodManager {
 			PreparedStatement p = c.prepareStatement(sql);
 			p.setFloat(1, amount);
 			p.setInt(2, id);
-
+			
 			p.executeUpdate();
 			p.close();
 

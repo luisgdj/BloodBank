@@ -113,7 +113,7 @@ public abstract class NurseMenu {
 		String name = Utilities.readString(" -Name: ");
 		String surname = Utilities.readString(" -Surname: ");
 		String bloodType = Utilities.askBloodType(" -Choose blood type: ");
-		int bloodNedeed = Utilities.readInteger(" -Blood needed: ");
+		Float bloodNedeed = Utilities.readFloat(" -Blood needed: ");
 		Long ssn = Utilities.readLong(" -Social Security Number: ");
 		Date dob = Utilities.askDate(" -Date of birth: ");
 
@@ -273,7 +273,6 @@ public abstract class NurseMenu {
 	// OPTION 4.1:
 	public static void stablishTransfusion(int donee_id) {
 		
-		//NO FUNCIONA CORRECTAMENTE
 		Donee donee = doneeMan.getDonee(donee_id);
 		float amountNeeded = donee.getBloodNeeded();
 		String bloodType = donee.getBloodType();
@@ -281,30 +280,43 @@ public abstract class NurseMenu {
 				+ "\n   Amount: " + amountNeeded + " mL"
 				+ "\n   Blood type: " + bloodType);
 		
+		/* When i get the total amount of blood and all the bloods by blood type:
+		 * 	 -bloodMan.getTotalAmountOfBlood(bloodType)
+		 * 	 -bloodMan.getBloodByBloodType(bloodType)
+		 * We check if they have a donee assigned, if they do, we dont take them
+		 * into consideration for the extraction.
+		 */
 		float limit = retrievalMan.getBloodRetrievalLimit();
-		float totalStorage = bloodMan.getTotalAmountOfBlood(bloodType);
+		System.out.println("LIMIT: " + limit);
+		float storage = bloodMan.getTotalAmountOfBlood(bloodType);
+		System.out.println("TOTAL BLOOD " + bloodType + ": " + storage);
+		float extractionLimit = storage - limit;
+		System.out.println("AVAILABLE FOR EXTRACTION: " + extractionLimit);
 		
-		if (totalStorage > limit) {
+		Donee d = doneeMan.getDonee(donee_id);
+		if(extractionLimit>0) {
 			List<Blood> donations = bloodMan.getBloodByBloodType(bloodType);
-			
 			Iterator<Blood> it = donations.iterator();
-			while(it.hasNext()) {
-				Blood b = it.next();
-				if(amountNeeded >= b.getAmount()) {
-					amountNeeded = amountNeeded - b.getAmount();
-					bloodMan.assignBloodToDonee(b.getId(), donee_id);
-					bloodMan.updateBloodStorage(b.getId(), amountNeeded);
-				} else {
-					
-				}
-				System.out.println("TRANSFUSSION: ");
-				System.out.println(bloodMan.getTotalAmountOfBlood(bloodType));
-				doneeMan.updateDoneeBloodNeeded(donee_id, amountNeeded);
-				System.out.println(bloodMan.getTotalAmountOfBlood(bloodType));
-			}
 			
+			while(it.hasNext() && amountNeeded>0) {
+				Blood b = it.next();
+				
+				if(b.getAmount() >= amountNeeded) {
+					float amount = b.getAmount() - amountNeeded;
+					bloodMan.assignDoneeToBlood(b.getId(), donee_id);
+					bloodMan.updateBloodStorage(b.getId(), amount);
+					amountNeeded = 0;
+					
+				} else if (b.getAmount() <= amountNeeded){
+					float amount = 0;
+					bloodMan.assignDoneeToBlood(b.getId(), donee_id);
+					bloodMan.updateBloodStorage(b.getId(), 0);
+					amountNeeded = amountNeeded - b.getAmount();
+				}
+				doneeMan.updateDoneeBloodNeeded(donee_id, amountNeeded);
+			}
 			doneeMan.assignDoneeToNurse(donee_id, nurse.getId());
-			System.out.println(" -Transfussion of " + donee.getBloodNeeded() + " mL of blood has been registered.");
+			System.out.println(" -Transfussion of " + donee.getBloodNeeded() + " mL of " + bloodType + " blood has been registered.");
 		
 		} else {
 			System.out.println(" -Transfussion not allowed.\n  (The amount of blood needed exceeds de stablished limit)");

@@ -235,6 +235,7 @@ public abstract class ManagerMenu {
 				+ "\n   1. XML file"
 				+ "\n   2. HTML file");
 		int fileType = Utilities.readInteger(" -File type: ");
+		//String name = Utilities.askBloodType(" -Choose a blood type to store in file: ");
 		
 		switch(fileType) {
 			case 1:

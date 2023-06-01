@@ -277,4 +277,22 @@ public class JDBCBloodManager implements BloodManager {
 			e.printStackTrace();
 		}
 	}
+	
+	@Override
+	public void updateBloodStorage(int id, float amount) {
+		
+		try {
+			String sql = "UPDATE blood SET amount = ? WHERE id = ?";
+			PreparedStatement p = c.prepareStatement(sql);
+			p.setFloat(1, amount);
+			p.setInt(2, id);
+
+			p.executeUpdate();
+			p.close();
+
+		} catch (SQLException e) {
+			System.out.println("Database error.");
+			e.printStackTrace();
+		}
+	}
 }

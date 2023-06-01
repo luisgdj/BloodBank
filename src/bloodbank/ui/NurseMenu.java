@@ -86,7 +86,7 @@ public abstract class NurseMenu {
 					return;
 				}
 				default: {
-					System.out.println("ERROR: Invalid option.");
+					System.out.println(" ERROR: Invalid option.");
 				}
 			}
 		}
@@ -177,7 +177,7 @@ public abstract class NurseMenu {
 					return;
 				}
 				default: {
-					System.out.println("ERROR: Invalid option");
+					System.out.println(" ERROR: Invalid option.");
 				}
 			}
 		}
@@ -272,6 +272,7 @@ public abstract class NurseMenu {
 
 	// OPTION 4.1:
 	public static void stablishTransfusion(int donee_id) {
+		
 		//NO FUNCIONA CORRECTAMENTE
 		Donee donee = doneeMan.getDonee(donee_id);
 		float amountNeeded = donee.getBloodNeeded();
@@ -292,8 +293,14 @@ public abstract class NurseMenu {
 				if(amountNeeded >= b.getAmount()) {
 					amountNeeded = amountNeeded - b.getAmount();
 					bloodMan.assignBloodToDonee(b.getId(), donee_id);
+					bloodMan.updateBloodStorage(b.getId(), amountNeeded);
+				} else {
+					
 				}
+				System.out.println("TRANSFUSSION: ");
+				System.out.println(bloodMan.getTotalAmountOfBlood(bloodType));
 				doneeMan.updateDoneeBloodNeeded(donee_id, amountNeeded);
+				System.out.println(bloodMan.getTotalAmountOfBlood(bloodType));
 			}
 			
 			doneeMan.assignDoneeToNurse(donee_id, nurse.getId());

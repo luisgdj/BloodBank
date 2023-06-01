@@ -18,4 +18,5 @@ public interface BloodManager {
 	public Integer getNumberOfDonations(String bloodType);
 	
 	public void assignBloodToDonee(int id, int donee_id);
+	public void updateBloodStorage(int id, float amount);
 }

@@ -17,18 +17,18 @@ public abstract class Utilities {
 
 		int num;
 		String line;
-		System.out.print(question);
-
 		while (true) {
 			try {
+				System.out.print(question);
 				line = br.readLine();
 				num = Integer.parseInt(line);
 				return num;
+				
 			} catch (IOException ioe) {
-				System.out.println("ERROR: unable to read");
+				System.out.println(" ERROR: Unable to read.");
 
 			} catch (NumberFormatException nfe) {
-				System.out.println("Error: must be a whole number.");
+				System.out.println(" ERROR: Must be a whole number.");
 			}
 		}
 	}
@@ -37,18 +37,18 @@ public abstract class Utilities {
 
 		long num;
 		String line;
-		System.out.print(question);
-
 		while (true) {
 			try {
+				System.out.print(question);
 				line = br.readLine();
 				num = Long.parseLong(line);
 				return num;
+				
 			} catch (IOException ioe) {
-				System.out.println("ERROR: unable to read");
+				System.out.println(" ERROR: Unable to read.");
 
 			} catch (NumberFormatException nfe) {
-				System.out.println("Error: must be a whole number.");
+				System.out.println(" ERROR: Must be a whole number.");
 			}
 		}
 	}
@@ -57,19 +57,18 @@ public abstract class Utilities {
 
 		float num;
 		String line;
-		System.out.print(question);
-
 		while (true) {
 			try {
+				System.out.print(question);
 				line = br.readLine();
 				num = Float.parseFloat(line);
 				return num;
 
 			} catch (IOException ioe) {
-				System.out.println("ERROR: unable to read");
+				System.out.println(" ERROR: Unable to read.");
 
 			} catch (NumberFormatException nfe) {
-				System.out.println("Error: must be a real number.");
+				System.out.println(" ERROR: Must be a real number.");
 			}
 		}
 	}
@@ -77,15 +76,14 @@ public abstract class Utilities {
 	public static String readString(String question) {
 
 		String line;
-		System.out.print(question);
-
 		while (true) {
 			try {
+				System.out.print(question);
 				line = br.readLine();
 				return line;
 
 			} catch (IOException ioe) {
-				System.out.println("ERROR: unable to read");
+				System.out.println(" ERROR: Unable to read.");
 			}
 		}
 	}
@@ -109,25 +107,24 @@ public abstract class Utilities {
 			int option = Utilities.readInteger("  Option: ");
 
 			switch (option) {
-			case 1:
-				return "A+";
-			case 2:
-				return "A-";
-			case 3:
-				return "B+";
-			case 4:
-				return "B-";
-			case 5:
-				return "AB+";
-			case 6:
-				return "AB-";
-			case 7:
-				return "0+";
-			case 8:
-				return "0-";
-
-			default:
-				System.out.println("ERROR: Option not valid");
+				case 1: 
+					return "A+";
+				case 2:	
+					return "A-";
+				case 3:	
+					return "B+";
+				case 4:	
+					return "B-";
+				case 5:	
+					return "AB+";
+				case 6:	
+					return "AB-";
+				case 7:	
+					return "0+";
+				case 8:	
+					return "0-";
+				default: 
+					System.out.println("ERROR: Option not valid");
 			}
 		}
 	}

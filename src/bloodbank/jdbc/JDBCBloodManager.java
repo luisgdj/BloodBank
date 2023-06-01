@@ -10,7 +10,7 @@ import java.util.List;
 
 import bloodbank.ifaces.BloodManager;
 import bloodbank.pojos.*;
-
+ 
 public class JDBCBloodManager implements BloodManager {
 
 	private ConnectionManager conMan;

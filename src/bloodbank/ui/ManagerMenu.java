@@ -110,6 +110,7 @@ public abstract class ManagerMenu {
 				}
 				case 0: {
 					System.out.println("Program terminated.");
+					conMan.closeConnection();
 					return;
 				}
 				default: {

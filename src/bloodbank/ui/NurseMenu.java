@@ -83,6 +83,7 @@ public abstract class NurseMenu {
 				}
 				case 0: {
 					System.out.println("Program terminated.");
+					conMan.closeConnection();
 					return;
 				}
 				default: {

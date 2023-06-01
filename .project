@@ -14,11 +14,4 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>diagrams/E-R.png</name>
-			<type>1</type>
-			<location>C:/Users/luisg/OneDrive/Desktop/Bases de Datos/Project - Blood bank/E-R.png</location>
-		</link>
-	</linkedResources>
 </projectDescription>
